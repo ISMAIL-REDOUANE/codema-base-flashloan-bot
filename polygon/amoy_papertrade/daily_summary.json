@@ -1,0 +1,14 @@
+{
+  "2026-11-24": {
+    "cycles": 15,
+    "pairs_checked": 0,
+    "spreads_seen": 0,
+    "below_zero_usd": 0,
+    "opps_gt_0_usd": 0,
+    "opps_ge_3_usd": 0,
+    "max_spread_pct": 0.0,
+    "venues_present": 0,
+    "venues_absent": 6,
+    "errors": 5
+  }
+}
