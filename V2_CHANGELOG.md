@@ -544,3 +544,95 @@ recharge PAS le float — recharge manuelle quand il approche de 5 $
 5. Plan 1 CDP 15 k$ (produit + application) : travail non commencé —
    reframing produit (site + Base Account/Smart Wallet + démo +
    politique gas) à lancer avec le feu vert d'Ismail.
+
+# v4.0 — Port Polygon (2026-11-24, ~22:20 UTC)
+
+Décision d'Ismail : travailler uniquement avec ses 1,31 $ MATIC sur
+Polygon (17,2743 MATIC), flash loan 0 frais obligatoire. Le bot Base est
+intact ; le port vit dans `polygon/`.
+
+## v4.0.1 Fichiers créés (polygon/)
+
+- `POLYGON_FLASH_VERIFICATION.md` — Phase 1 : Morpho Blue Polygon vérifié
+  0 frais (`0x1bF0c2541F820E775182832f06c0B7Fc27A25f67`, code 15 582 o,
+  `flashFee` absent, soldes USDC 112 261 $ / USDT 122 030 $ / WMATIC
+  1 000 246, bloc 97 901 631) ; V4 flash accounting vérifié (PoolManager
+  `0x67366782…`, non implémenté) ; Aave 0,05 % (repli payant, bloqué) ;
+  Balancer mort, dYdX mort. **Deux pièges évités** : l'adresse canonique
+  `0xBBBB…` n'a pas de code sur Polygon ; le SwapRouter02 Polygon
+  n'expose pas `exactInputSingle` (voir v4.0.3).
+- `polygon_config.yaml` — chaîne 137, RPC drpc.org (+ fallbacks),
+  MATIC 0,0758 $, gas live 279 gwei, cap 1 000 gwei, min profit 3 $,
+  float 17,2743 MATIC = 1,31 $, Morpho 0 frais seul en allow-list.
+- `contracts/FlashLoanArbitragePolygon.sol` + `foundry.toml` —
+  Morpho Polygon + QuickSwap V2 (achat) + **Uni V3 directe** (`pool.swap`
+  + callback, pool `0x2DB87C…`) ; minProfit 3 $ ; `forge build` exit 0,
+  bytecode 5 661 o.
+- `polygon_flash.py`, `polygon_gas.py`, `polygon_ledger.py`,
+  `scanner_polygon.py`, `fork_test_polygon.py` / `fork_test_polygon.sh`,
+  `test_polygon.py` — port complet (0 frais, gas, float, scan, fork, tests).
+- `FORK_TEST_RESULTS_POLYGON.md` — fork bloc 97 902 229 (détail § v4.0.2).
+- `MEME_POOLS_LIVE_POLYGON.md` — scan live 2026-11-24 ~22:25 UTC.
+
+## v4.0.2 Résultats fork Polygon (vérifiés 2026-11-24)
+
+- Spread synthétique 21,0 % (vente de 10 % de la réserve QuickSwap :
+  QS 0,0627 $ vs V3 0,0759 $ ; spread naturel 0,03 %).
+- Décision off-chain : EXECUTE, loan optimal 50,22 $, net attendu 4,83 $.
+- **Cas gagnant (broadcast fork) : WIN net +4,83 $** — profit brut 4,84 $,
+  gas 268 626 @ 136,58 gwei = 0,03669 MATIC = 0,002781 $.
+- **Cas perdant : SKIP 0 $** (net attendu −0,01 $) ; revert mesuré sur le
+  fork 0,031366 MATIC = 0,002378 $ (raison : `pas de quoi rembourser
+  le loan`).
+- Float 1,31 $ : ~137 trades au coût prudent (0,0095 $/trade), ~68 pire
+  cas, 235 au coût mesuré fork. Kill switch à 0 $.
+
+## v4.0.3 Leçon de debug — la jambe V3 (correction majeure)
+
+La v1 du contrat utilisait le SwapRouter02 + `exactInputSingle` (comme
+Base). Le fork revert avec données vides ; `debug_traceCall` a montré
+que le CALL au router revert **sans aucun sous-appel** ; vérification
+bytecode : sélecteur `exactInputSingle` (0x414bf389) **absent** du code
+déployé, test EOA direct confirme. La paire Sushi V2 USDC/WMATIC est
+vide (~12 $). **Correctif : vente V3 en appel direct à la pool**
+(`pool.swap` + `uniswapV3SwapCallback`), `sqrtPriceLimitX96 =
+4295128740` (MIN_SQRT_RATIO + 1 — la valeur 0 est rejetée par la pool).
+C'est cette version qui a produit le WIN. Config + doc de vérification
+corrigées en conséquence.
+
+## v4.0.4 Scan live Polygon (vérifié 2026-11-24 ~22:25 UTC)
+
+80 pools récentes lues (GeckoTerminal `polygon_pos`, pages 1–4 ; page 5
+= HTTP 429 rate limit) ; **0 candidat** (liq 5 k–100 k $, < 72 h),
+**0 paire 2-venues**. Max liquidité vue : 984 227,83 $ (1 pool hors
+plafond). Toutes les 80 rejetées pré-filtre pour liquidité hors
+fenêtre (ex. 27,92 $, 0 $, 1,35 $, 33,99 $). Le filtre est correct et
+les rejets sont journalisés — c'est l'état du marché, pas un bug.
+**Aucun arbitrage meme 2-DEX sur Polygon en ce moment** ; scan à
+relancer toutes les 2–4 h.
+
+## v4.0.5 Corrections arithmétiques (2 erreurs ×1000 attrapées par les tests)
+
+1. Soldes Morpho Polygon d'abord surévalués 1000× (USDC 112 261 $ et non
+   113,7 M$ — confusion unités brutes/1e6). Corrigé partout.
+2. Coût gas Polygon d'abord sous-évalué 1000× (formule) : réel
+   450 000 gas × 279 gwei = 0,12555 MATIC ≈ **0,0095 $/trade** — le gas
+   Polygon coûte ~2× celui de Base en $, pas « quasi gratuit ».
+   Corrigé dans `polygon_gas.py`, `polygon_ledger.py`, config, tests.
+   Bonus : le helper RPC `_rpc` passait par urllib (IncompleteRead +
+   308 fantôme sur les grosses réponses chunkées de drpc) — réécrit
+   avec `requests` ; le test live passe maintenant (20/20, 0 skipped).
+
+## v4.0.6 Résultats des tests (vérifiés 2026-11-24 ~22:25 UTC)
+
+- `polygon/test_polygon.py` : **20/20** (0 frais, gas, math, float,
+  kill switch, min-profit 3 $, contrat compilé, config, live RPC).
+- Base inchangée : math 8/8, v2 11/11, balancer 11/11, morpho 12/12,
+  sponsor 12/12, $0 15/15, self_funded 16/16.
+
+## v4.0.7 Ce qui manque encore (avant tout live)
+
+Paper-trade Amoy 2–4 semaines + audit payant (aucune solution 0 $) ;
+aucun vrai meme coin testé (preuves WETH/USDC + spread synthétique) ;
+100 simulations fork non lancées ; jambe Aerodrome toujours cassée sur
+Base ; payout sponsor on-chain non implémenté (Base v4, après audit).

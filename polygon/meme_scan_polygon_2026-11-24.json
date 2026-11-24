@@ -1,0 +1,83 @@
+{
+  "date": "2026-11-24T22:21:12.367563+00:00",
+  "chain": "polygon",
+  "chain_id": 137,
+  "pools_lus": 80,
+  "candidats": 0,
+  "deux_venues": 0,
+  "two_venue": [],
+  "rejected": [],
+  "rejected_pre_filter": {
+    "count": 80,
+    "max_liq_usd_seen": 984227.83,
+    "examples": [
+      {
+        "name": "ATH / USDT 99%",
+        "liq_usd": 27.92,
+        "age_h": 1.6,
+        "reason": "liq hors 5k-100k $"
+      },
+      {
+        "name": "ATH / USDT 90%",
+        "liq_usd": 0.0,
+        "age_h": 1.7,
+        "reason": "liq hors 5k-100k $"
+      },
+      {
+        "name": "pUSD / USDC",
+        "liq_usd": 1.35,
+        "age_h": 2.6,
+        "reason": "liq hors 5k-100k $"
+      },
+      {
+        "name": "FXS / USDC 19%",
+        "liq_usd": 33.99,
+        "age_h": 3.7,
+        "reason": "liq hors 5k-100k $"
+      },
+      {
+        "name": "USDT / USDT",
+        "liq_usd": 0.0,
+        "age_h": 5.0,
+        "reason": "liq hors 5k-100k $"
+      },
+      {
+        "name": "USDT / WPOL",
+        "liq_usd": 0.17,
+        "age_h": 5.9,
+        "reason": "liq hors 5k-100k $"
+      },
+      {
+        "name": "FUL / USDC",
+        "liq_usd": 2.19,
+        "age_h": 6.8,
+        "reason": "liq hors 5k-100k $"
+      },
+      {
+        "name": "CAPA / WPOL",
+        "liq_usd": 0.5,
+        "age_h": 8.3,
+        "reason": "liq hors 5k-100k $"
+      },
+      {
+        "name": "XLI / WPOL 1%",
+        "liq_usd": 371.11,
+        "age_h": 8.9,
+        "reason": "liq hors 5k-100k $"
+      },
+      {
+        "name": "USDT / WPOL",
+        "liq_usd": 0.0,
+        "age_h": 10.3,
+        "reason": "liq hors 5k-100k $"
+      }
+    ]
+  },
+  "filter": {
+    "liq_usd": [
+      5000.0,
+      100000.0
+    ],
+    "max_age_h": 72
+  }
+}

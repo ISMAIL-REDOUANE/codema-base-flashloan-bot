@@ -382,3 +382,50 @@ uniquement)**. Pas de sponsor : la section `sponsorship:` de
 **Aucun fond réel, aucune clé privée, aucun broadcast mainnet en v3.4 —
 Ismail doit encore fournir son adresse publique (jamais de clé privée)
 et le float ~20 $ en ETH sur Base.**
+
+## 🆕 v4.0 — Port Polygon : flash loan 0 frais vérifié, float 1,31 $ MATIC (2026-11-24, décision d'Ismail)
+
+Décision d'Ismail (2026-11-24 21:56) : travailler **uniquement avec
+ses 1,31 $ sur Polygon** (17,2743 MATIC), avec un flash loan **0 frais**.
+Le bot Base reste intact — le port vit dans `polygon/` et ne touche rien
+d'autre.
+
+- **Fournisseur 0 frais vérifié : Morpho Blue Polygon
+  `0x1bF0c2541F820E775182832f06c0B7Fc27A25f67`** (PAS l'adresse canonique
+  `0xBBBB…` — elle n'a AUCUN code sur Polygon). Vérifié : code 15 582
+  octets, `flashFee` getter absent (frais 0 structurel), `idToMarketParams`
+  + `market` conformes à l'API Morpho, soldes USDC 112 261 $ / USDT
+  122 030 $ / WMATIC 1 000 246 (bloc 97 901 631). Détails :
+  `polygon/POLYGON_FLASH_VERIFICATION.md`. Candidat B (Uniswap V4 flash
+  accounting) vérifié comme mécanisme 0 frais (PoolManager
+  `0x67366782…`), non implémenté en v4.0. Aave V3 Polygon = 0,05 %
+  (repli payant, bloqué en mode 0 frais). Balancer = MORT (BIP-928),
+  dYdX = mort.
+- **Contrat `polygon/contracts/FlashLoanArbitragePolygon.sol`** :
+  Morpho Polygon + achat QuickSwap V2 (USDC→WMATIC) + **vente Uniswap V3
+  EN DIRECT** (`pool.swap` + `uniswapV3SwapCallback`) — le SwapRouter02
+  Polygon (`0x68b346…`) **n'expose pas `exactInputSingle`** (sélecteur
+  0x414bf389 absent du bytecode, prouvé par trace fork + test EOA), et
+  la paire Sushi V2 USDC/WMATIC est vide (~12 $). minProfit 3 $,
+  `forge build` OK (bytecode 5 661 octets).
+- **Fork test Polygon** (`polygon/FORK_TEST_RESULTS_POLYGON.md`, bloc
+  97 902 229) : spread synthétique 21 %, loan optimal 50,22 $,
+  **WIN net +4,83 $** (gas 0,0028 $) ; cas perdant **SKIP 0 $**, revert
+  mesuré 0,031366 MATIC = 0,002378 $. Gas Polygon ~2× plus cher que
+  Base en $ (279 gwei live) — **PAS « quasi gratuit »**.
+- **Scan live Polygon** (`polygon/MEME_POOLS_LIVE_POLYGON.md`) : 80 pools
+  récentes lues, **0 candidat, 0 paire 2-venues** — rien à arbitrer en
+  ce moment (même verdict que Base). Le scan doit tourner toutes les
+  2–4 h en watchlist.
+- **Float 1,31 $ MATIC** (`polygon/polygon_ledger.py`, adapté du
+  FloatLedger Base) : ~137 trades au coût prudent (450 000 gas ×
+  279 gwei = 0,0095 $/trade), ~68 pire cas (trade + revert) ; 235 au
+  coût mesuré sur le fork. Kill switch à 0 $.
+- **Tests** : `polygon/test_polygon.py` **20/20** (0 frais, gas, math,
+  float, kill switch, min-profit, live RPC). Toutes les suites Base
+  inchangées : math 8/8, v2 11/11, balancer 11/11, morpho 12/12,
+  sponsor 12/12, $0 15/15, self_funded 16/16.
+
+**Reste avant tout live (les deux chaînes) : paper-trade Amoy 2–4
+semaines + audit payant. Aucun fond réel, aucune clé privée, aucun
+broadcast mainnet en v4.0.**

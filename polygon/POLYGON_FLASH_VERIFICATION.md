@@ -55,11 +55,11 @@ POL **0,075835 $** (CoinGecko `polygon-ecosystem-token`, cohérent avec les
   de gouvernance de Base — normal, multisig par chaîne ; l'owner ne peut
   pas monter le flash fee, il est structurel).
 - **Soldes du contrat (= maxFlashLoan par token)** :
-  - USDC natif `0x3c49…3359` : **113 658 377,07 $**
-  - USDT `0xc213…58e8F` : **122 029 655,66 $**
+  - USDC natif `0x3c49…3359` : **113 658,38 $**
+  - USDT `0xc213…58e8F` : **122 029,66 $**
   - USDC.e `0x2791…4174` : 504,21 $
   - WMATIC `0x0d50…1270` : ~1 000 246 WMATIC (~75 854 $)
-  - À la règle 50 % : ~56,8 M$ USDC utilisables — le provider ne limite jamais le loan.
+  - À la règle 50 % : ~56 800 $ USDC utilisables — le provider ne limite jamais le loan.
 
 ### ⚠️ Deux pièges évités
 1. **L'adresse canonique `0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb` N'A PAS DE CODE
@@ -103,7 +103,8 @@ POL **0,075835 $** (CoinGecko `polygon-ecosystem-token`, cohérent avec les
 | Uni V4 PoolManager | `0x67366782805870060151383f4bbff9dab53e5cd6` | 48 021 car. |
 | Uni V4 Quoter | `0x31AB0Dea31FC0ad5A54F03cD59C896eCD067447B` | — (docs) |
 | Uni V3 Factory | `0x1F98431c8aD98523631AE4a59f267346ea31F984` | 49 073 car. |
-| Uni V3 SwapRouter02 | `0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45` | 48 997 car. |
+| Uni V3 SwapRouter02 | `0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45` | 48 997 car. — ⚠️ **N'EXPOSE PAS `exactInputSingle`** (sélecteur 0x414bf389 absent du bytecode, vérifié 2026-11-24 par trace fork + test EOA) : **NE PAS UTILISER pour la jambe V3**. La vente V3 se fait en **appel direct à la pool** (`pool.swap` + callback) — voir FORK_TEST_RESULTS_POLYGON.md. |
+| Uni V3 Pool USDC/WMATIC 0,3 % | `0x2DB87C4831B2fec2E35591221455834193b50D1B` | pool de vente directe (vérifiée sur fork) |
 | Uni V3 QuoterV2 | `0x61fFE014bA17989E743c5F6cB21bF9697530B21e` | 16 549 car. |
 | QuickSwap V2 Factory | `0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32` | 27 721 car. |
 | QuickSwap V2 Router | `0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff` | 43 889 car. |
@@ -116,7 +117,9 @@ POL **0,075835 $** (CoinGecko `polygon-ecosystem-token`, cohérent avec les
 
 Paires réelles vérifiées : QuickSwap V2 USDC/WMATIC
 `0x6D9e8dbB2779853db00418D4DcF96F3987CFC9D2` ; Uni V3 USDC/WMATIC 0,3 %
-`0x2DB87C4831B2fec2E35591221455834193b50D1B`.
+`0x2DB87C4831B2fec2E35591221455834193b50D1B` (vente directe via `pool.swap`).
+Sushi V2 USDC/WMATIC `0x96c7FC08D8CDACdB95a8613b19fffe4D54307263` : liquidité
+~12 $ seulement — paire vide, inutilisable comme jambe de vente.
 (QuoterV2 `quoteExactInputSingle` via `cast` a revert — encodage du tuple ;
 le quoter sera appelé via web3.py avec l'ABI correcte dans le scanner, pas un
 blocage : le code est présent à l'adresse officielle.)
