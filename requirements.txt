@@ -1,0 +1,8 @@
+# Python 3.11+ — le CŒUR du bot (math, gas, scanner, preflight, breaker, EV)
+# n'a besoin d'AUCUNE dépendance externe (stdlib only, urllib).
+# Optionnel :
+#   web3>=7.0       — tests fork (fork_test.py / fork_simulation.py, déjà dans .venv/)
+#   websockets      — flux temps réel WebSocket (websocket_listener.py, déjà dans .venv/)
+#   pyyaml>=6.0     — lecture de config.yaml (non requis : le bot lit les seuils en dur par défaut)
+# pytest est optionnel : les tests tournent aussi avec `python3 test_math_engine.py`
+# et `python3 test_v2.py`.

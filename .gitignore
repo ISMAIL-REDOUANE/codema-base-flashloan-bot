@@ -1,0 +1,23 @@
+# Secrets / local config - NEVER commit the real config (contains Alchemy API key)
+config.yaml
+.env
+*.pem
+*.key
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Foundry build outputs
+out/
+cache/
+
+# Logs and local run state
+*.log
+trades.jsonl
+float_state.json
+*.jsonl
+
+# Vendored upstream test wallets (Aave public test private keys, NOT needed for forge build)
+lib/aave-v3-core/test-wallets.js

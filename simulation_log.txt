@@ -1,0 +1,5 @@
+EXECUTE MEME-WIN spread=20.00% loan=790.16$ net=73.07$ gas_paid=0.00$ reasons=[] sponsor=0.00$ ismail=73.07$
+SKIP MEME-LOSE spread=2.04% loan=179.65$ net=1.19$ gas_paid=0.00$ reasons=['net 1.19 $ <= profit minimum 3.00 $'] sponsor=0.00$ ismail=0.00$
+TOTAL gas payé : 0.00$
+TOTAL net : 73.07$ sponsor=0.00$ ismail=73.07$
+FINANCEMENT : Ismail — float 20.00 $ / dépensé 0.07 $ / restant 19.93 $ / profit 73.07 $

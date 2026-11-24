@@ -1,0 +1,117 @@
+{
+  "min_profit_usd": 3.0,
+  "steps": {
+    "fork": {
+      "chain_id": 8453,
+      "block_number": 61799734,
+      "note": "fork Base mainnet, RPC public https://mainnet.base.org"
+    },
+    "aave": {
+      "pool_has_code": true,
+      "flash_premium_bps": 5,
+      "flash_fee_pct": 0.05,
+      "pool_usdc_balance_usd": 123.47
+    },
+    "meme_discovery": {
+      "found": false,
+      "candidate": "aucun pool meme 5k-100k $ avec paires V2 sur 2 DEXs"
+    },
+    "reserves_avant": {
+      "uni_pair": "0x88A43bbDF9D098eEC7bCEda4e2494615dfD9bB9C",
+      "bs_pair": "0xab067c01C7F5734da168C699Ae9d23a4512c9FdB",
+      "uni_weth": 289.92,
+      "uni_usdc": 486163.05,
+      "bs_weth": 5.29,
+      "bs_usdc": 8870.22,
+      "prix_weth_uni_usd": 1676.88,
+      "prix_weth_bs_usd": 1676.14,
+      "spread_pct": -0.044,
+      "note": "spread naturel proche de 0 % comme attendu sur une paire liquide"
+    },
+    "spread_synthetique": {
+      "weth_vendu": 14.5,
+      "prix_weth_uni_usd": 1521.19,
+      "prix_weth_bs_usd": 1676.14,
+      "spread_pct": 10.186,
+      "note": "spread cr\u00e9\u00e9 artificiellement avec des fonds fictifs du fork, pour simuler une opportunit\u00e9 r\u00e9elle de meme coin"
+    },
+    "decision_offchain": {
+      "action": "EXECUTE",
+      "spread_pct": 10.19,
+      "optimal_loan_usd": 372.43,
+      "expected_net_usd": 15.7,
+      "gas_usd_est": 1.3566,
+      "min_profit_usd": 3.0,
+      "reasons": []
+    },
+    "deploy": {
+      "contract": "0xC1E378a7ec921524a5625994D6A74d4553e4945d",
+      "block": 61799738,
+      "gas_used": 1260290,
+      "min_profit_onchain_usdc": 3000000
+    },
+    "cas_gagnant_simulation_eth_call": {
+      "success": true,
+      "error": "",
+      "gas_estime": 465065,
+      "gas_paye_usd": 0.0,
+      "note": "eth_call = simulation, 0 gas, 0 $"
+    },
+    "cas_gagnant_broadcast_fork": {
+      "tx_status": 1,
+      "tx_hash": "2870a836d0a8feaf26ea732221482d1e9b0e84d39b42af19ee9e07e4d7508f9c",
+      "gas_used": 356471,
+      "gas_price_gwei": 0.0049,
+      "gas_cost_usd": 0.0052,
+      "profit_brut_usdc": 17.24,
+      "profit_net_usd": 17.24,
+      "min_profit_usd": 3.0,
+      "event_profit_usdc": 17.24,
+      "verdict": "WIN",
+      "note": "broadcast sur le FORK uniquement \u2014 aucun fond r\u00e9el, aucun mainnet"
+    },
+    "cas_perdant_decision_offchain": {
+      "action": "SKIP",
+      "spread_pct": 0.54,
+      "optimal_loan_usd": 0.29,
+      "expected_net_usd": -1.36,
+      "gas_paye_usd": 0.0,
+      "reasons": [
+        "net n\u00e9gatif (-1.36 $) : le trade perdrait de l'argent",
+        "net -1.36 $ <= profit minimum 3.00 $",
+        "net -1.36 $ <= gas x 3.0 (4.07 $)"
+      ],
+      "note": "SKIP = rien broadcast\u00e9, 0 gas pay\u00e9"
+    },
+    "cas_perdant_simulation_eth_call": {
+      "revert": true,
+      "detail": "('execution reverted: pas de quoi rembourser le loan', '0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001e706173"
+    },
+    "cas_perdant_broadcast_fork_POUR_MESURE": {
+      "tx_status": 0,
+      "gas_used": 312711,
+      "gas_price_gwei": 0.0049,
+      "cout_revert_usd": 0.0046,
+      "note": "revert mesur\u00e9 sur le fork pour chiffrer le co\u00fbt \u2014 en live on \u00e9vite ce co\u00fbt par le SKIP off-chain (0 $)"
+    }
+  },
+  "summary": {
+    "fork_block": 61799734,
+    "spread_synthetique_pct": 10.186,
+    "cas_gagnant": {
+      "loan_usd": 372.43,
+      "profit_net_usd": 17.24,
+      "gas_used": 356471,
+      "gas_cost_usd": 0.0052,
+      "verdict": "WIN"
+    },
+    "cas_perdant": {
+      "decision_offchain": "SKIP",
+      "gas_paye_si_skip_usd": 0.0,
+      "cout_revert_si_broadcast_usd": 0.0046,
+      "gas_revert": 312711,
+      "verdict": "SKIP (0 gas) / revert confirm\u00e9 on-chain"
+    },
+    "meme_reel_trouve": null
+  }
+}

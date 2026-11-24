@@ -1,0 +1,1080 @@
+{
+  "n_opportunities": 100,
+  "seed": 42,
+  "n_executed": 33,
+  "n_skipped": 67,
+  "execution_rate_pct": 33.0,
+  "gas_cap_skips": 4,
+  "total_net_usd": 1117.6,
+  "ev_per_opportunity_usd": 11.18,
+  "ev_per_executed_trade_usd": 33.87,
+  "avg_net_executed_usd": 33.87,
+  "min_net_executed_usd": 3.17,
+  "max_net_executed_usd": 311.39,
+  "avg_spread_executed_pct": 13.09,
+  "total_gas_paid_usd": 4.52,
+  "max_drawdown_usd": 0.0,
+  "verdict": "GO (mod\u00e8le) \u2014 EV > 0 sur 100 simulations, MAIS go/no-go r\u00e9el exige 100 simulations FORK",
+  "rows": [
+    {
+      "i": 0,
+      "action": "SKIP",
+      "spread_pct": 3.18,
+      "loan_usd": 32.25,
+      "net_usd": 0.35,
+      "gas_gwei": 0.0355,
+      "reasons": [
+        "net 0.35 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 1,
+      "action": "EXECUTE",
+      "spread_pct": 10.87,
+      "loan_usd": 95.61,
+      "net_usd": 4.72,
+      "gas_gwei": 0.0277
+    },
+    {
+      "i": 2,
+      "action": "SKIP",
+      "spread_pct": 0.6,
+      "loan_usd": 0.29,
+      "net_usd": -0.04,
+      "gas_gwei": 0.0315,
+      "reasons": [
+        "net n\u00e9gatif (-0.04 $) : le trade perdrait de l'argent",
+        "net -0.04 $ <= profit minimum 3.00 $",
+        "net -0.04 $ <= gas x 3.0 (0.13 $)"
+      ]
+    },
+    {
+      "i": 3,
+      "action": "SKIP",
+      "spread_pct": 3.05,
+      "loan_usd": 136.01,
+      "net_usd": 1.6,
+      "gas_gwei": 0.012,
+      "reasons": [
+        "net 1.60 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 4,
+      "action": "EXECUTE",
+      "spread_pct": 23.37,
+      "loan_usd": 159.65,
+      "net_usd": 17.1,
+      "gas_gwei": 0.0322
+    },
+    {
+      "i": 5,
+      "action": "EXECUTE",
+      "spread_pct": 8.11,
+      "loan_usd": 348.66,
+      "net_usd": 12.77,
+      "gas_gwei": 0.0298
+    },
+    {
+      "i": 6,
+      "action": "EXECUTE",
+      "spread_pct": 7.33,
+      "loan_usd": 306.81,
+      "net_usd": 10.06,
+      "gas_gwei": 0.0071
+    },
+    {
+      "i": 7,
+      "action": "SKIP",
+      "spread_pct": 0.87,
+      "loan_usd": 2.07,
+      "net_usd": -0.02,
+      "gas_gwei": 0.0175,
+      "reasons": [
+        "net n\u00e9gatif (-0.02 $) : le trade perdrait de l'argent",
+        "net -0.02 $ <= profit minimum 3.00 $",
+        "net -0.02 $ <= gas x 3.0 (0.07 $)"
+      ]
+    },
+    {
+      "i": 8,
+      "action": "SKIP",
+      "spread_pct": 5.55,
+      "loan_usd": 67.23,
+      "net_usd": 1.56,
+      "gas_gwei": 0.0471,
+      "reasons": [
+        "net 1.56 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 9,
+      "action": "EXECUTE",
+      "spread_pct": 7.26,
+      "loan_usd": 112.26,
+      "net_usd": 3.61,
+      "gas_gwei": 0.0221
+    },
+    {
+      "i": 10,
+      "action": "EXECUTE",
+      "spread_pct": 26.4,
+      "loan_usd": 862.8,
+      "net_usd": 104.06,
+      "gas_gwei": 0.0399
+    },
+    {
+      "i": 11,
+      "action": "SKIP",
+      "spread_pct": 0.1,
+      "loan_usd": 0.29,
+      "net_usd": -0.07,
+      "gas_gwei": 0.0474,
+      "reasons": [
+        "net n\u00e9gatif (-0.07 $) : le trade perdrait de l'argent",
+        "net -0.07 $ <= profit minimum 3.00 $",
+        "net -0.07 $ <= gas x 3.0 (0.19 $)"
+      ]
+    },
+    {
+      "i": 12,
+      "action": "EXECUTE",
+      "spread_pct": 13.15,
+      "loan_usd": 309.91,
+      "net_usd": 17.16,
+      "gas_gwei": 1.1883
+    },
+    {
+      "i": 13,
+      "action": "SKIP",
+      "spread_pct": 0.74,
+      "loan_usd": 1.68,
+      "net_usd": -0.06,
+      "gas_gwei": 0.0454,
+      "reasons": [
+        "net n\u00e9gatif (-0.06 $) : le trade perdrait de l'argent",
+        "net -0.06 $ <= profit minimum 3.00 $",
+        "net -0.06 $ <= gas x 3.0 (0.18 $)"
+      ]
+    },
+    {
+      "i": 14,
+      "action": "SKIP",
+      "spread_pct": 0.66,
+      "loan_usd": 0.29,
+      "net_usd": -0.01,
+      "gas_gwei": 0.0071,
+      "reasons": [
+        "net n\u00e9gatif (-0.01 $) : le trade perdrait de l'argent",
+        "net -0.01 $ <= profit minimum 3.00 $",
+        "net -0.01 $ <= gas x 3.0 (0.03 $)"
+      ]
+    },
+    {
+      "i": 15,
+      "action": "SKIP",
+      "spread_pct": 1.88,
+      "loan_usd": 39.86,
+      "net_usd": 0.21,
+      "gas_gwei": 0.0222,
+      "reasons": [
+        "net 0.21 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 16,
+      "action": "EXECUTE",
+      "spread_pct": 25.29,
+      "loan_usd": 1923.35,
+      "net_usd": 224.86,
+      "gas_gwei": 0.0374
+    },
+    {
+      "i": 17,
+      "action": "EXECUTE",
+      "spread_pct": 6.76,
+      "loan_usd": 124.27,
+      "net_usd": 3.67,
+      "gas_gwei": 0.0246
+    },
+    {
+      "i": 18,
+      "action": "SKIP",
+      "spread_pct": 2.86,
+      "loan_usd": 51.06,
+      "net_usd": 0.54,
+      "gas_gwei": 0.013,
+      "reasons": [
+        "net 0.54 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 19,
+      "action": "EXECUTE",
+      "spread_pct": 18.71,
+      "loan_usd": 369.44,
+      "net_usd": 31.77,
+      "gas_gwei": 0.0119
+    },
+    {
+      "i": 20,
+      "action": "EXECUTE",
+      "spread_pct": 6.78,
+      "loan_usd": 239.98,
+      "net_usd": 7.14,
+      "gas_gwei": 0.0196
+    },
+    {
+      "i": 21,
+      "action": "SKIP",
+      "spread_pct": 2.79,
+      "loan_usd": 168.05,
+      "net_usd": 1.77,
+      "gas_gwei": 0.0076,
+      "reasons": [
+        "net 1.77 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 22,
+      "action": "EXECUTE",
+      "spread_pct": 19.47,
+      "loan_usd": 213.94,
+      "net_usd": 19.05,
+      "gas_gwei": 0.0392
+    },
+    {
+      "i": 23,
+      "action": "SKIP",
+      "spread_pct": 3.9,
+      "loan_usd": 90.55,
+      "net_usd": 1.4,
+      "gas_gwei": 0.0443,
+      "reasons": [
+        "net 1.40 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 24,
+      "action": "SKIP",
+      "spread_pct": 0.64,
+      "loan_usd": 0.29,
+      "net_usd": -0.03,
+      "gas_gwei": 0.019,
+      "reasons": [
+        "net n\u00e9gatif (-0.03 $) : le trade perdrait de l'argent",
+        "net -0.03 $ <= profit minimum 3.00 $",
+        "net -0.03 $ <= gas x 3.0 (0.08 $)"
+      ]
+    },
+    {
+      "i": 25,
+      "action": "EXECUTE",
+      "spread_pct": 26.5,
+      "loan_usd": 558.97,
+      "net_usd": 68.48,
+      "gas_gwei": 0.0151
+    },
+    {
+      "i": 26,
+      "action": "SKIP",
+      "spread_pct": 1.76,
+      "loan_usd": 13.65,
+      "net_usd": 0.03,
+      "gas_gwei": 0.0334,
+      "reasons": [
+        "net 0.03 $ <= profit minimum 3.00 $",
+        "net 0.03 $ <= gas x 3.0 (0.14 $)"
+      ]
+    },
+    {
+      "i": 27,
+      "action": "SKIP",
+      "spread_pct": 2.72,
+      "loan_usd": 28.48,
+      "net_usd": 0.24,
+      "gas_gwei": 0.0351,
+      "reasons": [
+        "net 0.24 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 28,
+      "action": "SKIP",
+      "spread_pct": 0.4,
+      "loan_usd": 0.29,
+      "net_usd": -0.06,
+      "gas_gwei": 0.0403,
+      "reasons": [
+        "net n\u00e9gatif (-0.06 $) : le trade perdrait de l'argent",
+        "net -0.06 $ <= profit minimum 3.00 $",
+        "net -0.06 $ <= gas x 3.0 (0.16 $)"
+      ]
+    },
+    {
+      "i": 29,
+      "action": "SKIP",
+      "spread_pct": 4.33,
+      "loan_usd": 44.24,
+      "net_usd": 0.76,
+      "gas_gwei": 0.026,
+      "reasons": [
+        "net 0.76 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 30,
+      "action": "EXECUTE",
+      "spread_pct": 7.71,
+      "loan_usd": 102.02,
+      "net_usd": 3.47,
+      "gas_gwei": 0.0203
+    },
+    {
+      "i": 31,
+      "action": "EXECUTE",
+      "spread_pct": 12.49,
+      "loan_usd": 166.16,
+      "net_usd": 9.52,
+      "gas_gwei": 0.0175
+    },
+    {
+      "i": 32,
+      "action": "SKIP",
+      "spread_pct": 2.77,
+      "loan_usd": 77.52,
+      "net_usd": 0.79,
+      "gas_gwei": 0.0073,
+      "reasons": [
+        "net 0.79 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 33,
+      "action": "EXECUTE",
+      "spread_pct": 28.36,
+      "loan_usd": 2413.03,
+      "net_usd": 311.39,
+      "gas_gwei": 0.0125
+    },
+    {
+      "i": 34,
+      "action": "SKIP",
+      "spread_pct": 0.64,
+      "loan_usd": 0.29,
+      "net_usd": -0.07,
+      "gas_gwei": 0.0493,
+      "reasons": [
+        "net n\u00e9gatif (-0.07 $) : le trade perdrait de l'argent",
+        "net -0.07 $ <= profit minimum 3.00 $",
+        "net -0.07 $ <= gas x 3.0 (0.20 $)"
+      ]
+    },
+    {
+      "i": 35,
+      "action": "SKIP",
+      "spread_pct": 2.35,
+      "loan_usd": 38.71,
+      "net_usd": -341.07,
+      "gas_gwei": 252.8831,
+      "reasons": [
+        "gas trop cher : 252.88 gwei > plafond 2.0 gwei \u2014 aucun broadcast",
+        "net n\u00e9gatif (-341.07 $) : le trade perdrait de l'argent",
+        "net -341.07 $ <= profit minimum 3.00 $",
+        "net -341.07 $ <= gas x 3.0 (1024.18 $)"
+      ]
+    },
+    {
+      "i": 36,
+      "action": "SKIP",
+      "spread_pct": 8.03,
+      "loan_usd": 84.75,
+      "net_usd": -201.25,
+      "gas_gwei": 151.32,
+      "reasons": [
+        "gas trop cher : 151.32 gwei > plafond 2.0 gwei \u2014 aucun broadcast",
+        "net n\u00e9gatif (-201.25 $) : le trade perdrait de l'argent",
+        "net -201.25 $ <= profit minimum 3.00 $",
+        "net -201.25 $ <= gas x 3.0 (612.85 $)"
+      ]
+    },
+    {
+      "i": 37,
+      "action": "SKIP",
+      "spread_pct": 2.24,
+      "loan_usd": 19.1,
+      "net_usd": 0.09,
+      "gas_gwei": 0.0434,
+      "reasons": [
+        "net 0.09 $ <= profit minimum 3.00 $",
+        "net 0.09 $ <= gas x 3.0 (0.18 $)"
+      ]
+    },
+    {
+      "i": 38,
+      "action": "SKIP",
+      "spread_pct": 2.88,
+      "loan_usd": 20.21,
+      "net_usd": 0.17,
+      "gas_gwei": 0.0354,
+      "reasons": [
+        "net 0.17 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 39,
+      "action": "SKIP",
+      "spread_pct": 0.36,
+      "loan_usd": 0.29,
+      "net_usd": -0.05,
+      "gas_gwei": 0.0329,
+      "reasons": [
+        "net n\u00e9gatif (-0.05 $) : le trade perdrait de l'argent",
+        "net -0.05 $ <= profit minimum 3.00 $",
+        "net -0.05 $ <= gas x 3.0 (0.13 $)"
+      ]
+    },
+    {
+      "i": 40,
+      "action": "SKIP",
+      "spread_pct": 1.75,
+      "loan_usd": 50.63,
+      "net_usd": 0.22,
+      "gas_gwei": 0.0372,
+      "reasons": [
+        "net 0.22 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 41,
+      "action": "SKIP",
+      "spread_pct": 1.19,
+      "loan_usd": 12.14,
+      "net_usd": -0.02,
+      "gas_gwei": 0.0388,
+      "reasons": [
+        "net n\u00e9gatif (-0.02 $) : le trade perdrait de l'argent",
+        "net -0.02 $ <= profit minimum 3.00 $",
+        "net -0.02 $ <= gas x 3.0 (0.16 $)"
+      ]
+    },
+    {
+      "i": 42,
+      "action": "SKIP",
+      "spread_pct": 1.37,
+      "loan_usd": 88.17,
+      "net_usd": 0.3,
+      "gas_gwei": 0.0146,
+      "reasons": [
+        "net 0.30 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 43,
+      "action": "SKIP",
+      "spread_pct": 2.8,
+      "loan_usd": 185.66,
+      "net_usd": 1.93,
+      "gas_gwei": 0.0121,
+      "reasons": [
+        "net 1.93 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 44,
+      "action": "EXECUTE",
+      "spread_pct": 7.92,
+      "loan_usd": 415.09,
+      "net_usd": 14.63,
+      "gas_gwei": 0.0054
+    },
+    {
+      "i": 45,
+      "action": "EXECUTE",
+      "spread_pct": 5.1,
+      "loan_usd": 273.68,
+      "net_usd": 5.97,
+      "gas_gwei": 0.0102
+    },
+    {
+      "i": 46,
+      "action": "SKIP",
+      "spread_pct": 1.66,
+      "loan_usd": 20.85,
+      "net_usd": 0.08,
+      "gas_gwei": 0.0142,
+      "reasons": [
+        "net 0.08 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 47,
+      "action": "EXECUTE",
+      "spread_pct": 4.85,
+      "loan_usd": 171.49,
+      "net_usd": 3.54,
+      "gas_gwei": 0.0092
+    },
+    {
+      "i": 48,
+      "action": "SKIP",
+      "spread_pct": 0.83,
+      "loan_usd": 2.04,
+      "net_usd": -0.02,
+      "gas_gwei": 0.0168,
+      "reasons": [
+        "net n\u00e9gatif (-0.02 $) : le trade perdrait de l'argent",
+        "net -0.02 $ <= profit minimum 3.00 $",
+        "net -0.02 $ <= gas x 3.0 (0.07 $)"
+      ]
+    },
+    {
+      "i": 49,
+      "action": "SKIP",
+      "spread_pct": 6.86,
+      "loan_usd": 58.21,
+      "net_usd": 1.7,
+      "gas_gwei": 0.0447,
+      "reasons": [
+        "net 1.70 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 50,
+      "action": "EXECUTE",
+      "spread_pct": 15.46,
+      "loan_usd": 626.44,
+      "net_usd": 44.67,
+      "gas_gwei": 0.0107
+    },
+    {
+      "i": 51,
+      "action": "SKIP",
+      "spread_pct": 2.7,
+      "loan_usd": 149.38,
+      "net_usd": 1.49,
+      "gas_gwei": 0.0145,
+      "reasons": [
+        "net 1.49 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 52,
+      "action": "SKIP",
+      "spread_pct": 0.31,
+      "loan_usd": 0.29,
+      "net_usd": -0.05,
+      "gas_gwei": 0.0329,
+      "reasons": [
+        "net n\u00e9gatif (-0.05 $) : le trade perdrait de l'argent",
+        "net -0.05 $ <= profit minimum 3.00 $",
+        "net -0.05 $ <= gas x 3.0 (0.13 $)"
+      ]
+    },
+    {
+      "i": 53,
+      "action": "SKIP",
+      "spread_pct": 2.79,
+      "loan_usd": 204.64,
+      "net_usd": 2.09,
+      "gas_gwei": 0.0447,
+      "reasons": [
+        "net 2.09 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 54,
+      "action": "SKIP",
+      "spread_pct": 2.21,
+      "loan_usd": 44.81,
+      "net_usd": 0.29,
+      "gas_gwei": 0.0439,
+      "reasons": [
+        "net 0.29 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 55,
+      "action": "SKIP",
+      "spread_pct": 4.87,
+      "loan_usd": 61.49,
+      "net_usd": 1.21,
+      "gas_gwei": 0.0436,
+      "reasons": [
+        "net 1.21 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 56,
+      "action": "SKIP",
+      "spread_pct": 2.45,
+      "loan_usd": 33.39,
+      "net_usd": 0.28,
+      "gas_gwei": 0.0152,
+      "reasons": [
+        "net 0.28 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 57,
+      "action": "SKIP",
+      "spread_pct": 0.58,
+      "loan_usd": 0.29,
+      "net_usd": -105.44,
+      "gas_gwei": 78.1065,
+      "reasons": [
+        "gas trop cher : 78.11 gwei > plafond 2.0 gwei \u2014 aucun broadcast",
+        "net n\u00e9gatif (-105.44 $) : le trade perdrait de l'argent",
+        "net -105.44 $ <= profit minimum 3.00 $",
+        "net -105.44 $ <= gas x 3.0 (316.33 $)"
+      ]
+    },
+    {
+      "i": 58,
+      "action": "EXECUTE",
+      "spread_pct": 5.8,
+      "loan_usd": 239.14,
+      "net_usd": 5.13,
+      "gas_gwei": 0.673
+    },
+    {
+      "i": 59,
+      "action": "EXECUTE",
+      "spread_pct": 21.79,
+      "loan_usd": 415.3,
+      "net_usd": 41.48,
+      "gas_gwei": 0.0246
+    },
+    {
+      "i": 60,
+      "action": "EXECUTE",
+      "spread_pct": 5.2,
+      "loan_usd": 144.72,
+      "net_usd": 3.17,
+      "gas_gwei": 0.0309
+    },
+    {
+      "i": 61,
+      "action": "SKIP",
+      "spread_pct": 2.13,
+      "loan_usd": 17.27,
+      "net_usd": 0.08,
+      "gas_gwei": 0.0374,
+      "reasons": [
+        "net 0.08 $ <= profit minimum 3.00 $",
+        "net 0.08 $ <= gas x 3.0 (0.15 $)"
+      ]
+    },
+    {
+      "i": 62,
+      "action": "SKIP",
+      "spread_pct": 7.69,
+      "loan_usd": 71.04,
+      "net_usd": 2.43,
+      "gas_gwei": 0.0199,
+      "reasons": [
+        "net 2.43 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 63,
+      "action": "SKIP",
+      "spread_pct": 2.54,
+      "loan_usd": 43.97,
+      "net_usd": 0.38,
+      "gas_gwei": 0.0234,
+      "reasons": [
+        "net 0.38 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 64,
+      "action": "SKIP",
+      "spread_pct": 0.89,
+      "loan_usd": 2.97,
+      "net_usd": -2.04,
+      "gas_gwei": 1.516,
+      "reasons": [
+        "net n\u00e9gatif (-2.04 $) : le trade perdrait de l'argent",
+        "net -2.04 $ <= profit minimum 3.00 $",
+        "net -2.04 $ <= gas x 3.0 (6.14 $)"
+      ]
+    },
+    {
+      "i": 65,
+      "action": "EXECUTE",
+      "spread_pct": 16.16,
+      "loan_usd": 298.65,
+      "net_usd": 21.92,
+      "gas_gwei": 0.0179
+    },
+    {
+      "i": 66,
+      "action": "SKIP",
+      "spread_pct": 1.74,
+      "loan_usd": 34.39,
+      "net_usd": 0.17,
+      "gas_gwei": 0.0146,
+      "reasons": [
+        "net 0.17 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 67,
+      "action": "SKIP",
+      "spread_pct": 2.7,
+      "loan_usd": 35.91,
+      "net_usd": 0.33,
+      "gas_gwei": 0.0282,
+      "reasons": [
+        "net 0.33 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 68,
+      "action": "EXECUTE",
+      "spread_pct": 5.35,
+      "loan_usd": 294.15,
+      "net_usd": 6.75,
+      "gas_gwei": 0.0151
+    },
+    {
+      "i": 69,
+      "action": "SKIP",
+      "spread_pct": 0.07,
+      "loan_usd": 0.29,
+      "net_usd": -0.01,
+      "gas_gwei": 0.0083,
+      "reasons": [
+        "net n\u00e9gatif (-0.01 $) : le trade perdrait de l'argent",
+        "net -0.01 $ <= profit minimum 3.00 $",
+        "net -0.01 $ <= gas x 3.0 (0.03 $)"
+      ]
+    },
+    {
+      "i": 70,
+      "action": "SKIP",
+      "spread_pct": 1.89,
+      "loan_usd": 22.4,
+      "net_usd": 0.12,
+      "gas_gwei": 0.016,
+      "reasons": [
+        "net 0.12 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 71,
+      "action": "SKIP",
+      "spread_pct": 3.04,
+      "loan_usd": 140.27,
+      "net_usd": 1.64,
+      "gas_gwei": 0.0241,
+      "reasons": [
+        "net 1.64 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 72,
+      "action": "SKIP",
+      "spread_pct": 2.87,
+      "loan_usd": 25.31,
+      "net_usd": 0.22,
+      "gas_gwei": 0.0432,
+      "reasons": [
+        "net 0.22 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 73,
+      "action": "SKIP",
+      "spread_pct": 2.4,
+      "loan_usd": 116.96,
+      "net_usd": 0.94,
+      "gas_gwei": 0.0478,
+      "reasons": [
+        "net 0.94 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 74,
+      "action": "EXECUTE",
+      "spread_pct": 16.13,
+      "loan_usd": 500.79,
+      "net_usd": 37.09,
+      "gas_gwei": 0.0297
+    },
+    {
+      "i": 75,
+      "action": "EXECUTE",
+      "spread_pct": 17.44,
+      "loan_usd": 258.02,
+      "net_usd": 20.63,
+      "gas_gwei": 0.0337
+    },
+    {
+      "i": 76,
+      "action": "EXECUTE",
+      "spread_pct": 6.65,
+      "loan_usd": 119.52,
+      "net_usd": 3.46,
+      "gas_gwei": 0.0179
+    },
+    {
+      "i": 77,
+      "action": "SKIP",
+      "spread_pct": 0.96,
+      "loan_usd": 4.49,
+      "net_usd": -0.04,
+      "gas_gwei": 0.0362,
+      "reasons": [
+        "net n\u00e9gatif (-0.04 $) : le trade perdrait de l'argent",
+        "net -0.04 $ <= profit minimum 3.00 $",
+        "net -0.04 $ <= gas x 3.0 (0.15 $)"
+      ]
+    },
+    {
+      "i": 78,
+      "action": "SKIP",
+      "spread_pct": 3.45,
+      "loan_usd": 69.66,
+      "net_usd": 0.94,
+      "gas_gwei": 0.0143,
+      "reasons": [
+        "net 0.94 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 79,
+      "action": "SKIP",
+      "spread_pct": 2.71,
+      "loan_usd": 85.83,
+      "net_usd": 0.81,
+      "gas_gwei": 0.0395,
+      "reasons": [
+        "net 0.81 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 80,
+      "action": "SKIP",
+      "spread_pct": 0.02,
+      "loan_usd": 0.29,
+      "net_usd": -0.07,
+      "gas_gwei": 0.0479,
+      "reasons": [
+        "net n\u00e9gatif (-0.07 $) : le trade perdrait de l'argent",
+        "net -0.07 $ <= profit minimum 3.00 $",
+        "net -0.07 $ <= gas x 3.0 (0.19 $)"
+      ]
+    },
+    {
+      "i": 81,
+      "action": "SKIP",
+      "spread_pct": 2.24,
+      "loan_usd": 53.71,
+      "net_usd": 0.41,
+      "gas_gwei": 0.0149,
+      "reasons": [
+        "net 0.41 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 82,
+      "action": "SKIP",
+      "spread_pct": 0.09,
+      "loan_usd": 0.29,
+      "net_usd": -0.02,
+      "gas_gwei": 0.0124,
+      "reasons": [
+        "net n\u00e9gatif (-0.02 $) : le trade perdrait de l'argent",
+        "net -0.02 $ <= profit minimum 3.00 $",
+        "net -0.02 $ <= gas x 3.0 (0.05 $)"
+      ]
+    },
+    {
+      "i": 83,
+      "action": "SKIP",
+      "spread_pct": 0.38,
+      "loan_usd": 0.29,
+      "net_usd": -0.04,
+      "gas_gwei": 0.0304,
+      "reasons": [
+        "net n\u00e9gatif (-0.04 $) : le trade perdrait de l'argent",
+        "net -0.04 $ <= profit minimum 3.00 $",
+        "net -0.04 $ <= gas x 3.0 (0.12 $)"
+      ]
+    },
+    {
+      "i": 84,
+      "action": "SKIP",
+      "spread_pct": 1.93,
+      "loan_usd": 17.12,
+      "net_usd": 0.08,
+      "gas_gwei": 0.0221,
+      "reasons": [
+        "net 0.08 $ <= profit minimum 3.00 $",
+        "net 0.08 $ <= gas x 3.0 (0.09 $)"
+      ]
+    },
+    {
+      "i": 85,
+      "action": "SKIP",
+      "spread_pct": 0.98,
+      "loan_usd": 9.67,
+      "net_usd": -0.04,
+      "gas_gwei": 0.0424,
+      "reasons": [
+        "net n\u00e9gatif (-0.04 $) : le trade perdrait de l'argent",
+        "net -0.04 $ <= profit minimum 3.00 $",
+        "net -0.04 $ <= gas x 3.0 (0.17 $)"
+      ]
+    },
+    {
+      "i": 86,
+      "action": "SKIP",
+      "spread_pct": 0.25,
+      "loan_usd": 0.29,
+      "net_usd": -128.78,
+      "gas_gwei": 95.3903,
+      "reasons": [
+        "gas trop cher : 95.39 gwei > plafond 2.0 gwei \u2014 aucun broadcast",
+        "net n\u00e9gatif (-128.78 $) : le trade perdrait de l'argent",
+        "net -128.78 $ <= profit minimum 3.00 $",
+        "net -128.78 $ <= gas x 3.0 (386.33 $)"
+      ]
+    },
+    {
+      "i": 87,
+      "action": "EXECUTE",
+      "spread_pct": 8.47,
+      "loan_usd": 380.2,
+      "net_usd": 13.21,
+      "gas_gwei": 0.799
+    },
+    {
+      "i": 88,
+      "action": "SKIP",
+      "spread_pct": 0.46,
+      "loan_usd": 0.29,
+      "net_usd": -0.02,
+      "gas_gwei": 0.0148,
+      "reasons": [
+        "net n\u00e9gatif (-0.02 $) : le trade perdrait de l'argent",
+        "net -0.02 $ <= profit minimum 3.00 $",
+        "net -0.02 $ <= gas x 3.0 (0.06 $)"
+      ]
+    },
+    {
+      "i": 89,
+      "action": "EXECUTE",
+      "spread_pct": 8.37,
+      "loan_usd": 122.51,
+      "net_usd": 4.54,
+      "gas_gwei": 0.0102
+    },
+    {
+      "i": 90,
+      "action": "SKIP",
+      "spread_pct": 9.75,
+      "loan_usd": 64.13,
+      "net_usd": 2.78,
+      "gas_gwei": 0.0355,
+      "reasons": [
+        "net 2.78 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 91,
+      "action": "EXECUTE",
+      "spread_pct": 23.97,
+      "loan_usd": 248.5,
+      "net_usd": 27.4,
+      "gas_gwei": 0.0332
+    },
+    {
+      "i": 92,
+      "action": "SKIP",
+      "spread_pct": 2.32,
+      "loan_usd": 83.82,
+      "net_usd": 0.62,
+      "gas_gwei": 0.0493,
+      "reasons": [
+        "net 0.62 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 93,
+      "action": "SKIP",
+      "spread_pct": 5.43,
+      "loan_usd": 94.25,
+      "net_usd": 2.19,
+      "gas_gwei": 0.0204,
+      "reasons": [
+        "net 2.19 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 94,
+      "action": "EXECUTE",
+      "spread_pct": 8.76,
+      "loan_usd": 125.71,
+      "net_usd": 4.89,
+      "gas_gwei": 0.0423
+    },
+    {
+      "i": 95,
+      "action": "EXECUTE",
+      "spread_pct": 6.05,
+      "loan_usd": 393.55,
+      "net_usd": 10.29,
+      "gas_gwei": 0.0414
+    },
+    {
+      "i": 96,
+      "action": "SKIP",
+      "spread_pct": 1.45,
+      "loan_usd": 25.47,
+      "net_usd": 0.04,
+      "gas_gwei": 0.0433,
+      "reasons": [
+        "net 0.04 $ <= profit minimum 3.00 $",
+        "net 0.04 $ <= gas x 3.0 (0.18 $)"
+      ]
+    },
+    {
+      "i": 97,
+      "action": "SKIP",
+      "spread_pct": 3.61,
+      "loan_usd": 64.19,
+      "net_usd": 0.89,
+      "gas_gwei": 0.0325,
+      "reasons": [
+        "net 0.89 $ <= profit minimum 3.00 $"
+      ]
+    },
+    {
+      "i": 98,
+      "action": "SKIP",
+      "spread_pct": 0.09,
+      "loan_usd": 0.29,
+      "net_usd": -0.06,
+      "gas_gwei": 0.0409,
+      "reasons": [
+        "net n\u00e9gatif (-0.06 $) : le trade perdrait de l'argent",
+        "net -0.06 $ <= profit minimum 3.00 $",
+        "net -0.06 $ <= gas x 3.0 (0.17 $)"
+      ]
+    },
+    {
+      "i": 99,
+      "action": "SKIP",
+      "spread_pct": 2.64,
+      "loan_usd": 42.85,
+      "net_usd": 0.36,
+      "gas_gwei": 0.0477,
+      "reasons": [
+        "net 0.36 $ <= profit minimum 3.00 $"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+# config.yaml — Bot Flash Loan Base / meme coins sghar
+# TOUT est modifiable ici, sans toucher au code. Aucune clé privée ici.
+chain:
+  chain_id: 8453
+  name: "Base"
+  rpc_url: "https://base-mainnet.g.alchemy.com/v2/YOUR_ALCHEMY_API_KEY_HERE"  # Alchemy Base-Bot, Ismailredouane97@gmail.com, récupéré 2026-11-24 — NE PAS PARTAGER
+  explorer: "https://basescan.org"
+  eth_price_usd: 3000.0   # hypothèse — remplacer par oracle en prod
+
+contracts:
+  # Adresses vérifiées le 2026-11-24, voir RESEARCH.md
+  aave_pool: "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5"
+  aave_provider: "0xe20fCBdBfFC4Dd138cE8b2E6FBb6CB49777ad64D"
+  # v3.3 — Morpho Blue, 0 frais par conception (vérifié on-chain bloc 61 806 974,
+  # pas de getter flashFee — voir RESEARCH.md § Morpho Blue). Provider préféré.
+  morpho: "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb"
+  # ⛔ DÉPRÉCIÉ v3.3 — Balancer MORT (BIP-928, wind-down 30 oct 2026) :
+  # pools en retraits seuls, Balancer Labs dissoute. NE PLUS UTILISER.
+  # balancer_vault: "0xBA12222222228d8Ba445958a75a0704d566BF2C8"
+  # balancer_fees_collector: "0xce88686553686DA562CE7Cea497CE749DA109f9F"  # fee 0 % (gouvernance)
+  balancer_v3_vault: ""  # NON déployé sur Base (aucun code à 0xbA13... vérifié bloc 61 794 292)
+  weth: "0x4200000000000000000000000000000000000006"
+  usdc: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+  uniswap_v3_quoter_v2: "0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a"  # QuoterV2 officiel — voir v3_quote.py
+  aerodrome_slipstream_router: ""  # NON vérifié en v2 — quoter Slipstream à part, ne pas utiliser le router Classic pour les pools Slipstream
+  uniswap_v3_router02: "0x2626664c2603336E57B271c5C0b26F421741e481"
+  uniswap_v2_factory: "0x8909Dc15e40173Ff4699343b6eB8132c65e18eC6"
+  uniswap_v2_router02: "0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24"
+  aerodrome_router: "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43"
+  aerodrome_factory: "0x420DD381b31aEf6683db6B902084cB0FFECe40Da"
+  sushi_v2_factory: "0x71524B4f93c58fcbF659783284E38825f0622859"
+  sushi_v2_router02: "0x6BDED42c6DA8FBf0d2bA55B2fa120C5e0c8D7891"
+
+# --- v3.3 FLASH LOAN 0 FRAIS (morpho_flash.py) ---
+# Ordre : Morpho Blue 0 % d'abord (WETH/USDC seulement), Aave 0,05 % en repli.
+# Le 0 % Morpho est STRUCTUREL (pas de getter flashFee, rien à voter) —
+# contrairement à Balancer (paramètre de gouvernance, et Balancer est MORT :
+# BIP-928, wind-down 30 oct 2026 — voir BALANCER_RESEARCH.md).
+flashloan:
+  provider_preferred: "morpho"
+  provider_fallback: "aave"
+  morpho_fee_rate: 0.0
+  aave_fee_rate: 0.0005
+  max_pct_morpho_balance: 0.50   # jamais plus de 50 % du solde Morpho
+  # Soldes de Morpho mesurés bloc 61 806 974 (2026-11-24) — DATÉS, re-vérifier avec RPC :
+  morpho_usdc_measured: 328711525.75
+  morpho_weth_measured: 88713.53    # ~148,9 M$ à ~1 678 $/WETH
+  # Ancien provider (DÉPRÉCIÉ, ne plus utiliser) :
+  # balancer_fee_rate: 0.0 — Vault 0xBA12...F2C8, soldes bloc 61 794 215 :
+  # vault_usdc_measured: 53208.01 / vault_weth_measured: 23.27
+
+# --- CŒUR DU BOT : la taille n'est JAMAIS fixe, c'est le calcul qui décide ---
+math:
+  flash_fee_rate: 0.0005      # Aave V3 0,05 % — défaut ; Morpho 0 % quand provider=morpho
+  max_loan_usd: 50000.0       # plafond absolu du flash loan
+  max_pct_liquidity: 0.10     # jamais plus de 10 % de la plus petite réserve USDC
+  min_profit_usd: 3.0         # net minimum pour exécuter — confirmé par Ismail 2026-11-24 : min 3$
+  gas_multiple: 3.0           # net doit être > gas x 3
+  gas_units: 450000
+  gas_price_gwei: 0.05
+  gas_price_max_gwei: 2.0     # v2 PLAFOND : au-dessus, on ne broadcast RIEN (pic 254 gwei le 29 oct 2026 = swap 70 $)
+  kelly_cap: 0.10             # v2 HONNÊTE : 0,10x tant que < 30 trades mesurés (recherche §4.2) — pas 0,25 avec un p inventé
+  bankroll_usd: 10000.0       # capital PROPRE de référence (pas le loan) — pour Kelly
+
+# --- Scanner : meme coins SGHAR, LOW competition ---
+scanner:
+  min_liquidity_usd: 5000.0    # en dessous : trop risqué / pas de sortie
+  max_liquidity_usd: 100000.0  # au-dessus : trop de bots, trop de concurrence
+  min_holders: 20
+  max_age_hours: 72            # coins récents = spreads plus grands, moins de bots
+  min_spread_pct: 3.0          # spread brut minimum pour même regarder l'opportunité
+  require_liquidity_locked: true
+  require_no_mint: true        # mint authority renounced / pas de mint
+  require_no_honeypot: true    # test simulation buy + sell avant tout
+  max_tax_pct: 5.0             # buy/sell tax du token
+  goplus_api: "https://api.gopluslabs.io/api/v1/token_security/8453"  # v2 — gratuit, sans clé
+  require_goplus_pass: true    # v2 : REJECT ou UNKNOWN GoPlus -> on ne trade pas
+  dexscreener_api: "https://api.dexscreener.com/latest/dex/pairs/base/"
+
+executor:
+  mode: "dry_run"      # dry_run = simulation seulement, AUCUN broadcast. Ne pas mettre "live" sans audit.
+  simulate_before_broadcast: true   # RÈGLE GAS : simuler off-chain d'abord
+  preflight_before_broadcast: true  # v2 : preflight EVM (getAmountsOut on-chain) avant tout envoi — LOSE/STALE/UNAVAILABLE -> SKIP
+  preflight_max_block_age: 2        # v2 : quote de plus de 2 blocs (Denim 200 ms) = rejetée
+  min_profit_usd: 3.0
+  max_slippage_pct: 1.0
+  deadline_seconds: 120
+  # Si la simulation dit perte -> SKIP, 0 gas. Si on-chain revert -> gas payé,
+  # donc on évite le revert par la simulation, pas l'inverse.
+
+# --- v2 GARDE-FOUS (circuit_breaker.py) : le bot s'arrête quand il perd ---
+limits:
+  daily_loss_limit_usd: 20.0        # perte nette du jour > 20 $ -> stop jusqu'à demain
+  max_trades_per_day: 50            # anti-spam : au-delà, on arrête (le spam tue les bots)
+  max_consecutive_reverts: 3        # 3 reverts d'affilée -> pause 1 h
+  revert_pause_seconds: 3600
+  max_trades_per_token_per_hour: 2  # pas 2 trades sur le même meme coin dans l'heure
+  kill_switch: false                # true = le bot refuse TOUT trade (remise à zéro manuelle)
+  state_file: "circuit_state.json"  # état persisté (survit au redémarrage)
+
+# --- v3.1 SPONSOR (sponsor.py) : INACTIF depuis v3.4 (2026-11-24) ---
+# Décision d'Ismail : il finance le gas LUI-MÊME (voir section `funding:`).
+# La section est conservée pour référence — le deal sponsor (25 %) n'est
+# plus utilisé : enabled: false, sponsor_share_pct: 0 (Ismail 100 %).
+sponsorship:
+  enabled: false                # INACTIF v3.4 — Ismail auto-financé (voir `funding:`)
+  prefund_usd: 20.0             # (référence historique : ETH préfinancé, QUE pour le gas)
+  sponsor_share_pct: 0          # 0 = Ismail garde 100 % du profit net (pas de sponsor)
+  sponsor_wallet: ""            # À REMPLIR par Ismail / le sponsor : adresse du wallet qui reçoit sa part (vide = pas encore de sponsor)
+  daily_cap_usd: 20.0          # max versé au sponsor par jour — au-delà, le bot STOP (pas de trade silencieux)
+  kill_switch: false            # true = le sponsor (ou Ismail) coupe TOUS les trades
+  low_prefund_alert_usd: 5.0   # alerte quand il reste < 5 $ de prefund — recharger ou le bot s'arrêtera à 0 $
+  state_file: "sponsor_state.json"  # état persisté (soldes du jour, gas cumulé)
+  trades_file: "trades.jsonl"       # un JSON par trade exécuté (net, parts, gas, provider)
+
+# --- v3.4 FINANCEMENT AUTO (self_funded.py) : Ismail finance le gas lui-même ---
+# Décision d'Ismail 2026-11-24 : il met ~20 $ d'ETH (float) sur Base pour le
+# gas, et garde 100 % du profit (sponsor 0 %). La contrainte 0 $ TOTAL est
+# LEVÉE pour le GAS SEULEMENT — le flash loan reste 0 % (Morpho uniquement,
+# Aave 0,05 % toujours BLOQUÉ). Pas de sponsor, pas de wallet sponsor.
+# Le wallet d'Ismail (adresse PUBLIQUE seulement, jamais de clé privée)
+# sera communiqué plus tard — aucun wallet n'est créé ici.
+funding:
+  payer: "ismail"               # qui paie le gas : "ismail" (float 20 $)
+  float_usd: 20.0               # ETH d'Ismail pour le gas (~0,005 $/trade mesuré en fork = ~4 000 trades)
+  sponsor_share_pct: 0          # 0 = Ismail garde 100 % du profit net
+  gas_payer: "ismail"           # le gas sort du float d'Ismail
+  min_profit_usd: 3.0           # net minimum APRÈS gas + prime — confirmé par Ismail
+  low_float_alert_usd: 5.0      # alerte quand il reste < 5 $ de float
+  state_file: "float_state.json"   # état persisté (gas dépensé, profits)
+  trades_file: "trades.jsonl"      # chaque trade logue le float restant
+
+# --- v2 FLUX TEMPS RÉEL (websocket_listener.py) ---
+stream:
+  # Post-Denim (blocs 200 ms), le polling est trop lent. Live = WebSocket.
+  # NE PAS utiliser wss://mainnet.flashblocks.base.org/ws (pré-Denim, à re-vérifier).
+  ws_rpc_url: ""                    # à remplir : WSS Alchemy / Chainstack / QuickNode (jamais de clé en dur ici)
+  poll_interval_seconds: 5.0        # repli développement seulement — trop lent pour le live
+
+# --- v3.2 ZERO-COST (zero_cost.py) : Ismail paie 0 $, pas même 1 $ ---
+# Règle d'Ismail (2026-11-24) : 0 $ TOTAL. Chaque coût a une solution $0,
+# sinon le trade est BLOQUÉ. Le live reste bloqué tant que l'audit payant
+# n'a pas de solution $0 (voir tableau des coûts dans README).
+zero_cost:
+  enabled: true                 # false = garde inactive (Ismail paierait — à ne jamais désactiver sans raison)
+  ismail_pays_usd_max: 0.0      # contrainte DURE — jamais dépassée ; la moindre charge déclenche le kill switch
+  allowed_flash_providers: ["morpho"]  # Morpho 0 % SEULEMENT ; Aave 0,05 % BLOQUÉ en mode $0 (sa prime mangerait le profit d'Ismail/sponsor) — Balancer MORT (BIP-928), ne plus l'utiliser
+  rpc: "alchemy-free"           # Alchemy Base-Bot, free tier — déjà dans config.yaml (chain.rpc_url), 0 $
+  gas_payer: "sponsor"          # prefund sponsor 20 $ ; repli "cdp-credits" quand les crédits Paymaster Coinbase 1 000 $ seront approuvés — EN ATTENTE (demande 21 nov 18:52, aucune réponse au 24 nov 19:53)
+  cdp_credits_approved: false   # passer à true SEULEMENT quand Coinbase aura répondu oui (vérifié dans l'email d'Ismail)
+  infra_cost_usd: 0.0           # VM Muse, cron, GitHub, Foundry, Anvil : 0 $
+  trades_file: "trades.jsonl"   # chaque trade logue ismail_paid_usd (toujours 0,00 $)

@@ -1,0 +1,705 @@
+{
+  "generated_at_utc": "2026-11-24T19:50:00Z",
+  "now_local": "2026-11-24 19:50 Africa/Casablanca",
+  "gt_pages_9_18_pools": 40,
+  "oldest_pool_seen": "2026-11-24T17:02:07Z",
+  "candidates": [
+    {
+      "token": "0x7efb019c4f1d1e90612edf58ab118c9be21c30e3",
+      "name": "ANTHROPIC",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v2"
+          ],
+          "pair": "0xBA00F3C9A110dca51dBCe0a53A20520Ec56435Cb",
+          "price_usd": "0.000001074",
+          "liquidity_usd": 10809.22,
+          "volume_h24": 661.48,
+          "txns_h24": {
+            "buys": 27,
+            "sells": 3
+          },
+          "created_at": 1795549493000,
+          "fdv": 6015,
+          "market_cap": 6015,
+          "base_symbol": "ANTHROPIC",
+          "base_name": "ANTHROPIC",
+          "url": "https://dexscreener.com/base/0xba00f3c9a110dca51dbce0a53a20520ec56435cb"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "spread_pct_max_min": null,
+      "symbol": "ANTHROPIC"
+    },
+    {
+      "token": "0xa6cd081b821163f7e778d93121449a8d301bc4f1",
+      "name": "STELLAR(XLM)",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v2"
+          ],
+          "pair": "0x593Dd69080266128e6FF74166507Dd8e92AcdD96",
+          "price_usd": "0.000004558",
+          "liquidity_usd": 54979.89,
+          "volume_h24": 2383.64,
+          "txns_h24": {
+            "buys": 19,
+            "sells": 1
+          },
+          "created_at": 1795548709000,
+          "fdv": 30089,
+          "market_cap": 30089,
+          "base_symbol": "XLM STELLAR GLOBAL NETWO",
+          "base_name": "STELLAR(XLM)",
+          "url": "https://dexscreener.com/base/0x593dd69080266128e6ff74166507dd8e92acdd96"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "spread_pct_max_min": null,
+      "symbol": "XLM STELLAR GLOBAL NETWO"
+    },
+    {
+      "token": "0x522b0a627ab057b411d431666ff7df0bd9acb29e",
+      "name": "NOTF",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v4"
+          ],
+          "pair": "0x9ee6d550def0c64dba821c1b5f4f5638c888cee92e394419996011a90aeb48dc",
+          "price_usd": "0.0000004268",
+          "liquidity_usd": 36577.11,
+          "volume_h24": 10114.57,
+          "txns_h24": {
+            "buys": 15,
+            "sells": 4
+          },
+          "created_at": 1795548653000,
+          "fdv": 42686,
+          "market_cap": 42686,
+          "base_symbol": "NOTF",
+          "base_name": "NOTF",
+          "url": "https://dexscreener.com/base/0x9ee6d550def0c64dba821c1b5f4f5638c888cee92e394419996011a90aeb48dc"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "spread_pct_max_min": null,
+      "symbol": "NOTF"
+    },
+    {
+      "token": "0x1baaeaa608bebd0ff035613e622ff15fab365b72",
+      "name": "GONDOLA MARKET",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v4"
+          ],
+          "pair": "0x57403b5f7bdea4305c3acb0e070bd43bf8e6f9fd97eb9c5098de004e6087b1ac",
+          "price_usd": "0.0000001657",
+          "liquidity_usd": 16575.69,
+          "volume_h24": 6623.9,
+          "txns_h24": {
+            "buys": 17,
+            "sells": 39
+          },
+          "created_at": 1795547119000,
+          "fdv": 16576,
+          "market_cap": 16576,
+          "base_symbol": "GONDOLA",
+          "base_name": "GONDOLA MARKET",
+          "url": "https://dexscreener.com/base/0x57403b5f7bdea4305c3acb0e070bd43bf8e6f9fd97eb9c5098de004e6087b1ac"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "spread_pct_max_min": null,
+      "symbol": "GONDOLA"
+    },
+    {
+      "token": "0x4861fabb560a93e71c90eb3a13421dad63a5fee1",
+      "name": "SNAPCHAT",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v4"
+          ],
+          "pair": "0xe84c7fa49d9160802eb7cac08e4532b4e9dc99487e80617673876b4626ce6232",
+          "price_usd": "0.00001003",
+          "liquidity_usd": 10035.57,
+          "volume_h24": 0.02,
+          "txns_h24": {
+            "buys": 2,
+            "sells": 4
+          },
+          "created_at": 1795545262000,
+          "fdv": 10036,
+          "market_cap": 10036,
+          "base_symbol": "SCHAT",
+          "base_name": "SNAPCHAT",
+          "url": "https://dexscreener.com/base/0xe84c7fa49d9160802eb7cac08e4532b4e9dc99487e80617673876b4626ce6232"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "spread_pct_max_min": null,
+      "symbol": "SCHAT"
+    },
+    {
+      "token": "0xdd46d3973a7edf8b85384bcfd4230eabf281dba3",
+      "name": "Base Santa",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v4"
+          ],
+          "pair": "0x6b143affdc4511f452a302e00f68c9bb1cf349a3cf3d6713c62b816a77eeeddc",
+          "price_usd": "0.0000001009",
+          "liquidity_usd": 8577.43,
+          "volume_h24": 0.01,
+          "txns_h24": {
+            "buys": 1,
+            "sells": 2
+          },
+          "created_at": 1795545134000,
+          "fdv": 10091,
+          "market_cap": 10091,
+          "base_symbol": "SANTA",
+          "base_name": "Base Santa",
+          "url": "https://dexscreener.com/base/0x6b143affdc4511f452a302e00f68c9bb1cf349a3cf3d6713c62b816a77eeeddc"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "spread_pct_max_min": null,
+      "symbol": "SANTA"
+    },
+    {
+      "token": "0xeb2220e7ee843d3ac4c6c2f5a02347712ccfa8fd",
+      "name": "clankmaxxxing",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v4"
+          ],
+          "pair": "0x08b06a47ce0a5b4ecd0c57d8d4fd3feb8c1f6f2f035ae51f70c3f4b89a58a639",
+          "price_usd": "0.00000003359",
+          "liquidity_usd": 3359.26,
+          "volume_h24": 0.16,
+          "txns_h24": {
+            "buys": 1,
+            "sells": 0
+          },
+          "created_at": 1795544381000,
+          "fdv": 3359,
+          "market_cap": 3359,
+          "base_symbol": "clankmaxxxing",
+          "base_name": "clankmaxxxing",
+          "url": "https://dexscreener.com/base/0x08b06a47ce0a5b4ecd0c57d8d4fd3feb8c1f6f2f035ae51f70c3f4b89a58a639"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "spread_pct_max_min": null,
+      "symbol": "clankmaxxxing"
+    },
+    {
+      "token": "0x822c2c2fc165d05215cfb582d8ee580845faa248",
+      "name": "Confidential Cat",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v2"
+          ],
+          "pair": "0x6349549d829fd27eDb06Ed9fa065fB2bA35BA33b",
+          "price_usd": "0.00003331",
+          "liquidity_usd": 16380.69,
+          "volume_h24": 4861.99,
+          "txns_h24": {
+            "buys": 892,
+            "sells": 15
+          },
+          "created_at": 1795543430000,
+          "fdv": 33319,
+          "market_cap": 33319,
+          "base_symbol": "cCAT",
+          "base_name": "Confidential Cat",
+          "url": "https://dexscreener.com/base/0x6349549d829fd27edb06ed9fa065fb2ba35ba33b"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "spread_pct_max_min": null,
+      "symbol": "cCAT"
+    },
+    {
+      "token": "0x6afcdaacc9c974dfa0f028059214ebb9a510cb07",
+      "name": "Principia Research",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v4"
+          ],
+          "pair": "0xf66593c72914168faeb1596a1d83d7cddfe743df749bf70659ba1ad059f6f799",
+          "price_usd": "0.0000001665",
+          "liquidity_usd": 16657.32,
+          "volume_h24": 0.07,
+          "txns_h24": {
+            "buys": 1,
+            "sells": 0
+          },
+          "created_at": 1795543252000,
+          "fdv": 16657,
+          "market_cap": 16657,
+          "base_symbol": "PR",
+          "base_name": "Principia Research",
+          "url": "https://dexscreener.com/base/0xf66593c72914168faeb1596a1d83d7cddfe743df749bf70659ba1ad059f6f799"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "spread_pct_max_min": null,
+      "symbol": "PR"
+    },
+    {
+      "token": "0x39632eb24620972b997e8a12cfe2e8b31a287a96",
+      "name": "AnthropicAI",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v4"
+          ],
+          "pair": "0x395cdf3ad03bf769bf8d642151ad980633187af300cc25f0d6d87ef4b3de1836",
+          "price_usd": "0.0000000002627",
+          "liquidity_usd": 13631.46,
+          "volume_h24": 61024.91,
+          "txns_h24": {
+            "buys": 24,
+            "sells": 2
+          },
+          "created_at": 1795542066000,
+          "fdv": 3,
+          "market_cap": 3,
+          "base_symbol": "Antropic",
+          "base_name": "AnthropicAI",
+          "url": "https://dexscreener.com/base/0x395cdf3ad03bf769bf8d642151ad980633187af300cc25f0d6d87ef4b3de1836"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "spread_pct_max_min": null,
+      "symbol": "Antropic"
+    },
+    {
+      "token": "0x29ab93a0ecf7b11f596a6b9864773232e1d4f23b",
+      "name": "VTC6\u26a1\ufe0f",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v4"
+          ],
+          "pair": "0xbfda618f65e1343ca03a3b02b7d3138d8baa952f7d73ef9d385ff3df2fa97014",
+          "price_usd": "0.00000001197",
+          "liquidity_usd": 1896.24,
+          "volume_h24": 37483.65,
+          "txns_h24": {
+            "buys": 23,
+            "sells": 2
+          },
+          "created_at": 1795542061000,
+          "fdv": 120,
+          "market_cap": 120,
+          "base_symbol": "VTC6\u26a1\ufe0f",
+          "base_name": "VTC6\u26a1\ufe0f",
+          "url": "https://dexscreener.com/base/0xbfda618f65e1343ca03a3b02b7d3138d8baa952f7d73ef9d385ff3df2fa97014"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "spread_pct_max_min": null,
+      "symbol": "VTC6\u26a1\ufe0f"
+    },
+    {
+      "token": "0x0cc92f16dbebde1bf6f0fc6c0a6742181ed3c6c5",
+      "name": "AOTF",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v4"
+          ],
+          "pair": "0x24e20ea5ba24431099e21e423f51fe33db80f25811b81b8b7a89ab32b90f8c05",
+          "price_usd": "0.000000006151",
+          "liquidity_usd": 12.3,
+          "volume_h24": 32421.62,
+          "txns_h24": {
+            "buys": 23,
+            "sells": 2
+          },
+          "created_at": 1795542058000,
+          "fdv": 62,
+          "market_cap": 62,
+          "base_symbol": "AOTF",
+          "base_name": "AOTF",
+          "url": "https://dexscreener.com/base/0x24e20ea5ba24431099e21e423f51fe33db80f25811b81b8b7a89ab32b90f8c05"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "spread_pct_max_min": null,
+      "symbol": "AOTF"
+    },
+    {
+      "token": "0x2b2ab77492bb3303ca080cc9523b867723967227",
+      "name": "USOE",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v4"
+          ],
+          "pair": "0xf1fd733c84c1e40d35a65e6d607531dfb705b891f2401958045a5982c8db2a61",
+          "price_usd": "0.000000006309",
+          "liquidity_usd": 12.61,
+          "volume_h24": 50918.77,
+          "txns_h24": {
+            "buys": 24,
+            "sells": 2
+          },
+          "created_at": 1795542058000,
+          "fdv": 63,
+          "market_cap": 63,
+          "base_symbol": "U\u200aS\u200aO\u200aE",
+          "base_name": "USOE",
+          "url": "https://dexscreener.com/base/0xf1fd733c84c1e40d35a65e6d607531dfb705b891f2401958045a5982c8db2a61"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "spread_pct_max_min": null,
+      "symbol": "U\u200aS\u200aO\u200aE"
+    },
+    {
+      "token": "0x24fecddbd0cd73565a6db9e645f31c444c31fb9d",
+      "name": "LUNA CLASSIC",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v4"
+          ],
+          "pair": "0x5f1dca875545692288e4614d26d694994fc85b44a51d2ef89d92ec8c74ab4446",
+          "price_usd": "0.000000008206",
+          "liquidity_usd": 16.41,
+          "volume_h24": 36453.21,
+          "txns_h24": {
+            "buys": 24,
+            "sells": 2
+          },
+          "created_at": 1795542050000,
+          "fdv": 82,
+          "market_cap": 82,
+          "base_symbol": "LU\u200aN\u200aC",
+          "base_name": "LUNA CLASSIC",
+          "url": "https://dexscreener.com/base/0x5f1dca875545692288e4614d26d694994fc85b44a51d2ef89d92ec8c74ab4446"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "spread_pct_max_min": null,
+      "symbol": "LU\u200aN\u200aC"
+    },
+    {
+      "token": "0x24fdd0e6ae054b1e377af79747263f88944025d8",
+      "name": "URPS / WETH",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v4"
+          ],
+          "pair": "0x48e5d022989d1707f1897efe31e69551e832e59880a14787134fab778249de0a",
+          "price_usd": "0.0000000003745",
+          "liquidity_usd": 1542.23,
+          "volume_h24": 30060.16,
+          "txns_h24": {
+            "buys": 23,
+            "sells": 2
+          },
+          "created_at": 1795542040000,
+          "fdv": 4,
+          "market_cap": 4,
+          "base_symbol": "URPS",
+          "base_name": "US POWER RESERVE\u26a1\ufe0f",
+          "url": "https://dexscreener.com/base/0x48e5d022989d1707f1897efe31e69551e832e59880a14787134fab778249de0a"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "gt_pools": [
+        {
+          "pair": "0x48e5d022989d1707f1897efe31e69551e832e59880a14787134fab778249de0a",
+          "dex_gt": "uniswap-v4-base",
+          "reserve_usd": 6152.4482,
+          "created_at": "2026-11-24T17:40:40Z",
+          "price_usd": "0.00000308559106792259",
+          "volume_h24": "30035.8773953969",
+          "fdv_usd": "30855.91068"
+        }
+      ],
+      "spread_pct_max_min": null
+    },
+    {
+      "token": "0x34b5bbe4771d244219ddb538d60950ea9715a9ae",
+      "name": "XTruth Oil / WETH",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v4"
+          ],
+          "pair": "0x8d8c8f3037997b5665844b1e5c56bfb953031246f6df082b7783770329c332e2",
+          "price_usd": "0.000000009475",
+          "liquidity_usd": 3569.7,
+          "volume_h24": 34099.18,
+          "txns_h24": {
+            "buys": 23,
+            "sells": 2
+          },
+          "created_at": 1795542032000,
+          "fdv": 95,
+          "market_cap": 95,
+          "base_symbol": "XTruth Oil",
+          "base_name": "XTruth Oil (XTO)",
+          "url": "https://dexscreener.com/base/0x8d8c8f3037997b5665844b1e5c56bfb953031246f6df082b7783770329c332e2"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "gt_pools": [
+        {
+          "pair": "0x8d8c8f3037997b5665844b1e5c56bfb953031246f6df082b7783770329c332e2",
+          "dex_gt": "uniswap-v4-base",
+          "reserve_usd": 14194.6091,
+          "created_at": "2026-11-24T17:40:32Z",
+          "price_usd": "0.00000711595741104888",
+          "volume_h24": "34072.9811628501",
+          "fdv_usd": "71159.57411"
+        }
+      ],
+      "spread_pct_max_min": null
+    },
+    {
+      "token": "0x160e6a4b96073310d6d588cb93c5f0f92846e795",
+      "name": "DOTF / WETH",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v4"
+          ],
+          "pair": "0x17f0392057238cfdf70300ce9584a2bcaf237dff334cf51c2bb5b32a1dcb941c",
+          "price_usd": "0.0000000007244",
+          "liquidity_usd": 1.44,
+          "volume_h24": 32252.59,
+          "txns_h24": {
+            "buys": 23,
+            "sells": 2
+          },
+          "created_at": 1795542028000,
+          "fdv": 7,
+          "market_cap": 7,
+          "base_symbol": "DOTF",
+          "base_name": "Digital Oil Trust Fund",
+          "url": "https://dexscreener.com/base/0x17f0392057238cfdf70300ce9584a2bcaf237dff334cf51c2bb5b32a1dcb941c"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "gt_pools": [
+        {
+          "pair": "0x17f0392057238cfdf70300ce9584a2bcaf237dff334cf51c2bb5b32a1dcb941c",
+          "dex_gt": "uniswap-v4-base",
+          "reserve_usd": 10505.5844,
+          "created_at": "2026-11-24T17:40:28Z",
+          "price_usd": "0.00000526854363551302",
+          "volume_h24": "32228.399457396",
+          "fdv_usd": "52685.43636"
+        }
+      ],
+      "spread_pct_max_min": null
+    },
+    {
+      "token": "0x1ba969931062feeecbcc591f69d1802f3d10cbd2",
+      "name": "AO\u200aD\u200aF / WETH",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v4"
+          ],
+          "pair": "0x07f14023d4773098217499c993e4de068677b2a549dbdb157c9b0211de2509b8",
+          "price_usd": "0.000000008158",
+          "liquidity_usd": 16.31,
+          "volume_h24": 37477.34,
+          "txns_h24": {
+            "buys": 24,
+            "sells": 2
+          },
+          "created_at": 1795542023000,
+          "fdv": 82,
+          "market_cap": 82,
+          "base_symbol": "AO\u200aD\u200aF",
+          "base_name": "AODF",
+          "url": "https://dexscreener.com/base/0x07f14023d4773098217499c993e4de068677b2a549dbdb157c9b0211de2509b8"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "gt_pools": [
+        {
+          "pair": "0x07f14023d4773098217499c993e4de068677b2a549dbdb157c9b0211de2509b8",
+          "dex_gt": "uniswap-v4-base",
+          "reserve_usd": 20899.0047,
+          "created_at": "2026-11-24T17:40:23Z",
+          "price_usd": "0.0000104761285991546",
+          "volume_h24": "37433.3980050615",
+          "fdv_usd": "104761.286"
+        }
+      ],
+      "spread_pct_max_min": null
+    },
+    {
+      "token": "0x41f21e2f8ab877388ce470e6b462ed52bffa2d09",
+      "name": "AO\u200aDT / WETH",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v4"
+          ],
+          "pair": "0x729e00b909ace24c2a439859ab50f44849c311de7822ca72047d6f15f8123236",
+          "price_usd": "0.000000001197",
+          "liquidity_usd": 1874.02,
+          "volume_h24": 30749.85,
+          "txns_h24": {
+            "buys": 24,
+            "sells": 2
+          },
+          "created_at": 1795542020000,
+          "fdv": 12,
+          "market_cap": 12,
+          "base_symbol": "AO\u200aDT",
+          "base_name": "AODT \ud83d\udd25",
+          "url": "https://dexscreener.com/base/0x729e00b909ace24c2a439859ab50f44849c311de7822ca72047d6f15f8123236"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "gt_pools": [
+        {
+          "pair": "0x729e00b909ace24c2a439859ab50f44849c311de7822ca72047d6f15f8123236",
+          "dex_gt": "uniswap-v4-base",
+          "reserve_usd": 7507.7914,
+          "created_at": "2026-11-24T17:40:20Z",
+          "price_usd": "0.00000376422766931691",
+          "volume_h24": "30697.9244428457",
+          "fdv_usd": "37642.27669"
+        }
+      ],
+      "spread_pct_max_min": null
+    },
+    {
+      "token": "0xcee886f0891815f1d0b4ba18b5d3ab3d17924c3c",
+      "name": "NADF / WETH 1%",
+      "ds_pairs": [
+        {
+          "dex": "uniswap",
+          "labels": [
+            "v4"
+          ],
+          "pair": "0x23ea6189a65ee512ad8778bf76648fccc64fb85c2857b6ff5d71d26229819290",
+          "price_usd": "35.32",
+          "liquidity_usd": 67211.88,
+          "volume_h24": 2351.29,
+          "txns_h24": {
+            "buys": 29,
+            "sells": 0
+          },
+          "created_at": 1795540827000,
+          "fdv": 23455179,
+          "market_cap": 23455179,
+          "base_symbol": "NADF",
+          "base_name": "NADF\ud83d\udd25",
+          "url": "https://dexscreener.com/base/0x23ea6189a65ee512ad8778bf76648fccc64fb85c2857b6ff5d71d26229819290"
+        }
+      ],
+      "n_pairs": 1,
+      "ds_error": null,
+      "gt_pools": [
+        {
+          "pair": "0x23ea6189a65ee512ad8778bf76648fccc64fb85c2857b6ff5d71d26229819290",
+          "dex_gt": "uniswap-v4-base",
+          "reserve_usd": 67764.845,
+          "created_at": "2026-11-24T17:20:27Z",
+          "price_usd": "35.6267063160048",
+          "volume_h24": "2348.9392397408",
+          "fdv_usd": "35626706.316"
+        }
+      ],
+      "spread_pct_max_min": null
+    }
+  ],
+  "goplus_top8": {
+    "0x39632eb24620972b997e8a12cfe2e8b31a287a96": {
+      "anti_whale_modifiable": "0",
+      "buy_tax": "",
+      "cannot_buy": "0",
+      "can_take_back_ownership": "0",
+      "creator_address": "0xc842e5d93d7c0e4078ee74b89ff99100a7bbc6e6",
+      "creator_balance": "500000000.000000341283251372",
+      "creator_percent": "0.050000",
+      "external_call": "0",
+      "hidden_owner": "0",
+      "holder_count": "0",
+      "honeypot_with_same_creator": "0",
+      "is_anti_whale": "0",
+      "is_blacklisted": "0",
+      "is_honeypot": "0",
+      "is_in_dex": "0",
+      "is_mintable": "1",
+      "is_open_source": "1",
+      "is_proxy": "0",
+      "is_whitelisted": "0",
+      "owner_address": "0x660eaaedebc968f8f3694354fa8ec0b4c5ba8d12",
+      "owner_balance": "0",
+      "owner_change_balance": "0",
+      "owner_percent": "0.0",
+      "personal_slippage_modifiable": "0",
+      "selfdestruct": "0",
+      "sell_tax": "",
+      "slippage_modifiable": "0",
+      "token_name": "AnthropicAI",
+      "token_symbol": "Antropic",
+      "total_supply": "10000000000",
+      "trading_cooldown": "0",
+      "transfer_pausable": "1",
+      "transfer_tax": ""
+    }
+  }
+}
