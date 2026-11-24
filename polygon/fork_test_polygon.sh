@@ -14,7 +14,7 @@ GAS_PRICE_GWEI=279   # mesuré live 2026-11-24 (bloc 97 901 602)
 
 echo "=== v4.0 fork test Morpho Polygon — fork mainnet Polygon (anvil) ==="
 echo "Fork URL : $FORK_URL (public, sans clé)"
-echo "Gas price fork : ${GAS_PRICE_GWEI} gwei | Seuil min_profit_usd : 3 $"
+echo "Gas price fork : ${GAS_PRICE_GWEI} gwei | Règle v4.1 : net > 0 $ après gas + budget revert (minProfit on-chain 0,01 $)"
 
 # Nettoyer un ancien Anvil éventuel sur le port 8545
 pkill -f "anvil.*8545" 2>/dev/null || true

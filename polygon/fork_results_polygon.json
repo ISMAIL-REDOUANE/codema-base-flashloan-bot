@@ -1,21 +1,21 @@
 {
   "provider": "morpho_polygon",
-  "min_profit_usd": 3.0,
+  "min_profit_usd": 0.0,
   "matic_price_usd": 0.0758,
   "steps": {
     "fork": {
       "chain_id": 137,
-      "block_number": 97902229,
+      "block_number": 97903345,
       "note": "fork Polygon mainnet, RPC public drpc.org"
     },
     "morpho": {
       "morpho_has_code": true,
       "morpho_code_bytes": 15582,
-      "morpho_usdc_balance_usd": 112261.04,
+      "morpho_usdc_balance_usd": 70916.88,
       "morpho_usdt_balance_usd": 122029.66,
       "morpho_wmatic_balance": 1000246.35,
-      "max_flash_loan_usdc": 112261.04,
-      "usable_50pct_usdc": 56130.52,
+      "max_flash_loan_usdc": 70916.88,
+      "usable_50pct_usdc": 35458.44,
       "flash_fee_pct": 0.0,
       "flash_fee_getter_absent": true,
       "flash_fee_note": "flashFee revert confirm\u00e9 : ('execution reverted', '0x')"
@@ -23,74 +23,100 @@
     "reserves_avant": {
       "qs_pair": "0x6D9e8dbB2779853db00418D4DcF96F3987CFC9D2",
       "v3_pool": "0x2DB87C4831B2fec2E35591221455834193b50D1B",
-      "qs_wmatic": 8057.07,
-      "qs_usdc": 611.27,
-      "v3_wmatic": 113339.78,
-      "v3_usdc": 8601.32,
-      "v3_tick": -302111,
+      "qs_wmatic": 8051.16,
+      "qs_usdc": 611.72,
+      "v3_wmatic": 113317.29,
+      "v3_usdc": 8603.03,
+      "v3_tick": -302107,
       "v3_liquidity": 31222939119995036,
-      "prix_wmatic_qs_usd": 0.0759,
+      "prix_wmatic_qs_usd": 0.076,
       "prix_wmatic_v3_usd": 0.0759,
-      "spread_pct": 0.0293,
+      "spread_pct": -0.0781,
       "note": "spread naturel proche de 0 % comme attendu ; V3 approxim\u00e9e par ses r\u00e9serves virtuelles actives (slot0+liquidit\u00e9)"
     },
     "spread_synthetique": {
-      "wmatic_vendu": 805.71,
-      "prix_wmatic_qs_usd": 0.0627,
+      "wmatic_vendu": 805.12,
+      "prix_wmatic_qs_usd": 0.0628,
       "prix_wmatic_v3_usd": 0.0759,
-      "spread_pct": 21.002,
+      "spread_pct": 20.873,
       "note": "spread cr\u00e9\u00e9 artificiellement avec des fonds fictifs du fork, pour simuler une opportunit\u00e9 r\u00e9elle de meme coin"
     },
     "decision_offchain": {
       "action": "EXECUTE",
-      "spread_pct": 21.0,
+      "spread_pct": 20.87,
       "flash_provider": "morpho",
       "flash_fee_rate": 0.0,
-      "optimal_loan_usd": 50.22,
-      "expected_net_usd": 4.83,
-      "gas_usd_est": 0.005346,
-      "gas_price_gwei": 156.73,
-      "min_profit_usd": 3.0,
+      "optimal_loan_usd": 49.52,
+      "expected_net_usd": 4.77,
+      "gas_usd_est": 0.010545,
+      "gas_price_gwei": 154.57,
+      "min_profit_usd": 0.0,
+      "rule": "net > 0 $ apres gas + budget revert (v4.1, min profit 3 $ abandonne)",
+      "tranche": ">=3$",
       "reasons": []
     },
     "deploy": {
       "contract": "0xd3885d0CEE73Ee54e0864129205fbbA20Caa6A36",
-      "block": 97902233,
+      "block": 97903349,
       "gas_used": 1320087,
       "morpho_onchain": "0x1bF0c2541F820E775182832f06c0B7Fc27A25f67",
-      "min_profit_onchain_usdc": 3000000
+      "min_profit_onchain_usdc": 10000
     },
     "cas_gagnant_simulation_eth_call": {
       "success": true,
       "error": "",
-      "gas_estime": 342078,
+      "gas_estime": 343037,
       "gas_paye_usd": 0.0,
       "note": "eth_call = simulation, 0 gas, 0 $"
     },
     "cas_gagnant_broadcast_fork": {
       "tx_status": 1,
-      "tx_hash": "2338b0d370a6c0317f4557f480f3de5c3291882d7045b16eb50f09547c9b24b0",
-      "gas_used": 268626,
-      "gas_price_gwei": 136.58,
-      "gas_cost_matic": 0.03669,
-      "gas_cost_usd": 0.002781,
-      "profit_brut_usdc": 4.84,
-      "profit_net_usd": 4.83,
-      "min_profit_usd": 3.0,
-      "event_profit_usdc": 4.84,
+      "tx_hash": "1a846a57a09256f8464c3ab69455b84d7506e9eb71f7c39820c55369df7aa00c",
+      "gas_used": 269381,
+      "gas_price_gwei": 134.69,
+      "gas_cost_matic": 0.036284,
+      "gas_cost_usd": 0.00275,
+      "profit_brut_usdc": 4.78,
+      "profit_net_usd": 4.78,
+      "min_profit_usd": 0.0,
+      "event_profit_usdc": 4.78,
       "verdict": "WIN",
       "note": "broadcast sur le FORK uniquement \u2014 aucun fond r\u00e9el, aucun mainnet"
     },
+    "petit_net_simulation": {
+      "fraction_choisie": 0.03,
+      "expected_net_usd": 0.49,
+      "optimal_loan_usd": 16.66,
+      "spread_pct": 6.78
+    },
+    "petit_net_decision_offchain": {
+      "action": "EXECUTE",
+      "spread_pct": 6.78,
+      "optimal_loan_usd": 16.66,
+      "expected_net_usd": 0.49,
+      "tranche": ">0$",
+      "reasons": []
+    },
+    "petit_net_broadcast_fork": {
+      "tx_status": 1,
+      "loan_usd": 16.66,
+      "gas_cost_usd": 0.00145,
+      "profit_brut_usdc": 0.5,
+      "profit_net_usd": 0.5,
+      "tranche": ">=0.50$",
+      "verdict": "WIN",
+      "note": "petit profit WIN sous la r\u00e8gle v4.1 (aurait \u00e9t\u00e9 SKIP \u00e0 3 $)"
+    },
     "cas_perdant_decision_offchain": {
       "action": "SKIP",
-      "spread_pct": 0.51,
+      "spread_pct": 0.58,
       "optimal_loan_usd": 0.29,
       "expected_net_usd": -0.01,
       "gas_paye_usd": 0.0,
       "reasons": [
         "net n\u00e9gatif (-0.01 $) : le trade perdrait de l'argent",
-        "net -0.01 $ <= profit minimum 3.00 $",
-        "net -0.01 $ <= gas x 3.0 (0.02 $)"
+        "net -0.01 $ <= profit minimum 0.00 $",
+        "net -0.01 $ <= gas x 0.0 (0.00 $)"
       ],
       "note": "SKIP = rien broadcast\u00e9, 0 gas pay\u00e9"
     },
@@ -100,38 +126,47 @@
     },
     "cas_perdant_broadcast_fork_POUR_MESURE": {
       "tx_status": 0,
-      "gas_used": 262332,
-      "gas_price_gwei": 119.57,
-      "cout_revert_matic": 0.031366,
-      "cout_revert_usd": 0.002378,
+      "gas_used": 262362,
+      "gas_price_gwei": 69.17,
+      "cout_revert_matic": 0.018148,
+      "cout_revert_usd": 0.001376,
       "note": "revert mesur\u00e9 sur le fork pour chiffrer le co\u00fbt \u2014 en live on \u00e9vite ce co\u00fbt par le SKIP off-chain (0 $)"
     }
   },
   "summary": {
-    "fork_block": 97902229,
-    "morpho_usdc_balance_usd": 112261.04,
+    "fork_block": 97903345,
+    "rule": "v4.1 : net > 0 $ apres gas + budget revert (min 3 $ abandonne) ; minProfit on-chain 0,01 $ (anti-poussiere)",
+    "morpho_usdc_balance_usd": 70916.88,
     "morpho_usdt_balance_usd": 122029.66,
     "flash_fee_getter_absent": true,
-    "spread_synthetique_pct": 21.002,
+    "spread_synthetique_pct": 20.873,
     "cas_gagnant": {
-      "loan_usd": 50.22,
-      "profit_net_usd": 4.83,
-      "gas_used": 268626,
-      "gas_cost_matic": 0.03669,
-      "gas_cost_usd": 0.002781,
+      "loan_usd": 49.52,
+      "profit_net_usd": 4.78,
+      "gas_used": 269381,
+      "gas_cost_matic": 0.036284,
+      "gas_cost_usd": 0.00275,
+      "verdict": "WIN"
+    },
+    "cas_petit_net": {
+      "fraction_poussee": 0.03,
+      "loan_usd": 16.66,
+      "expected_net_usd": 0.49,
+      "profit_net_usd": 0.5,
+      "tranche": ">=0.50$",
       "verdict": "WIN"
     },
     "cas_perdant": {
       "decision_offchain": "SKIP",
       "gas_paye_si_skip_usd": 0.0,
-      "cout_revert_si_broadcast_matic": 0.031366,
-      "cout_revert_si_broadcast_usd": 0.002378,
-      "gas_revert": 262332,
+      "cout_revert_si_broadcast_matic": 0.018148,
+      "cout_revert_si_broadcast_usd": 0.001376,
+      "gas_revert": 262362,
       "verdict": "SKIP (0 gas) / revert confirm\u00e9 on-chain"
     },
     "float_1_31_usd": {
-      "trades_couverts_pire_cas_gas_x2": 235,
-      "cout_trade_usd": 0.002781
+      "trades_couverts_pire_cas_gas_x2": 238,
+      "cout_trade_usd": 0.00275
     }
   }
 }

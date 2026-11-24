@@ -429,3 +429,65 @@ d'autre.
 **Reste avant tout live (les deux chaînes) : paper-trade Amoy 2–4
 semaines + audit payant. Aucun fond réel, aucune clé privée, aucun
 broadcast mainnet en v4.0.**
+
+### v4.1 — Nouvelle règle net > 0 $ + grosses pools + triangle + watchlist memes (2026-11-24)
+
+**Changement de règle par Ismail : le min profit de 3 $ est ABANDONNÉ
+sur Polygon.** Nouvelle règle : EXECUTE ssi net simulé **> 0 $ après
+TOUS les coûts** — flash 0 % (Morpho), frais de swap, gas **et budget
+revert** (coût total budgété = 2 × gas). `polygon_config.yaml`
+min_profit_usd 3,0 → 0,0 ; minProfit on-chain 0,01 $ (plancher
+anti-poussière) ; `polygon_guard.py` (nouveau module) ; `polygon_ledger.py`
+MIN_PROFIT_USD = 0,0. **Preuve fork (bloc 97 903 345) :** WIN +4,78 $
+(loan 49,52 $) **et petit net WIN +0,50 $** (loan 16,66 $, attendu
+0,49 $ — aurait été SKIP à 3 $) ; perdant SKIP, revert confirmé 0,0014 $.
+Tests `test_polygon.py` 25/25 (dont +0,50 $ autorisé / 0,00 $ bloqué).
+Le bot **Base garde min 3 $** (inchangé).
+
+**Grosses pools (priorité Ismail) — verdict MONITOR-ONLY.**
+`polygon/big_pools.py` mesure live les spreads cross-DEX sur 7 paires
+majors (WMATIC/USDC.e, WMATIC/USDT, WETH/USDC.e, USDC.e/USDT,
+WMATIC/WETH, USDC.e/DAI, WMATIC/USDC) via QuoterV2 / getAmountsOut /
+réserves virtuelles Algebra, venues découvertes DexScreener (Balancer
+exclu — composite non-adresse + mort). **6 échantillons, 126 mesures :
+toutes négatives** — meilleur spread −0,014 % (USDC.e/DAI, 1 000 $),
+meilleur net −0,02 $ partout (0 / 63 mesures corrigées à net > 0 $).
+Détail : `polygon/BIG_POOLS_POLYGON.md`.
+
+**Triangle — verdict MONITOR-ONLY.** `polygon/triangle_detector.py`
+(lecture seule, aucun code de broadcast) évalue 3 triples de grosses
+pools × 2 sens × 3 tailles, frais sur chaque jambe, gas 600 k unités.
+**3 échantillons, 54 évaluations : 0 net > 0 $** — meilleur net
+−4,19 $ (WMATIC → WETH → USDT → WMATIC, 1 000 $). Le prior
+« textbook-only » est confirmé. Détail : `polygon/TRIANGLE_EVALUATION.md`.
+
+**Memes — watchlist persistante, 0 opportunité.** `polygon/watchlist.py`
++ `watchlist_run.py` : watchlist JSON (96 tokens), 2e source DexScreener,
+tier WATCH (1 k–500 k $, < 7 j) + tier EXEC inchangé, backoff 429 avec
+pages skippées journalisées, re-scan toutes les 2–4 h. **Run 22:55 UTC :
+100 pools GeckoTerminal (page 6 skippée sur 429), 0 profil DexScreener
+Polygon, 96 tokens vérifiés, 5 paires à 2 venues (tous vieux tokens,
+tier none), 4 en watch, 0 opportunité exec.** Détail :
+`polygon/MEME_POOLS_LIVE_POLYGON.md`. Tests `test_watchlist.py` 31/31.
+
+**Tests Polygon au total : 77/77** (test_polygon 25 + test_watchlist 31
++ test_big_pools_triangle 21). Base inchangée 85/85.
+
+### v4.2 — Protection revert Polygon (2026-11-24)
+
+**Verdict vérifié (docs officielles + checks live) : aucun service ne
+donne 0 $ sur un revert ON-CHAIN sur Polygon aujourd'hui.** MEV Blocker
+`/noreverts` et Flashbots Protect = Ethereum seulement ; FastLane Atlas
+= « No Free Reverts » ; Polygon Private Mempool = anti-frontrunning
+seulement, endpoint non publié ; paymaster ERC-4337 ne peut pas rendre
+le revert 0 $ (EntryPoint facture le gas même en revert). Détail :
+`polygon/REVERT_PROTECTION_POLYGON.md`.
+
+Ce qui est implémenté (`polygon/revert_protection.py`, 22/22 tests) :
+**re-simulation `eth_call` au dernier bloc + quote fraîche (≤ 30 s) +
+net > 0 $** — tout trade qui revert en re-sim est DROPPÉ avant
+broadcast (0 $ gas). Routage `public` / `private` (endpoint TBD,
+désactivé) ; repli **fail-closed** par défaut (route privée down → NE
+PAS ENVOYER). Journal `revert_protection_log.jsonl`. Résidu chiffré :
+revert on-chain 0,0024 $ mesuré / 0,0095 $ prudent ; E[revert] ≈
+0,0005 $/trade tenté à 5 % de courses — pas 0 $, mais négligeable.

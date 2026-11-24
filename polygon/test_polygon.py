@@ -23,6 +23,10 @@ from math_engine import Costs, Pool, decide, gas_cost_usd  # noqa: E402
 from polygon_flash import (  # noqa: E402
     MORPHO_POLYGON, FlashFeeError, check_zero_fee, flash_fee_usd,
 )
+from polygon_guard import (  # noqa: E402
+    ONCHAIN_MIN_PROFIT_USD, REVERT_BUDGET_MULTIPLE, polygon_costs,
+    polygon_decide, tranche, tranche_counts,
+)
 from polygon_gas import (  # noqa: E402
     GAS_PRICE_MAX_GWEI, _rpc as _gas_rpc, gas_cost_matic,
     gas_cost_usd as poly_gas_cost_usd,
@@ -93,10 +97,8 @@ class TestPolygonGas(unittest.TestCase):
 
 class TestPolygonMath(unittest.TestCase):
     def _costs(self):
-        return Costs(
-            gas_usd=gas_cost_usd(450_000, GAS_LIVE_GWEI, MATIC_PRICE_USD),
-            min_profit_usd=3.0, gas_multiple=3.0, flash_provider="morpho",
-            gas_price_gwei=GAS_LIVE_GWEI, max_gas_price_gwei=1000.0)
+        # v4.1 : garde net > 0 $ après gas + budget revert (min 3 $ abandonné).
+        return polygon_costs(GAS_LIVE_GWEI, MATIC_PRICE_USD)
 
     def test_spread_10pct_executes(self):
         # QuickSwap bon marché vs Uni V3 chère (réserves type fork test).
@@ -118,12 +120,58 @@ class TestPolygonMath(unittest.TestCase):
         # SKIP veut dire : rien n'est broadcasté, 0 gas payé.
         self.assertLess(d["expected_net_usd"], 3.0)
 
-    def test_min_profit_3_enforced(self):
-        # Spread minuscule : le net passe sous 3 $ → SKIP.
+    def test_small_net_050_executes(self):
+        # v4.1 : un trade à +0,52 $ net (après gas + budget revert) est
+        # AUTORISÉ — l'ancienne barre de 3 $ est abandonnée.
         buy = Pool("QuickSwap", 8_800.0, 115_000.0)
-        sell = Pool("Uni V3", 8_830.0, 115_000.0)
-        d = decide(buy, sell, self._costs())
+        sell = Pool("Uni V3", 9_050.0, 115_000.0)
+        d = polygon_decide(buy, sell, GAS_LIVE_GWEI, MATIC_PRICE_USD)
+        self.assertEqual(d["action"], "EXECUTE")
+        self.assertGreater(d["expected_net_usd"], 0.0)
+        self.assertLess(d["expected_net_usd"], 3.0)
+        self.assertAlmostEqual(d["expected_net_usd"], 0.52, places=1)
+        self.assertEqual(tranche(d["expected_net_usd"]), ">=0.50$")
+
+    def test_zero_and_negative_net_blocked(self):
+        # v4.1 : net 0,00 $ ou négatif → BLOQUÉ, même sans min profit.
+        buy = Pool("QuickSwap", 8_800.0, 115_000.0)
+        sell = Pool("Uni V3", 8_800.0, 115_000.0)
+        d = polygon_decide(buy, sell, GAS_LIVE_GWEI, MATIC_PRICE_USD)
         self.assertEqual(d["action"], "SKIP")
+        self.assertLessEqual(d["expected_net_usd"], 0.0)
+
+    def test_tranche_counts(self):
+        counts = tranche_counts([5.0, 0.52, 0.11, 0.0, -1.0, 3.0])
+        self.assertEqual(counts, {">0$": 4, ">=0.50$": 3, ">=3$": 2,
+                                  "<=0$": 2})
+
+
+class TestPolygonGuard(unittest.TestCase):
+    def test_costs_include_revert_budget(self):
+        # gas total = trade + budget revert = 2 × (450 000 × 279 gwei × 0,0758 $)
+        # = 0,01903338 $ ; min 0 $ ; marge 0.
+        exact_trade_gas = 450_000 * 279 * 1e-9 * MATIC_PRICE_USD
+        c = polygon_costs(GAS_LIVE_GWEI, MATIC_PRICE_USD)
+        self.assertAlmostEqual(c.gas_usd, 2 * exact_trade_gas, places=7)
+        self.assertEqual(c.min_profit_usd, 0.0)
+        self.assertEqual(c.gas_multiple, 0.0)
+        self.assertEqual(c.flash_provider, "morpho")
+        self.assertEqual(c.flash_fee_rate, 0.0)
+        self.assertEqual(REVERT_BUDGET_MULTIPLE, 1.0)
+
+    def test_onchain_min_profit_is_anti_dust_floor(self):
+        # 0,01 $ : filet atomique on-chain, pas un seuil économique.
+        self.assertEqual(ONCHAIN_MIN_PROFIT_USD, 0.01)
+
+    def test_decide_rule_field(self):
+        buy = Pool("QuickSwap", 8_800.0, 115_000.0)
+        sell = Pool("Uni V3", 9_700.0, 115_000.0)
+        d = polygon_decide(buy, sell, GAS_LIVE_GWEI, MATIC_PRICE_USD)
+        self.assertIn("net > 0", d["rule"])
+        exact_trade_gas = 450_000 * 279 * 1e-9 * MATIC_PRICE_USD
+        self.assertAlmostEqual(d["gas_trade_usd"], exact_trade_gas, places=6)
+        self.assertAlmostEqual(d["revert_budget_usd"], exact_trade_gas, places=6)
+        self.assertAlmostEqual(d["total_cost_usd"], 2 * exact_trade_gas, places=6)
 
 
 class TestPolygonFloat(unittest.TestCase):
@@ -187,7 +235,10 @@ class TestPolygonConfig(unittest.TestCase):
         self.assertIn("chain_id: 137", text)
         self.assertIn("0x1bF0c2541F820E775182832f06c0B7Fc27A25f67", text)
         self.assertIn("float_usd: 1.31", text)
-        self.assertIn("min_profit_usd: 3.0", text)
+        # v4.1 : min profit 3 $ abandonné — net > 0 $ après tous coûts.
+        self.assertIn("min_profit_usd: 0.0", text)
+        self.assertNotIn("min_profit_usd: 3.0", text)
+        self.assertIn("revert_budget_multiple: 1.0", text)
         self.assertIn("https://polygon.drpc.org", text)
         # L'adresse canonique ne doit apparaître que comme piège documenté.
         self.assertNotIn('morpho: "0xBBBB', text)

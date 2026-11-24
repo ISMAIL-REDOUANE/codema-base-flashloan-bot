@@ -7,16 +7,23 @@ Tout se passe sur un fork local jetable (anvil --fork-url <RPC Polygon>).
 La seule clé utilisée est la clé de TEST publique d'Anvil (compte 0),
 qui ne contrôle aucun fond réel.
 
-Seuil : min_profit_usd = 3.0 $ (confirmé par Ismail 2026-11-24, config.yaml).
+Seuil v4.1 : min profit 3 $ ABANDONNÉ (Ismail, 2026-11-24) — nouvelle règle :
+EXECUTE ssi net > 0 $ APRÈS TOUS LES COÛTS (flash 0 %, frais de swap,
+gas du trade + budget revert = 2 × gas). minProfit ON-CHAIN = 0,01 $
+(plancher anti-poussière ; voir polygon_guard.py).
 
 Ce que le test prouve, dans l'ordre :
   1. L'état du fork est réel : Morpho Blue Polygon, réserves QuickSwap V2 /
      Uni V3 USDC/WMATIC lues on-chain ; Morpho n'a PAS de getter flashFee
      (fee 0 par conception) ; ses soldes USDC/USDT couvrent largement le loan.
   2. Le contrat MorphoFlashLoanArbitragePolygon (compilé par forge) déployé
-     sur le fork.
-  3. CAS GAGNANT : eth_call (simulation, 0 gas) PUIS broadcast sur le fork,
-     profit net mesuré après gas (en MATIC et en $), require(profit >= 3 $).
+     sur le fork (minProfit on-chain 0,01 $).
+  3. CAS GAGNANT (gros) : eth_call (simulation, 0 gas) PUIS broadcast sur le
+     fork, profit net mesuré après gas (en MATIC et en $), require(profit >= 0,01 $).
+  3b. CAS GAGNANT (petit net) : petit spread synthétique (~2-3 %), decide()
+     dit EXECUTE avec net attendu entre 0 et 3 $ (ex. ~0,50 $) → broadcast
+     WIN avec net réalisé > 0 $ — la preuve que la règle v4.1 autorise les
+     petits profits.
   4. CAS PERDANT : decide() dit SKIP (0 gas), eth_call revert confirmé,
      et — pour chiffrer le coût d'un revert — broadcast du perdant sur le
      fork (MATIC fictif) pour mesurer le gas d'un revert réel.
@@ -44,7 +51,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from web3 import Web3
 from web3.middleware import ExtraDataToPOAMiddleware
 
-from math_engine import Costs, Pool, decide, gas_cost_usd
+from math_engine import Costs, Pool, amm_out, decide, gas_cost_usd
+from polygon_guard import (ONCHAIN_MIN_PROFIT_USD, polygon_costs,
+                           polygon_decide, tranche)
 
 # ------------------------------------------------------------------ constantes
 # Adresses vérifiées 2026-11-24, voir POLYGON_FLASH_VERIFICATION.md.
@@ -56,7 +65,8 @@ QUICKSWAP_V2_ROUTER = "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff"
 UNI_V3_ROUTER02 = "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45"
 UNI_V3_POOL_USDC_WMATIC_3000 = "0x2DB87C4831B2fec2E35591221455834193b50D1B"
 
-MIN_PROFIT_USD = 3.0          # confirmé par Ismail 2026-11-24
+MIN_PROFIT_USD = 0.0          # v4.1 : min profit 3 $ abandonné — net > 0 $ après tous coûts
+# minProfit ON-CHAIN = 0,01 $ (plancher anti-poussière, voir polygon_guard.py).
 MATIC_PRICE_USD = 0.0758      # CoinGecko polygon-ecosystem-token 2026-11-24
 GAS_PRICE_MAX_GWEI = 1000.0   # plafond Polygon (en $ ça reste ~0,00003 $)
 ANVIL_URL = "http://127.0.0.1:8545"
@@ -222,15 +232,13 @@ def main():
              "pour simuler une opportunité réelle de meme coin")
     assert spread > 1.0, f"spread synthétique trop faible : {spread:.2f} %"
 
-    # --- 4) Sizing mathématique (seuil 3 $, provider Morpho 0 %) ---
+    # --- 4) Sizing mathématique (règle v4.1 : net > 0 $ après gas + budget
+    # revert ; provider Morpho 0 %) ---
     pool_buy = Pool("QuickSwap V2 WMATIC/USDC (pas cher)", qs_usdc2 / 1e6, qs_wmatic2 / 1e18)
     pool_sell = Pool("Uni V3 WMATIC/USDC (cher, approx. réserves virtuelles)", v3_usdc2, v3_wmatic2)
     gas_price_gwei = w3.eth.gas_price / 1e9
-    costs = Costs(gas_usd=gas_cost_usd(450_000, gas_price_gwei, MATIC_PRICE_USD),
-                  min_profit_usd=MIN_PROFIT_USD, gas_multiple=3.0,
-                  flash_provider="morpho", gas_price_gwei=gas_price_gwei,
-                  max_gas_price_gwei=GAS_PRICE_MAX_GWEI)
-    decision = decide(pool_buy, pool_sell, costs)
+    costs = polygon_costs(gas_price_gwei, MATIC_PRICE_USD)
+    decision = polygon_decide(pool_buy, pool_sell, gas_price_gwei, MATIC_PRICE_USD)
     log("decision_offchain", action=decision["action"], spread_pct=decision["spread_pct"],
         flash_provider=decision["flash_provider"],
         flash_fee_rate=decision["flash_fee_rate"],
@@ -238,7 +246,8 @@ def main():
         expected_net_usd=decision["expected_net_usd"],
         gas_usd_est=round(decision["gas_usd"], 6),
         gas_price_gwei=round(gas_price_gwei, 2),
-        min_profit_usd=MIN_PROFIT_USD, reasons=decision["reasons"])
+        min_profit_usd=MIN_PROFIT_USD, rule=decision["rule"],
+        tranche=tranche(decision["expected_net_usd"]), reasons=decision["reasons"])
     assert decision["action"] == "EXECUTE", f"decide() dit {decision['action']} : {decision['reasons']}"
     assert decision["flash_provider"] == "morpho" and decision["flash_fee_rate"] == 0.0
     loan_usd = decision["optimal_loan_usd"]
@@ -250,7 +259,7 @@ def main():
     contract = w3.eth.contract(abi=artifact["abi"], bytecode=artifact["bytecode"]["object"])
     txh = send_signed(contract.constructor(
         USDC, WMATIC, QUICKSWAP_V2_ROUTER, UNI_V3_POOL_USDC_WMATIC_3000,
-        int(MIN_PROFIT_USD * 1e6)),
+        int(ONCHAIN_MIN_PROFIT_USD * 1e6)),
         gas=3_000_000)
     receipt = w3.eth.wait_for_transaction_receipt(txh)
     assert receipt["status"] == 1, "déploiement en échec (out of gas ?)"
@@ -258,9 +267,11 @@ def main():
         "pas de code à l'adresse déployée"
     arb = w3.eth.contract(address=receipt["contractAddress"], abi=artifact["abi"])
     assert arb.functions.MORPHO().call().lower() == MORPHO.lower()
+    assert arb.functions.minProfit().call() == int(ONCHAIN_MIN_PROFIT_USD * 1e6), \
+        "minProfit on-chain != 0,01 $"
     log("deploy", contract=receipt["contractAddress"], block=receipt["blockNumber"],
         gas_used=receipt["gasUsed"], morpho_onchain=arb.functions.MORPHO().call(),
-        min_profit_onchain_usdc=int(MIN_PROFIT_USD * 1e6))
+        min_profit_onchain_usdc=int(ONCHAIN_MIN_PROFIT_USD * 1e6))
 
     # --- 6) CAS GAGNANT : simulation eth_call (0 gas) puis broadcast sur le fork ---
     try:
@@ -293,9 +304,78 @@ def main():
         profit_brut_usdc=round(profit_usdc, 2),
         profit_net_usd=round(net, 2), min_profit_usd=MIN_PROFIT_USD,
         event_profit_usdc=(round(events[0]["args"]["profit"] / 1e6, 2) if events else None),
-        verdict="WIN" if rc["status"] == 1 and net >= MIN_PROFIT_USD else "FAIL",
+        verdict="WIN" if rc["status"] == 1 and net > 0 else "FAIL",
         note="broadcast sur le FORK uniquement — aucun fond réel, aucun mainnet")
-    assert rc["status"] == 1 and net >= MIN_PROFIT_USD, "le cas gagnant a échoué sur le fork"
+    assert rc["status"] == 1 and net > 0, "le cas gagnant a échoué sur le fork"
+
+    # --- 6b) CAS GAGNANT (petit net) : petit spread synthétique, net attendu
+    # entre 0 et 3 $ (v4.1 : autorisé). On choisit la fraction à pousser par
+    # SIMULATION off-chain (sans toucher à l'état), puis on pousse une fois.
+    _, qw3, qu3 = read_v2_pair(qs_factory, WMATIC, USDC)
+    v3u3, v3w3, _, _ = read_v3_virtual()
+    price_v3_now = v3u3 / v3w3
+    small_frac, small_decision = None, None
+    cands = []
+    for frac in (0.01, 0.015, 0.02, 0.03, 0.04, 0.05, 0.07):
+        # Vente simulée de frac × réserve WMATIC sur QuickSwap (frais 0,3 %).
+        w_in = qw3 * frac
+        u_out = amm_out(w_in, qw3, qu3, 30)
+        qs_w_sim = qw3 + w_in
+        qs_u_sim = qu3 - u_out
+        pb = Pool("QuickSwap sim", qs_u_sim / 1e6, qs_w_sim / 1e18)
+        ps = Pool("Uni V3 sim", v3u3, v3w3)
+        d_sim = polygon_decide(pb, ps, gas_price_gwei, MATIC_PRICE_USD)
+        if 0.05 < d_sim["expected_net_usd"] < 2.0 and d_sim["action"] == "EXECUTE":
+            cands.append((abs(d_sim["expected_net_usd"] - 0.50), frac, d_sim))
+    assert cands, "aucune fraction simulée ne donne un petit net (0,05–2,00 $)"
+    cands.sort(key=lambda c: c[0])
+    _, small_frac, small_decision = cands[0]  # net attendu le plus proche de 0,50 $
+    log("petit_net_simulation", fraction_choisie=small_frac,
+        expected_net_usd=small_decision["expected_net_usd"],
+        optimal_loan_usd=small_decision["optimal_loan_usd"],
+        spread_pct=small_decision["spread_pct"])
+    # Poussée réelle (petite) avec des fonds fictifs du fork.
+    wmatic_small = int(qw3 * small_frac)
+    txh = send_signed(wmatic.functions.deposit(), value=wmatic_small)
+    w3.eth.wait_for_transaction_receipt(txh)
+    w3.eth.wait_for_transaction_receipt(
+        send_signed(wmatic.functions.approve(QUICKSWAP_V2_ROUTER, wmatic_small)))
+    txh = send_signed(qs_router.functions.swapExactTokensForTokens(
+        wmatic_small, 0, [WMATIC, USDC], me, deadline))
+    w3.eth.wait_for_transaction_receipt(txh)
+    _, qs_wmatic_s, qs_usdc_s = read_v2_pair(qs_factory, WMATIC, USDC)
+    v3_usdc_s, v3_wmatic_s, _, _ = read_v3_virtual()
+    pool_buy_s = Pool("QuickSwap petit net", qs_usdc_s / 1e6, qs_wmatic_s / 1e18)
+    pool_sell_s = Pool("Uni V3 petit net", v3_usdc_s, v3_wmatic_s)
+    decision_s = polygon_decide(pool_buy_s, pool_sell_s, gas_price_gwei,
+                                MATIC_PRICE_USD)
+    log("petit_net_decision_offchain", action=decision_s["action"],
+        spread_pct=decision_s["spread_pct"],
+        optimal_loan_usd=decision_s["optimal_loan_usd"],
+        expected_net_usd=decision_s["expected_net_usd"],
+        tranche=tranche(decision_s["expected_net_usd"]),
+        reasons=decision_s["reasons"])
+    assert decision_s["action"] == "EXECUTE", \
+        f"petit net : decide() dit {decision_s['action']}"
+    assert 0 < decision_s["expected_net_usd"] < 3.0, \
+        "petit net attendu hors (0, 3 $)"
+    loan_s_usd = decision_s["optimal_loan_usd"]
+    loan_s_wei = int(loan_s_usd * 1e6)
+    bal_before_s = usdc.functions.balanceOf(arb.address).call()
+    txh = send_signed(arb.functions.executeArbitrage(loan_s_wei))
+    rc_s = w3.eth.wait_for_transaction_receipt(txh)
+    gas_s = rc_s["gasUsed"] * rc_s["effectiveGasPrice"] / 1e18 * MATIC_PRICE_USD
+    profit_s = (usdc.functions.balanceOf(arb.address).call()
+                - bal_before_s) / 1e6
+    net_s = profit_s - gas_s
+    log("petit_net_broadcast_fork", tx_status=rc_s["status"],
+        loan_usd=loan_s_usd, gas_cost_usd=round(gas_s, 6),
+        profit_brut_usdc=round(profit_s, 2), profit_net_usd=round(net_s, 2),
+        tranche=tranche(net_s),
+        verdict="WIN" if rc_s["status"] == 1 and net_s > 0 else "FAIL",
+        note="petit profit WIN sous la règle v4.1 (aurait été SKIP à 3 $)")
+    assert rc_s["status"] == 1 and net_s > 0, \
+        "le cas petit net a échoué sur le fork"
 
     # --- 7) CAS PERDANT : le spread est refermé, decide() doit dire SKIP ---
     _, uw3, uu3 = read_v2_pair(qs_factory, WMATIC, USDC)
@@ -331,6 +411,8 @@ def main():
     float_trades = int(1.31 // max(2 * gas_cost, 1e-9))
     results["summary"] = {
         "fork_block": block,
+        "rule": "v4.1 : net > 0 $ apres gas + budget revert (min 3 $ abandonne) ; "
+                "minProfit on-chain 0,01 $ (anti-poussiere)",
         "morpho_usdc_balance_usd": round(morpho_usdc, 2),
         "morpho_usdt_balance_usd": round(morpho_usdt, 2),
         "flash_fee_getter_absent": flash_fee_absent,
@@ -339,6 +421,12 @@ def main():
                         "gas_used": gas_used, "gas_cost_matic": round(gas_cost_matic, 6),
                         "gas_cost_usd": round(gas_cost, 6),
                         "verdict": "WIN"},
+        "cas_petit_net": {"fraction_poussee": small_frac,
+                          "loan_usd": loan_s_usd,
+                          "expected_net_usd": round(decision_s["expected_net_usd"], 2),
+                          "profit_net_usd": round(net_s, 2),
+                          "tranche": tranche(net_s),
+                          "verdict": "WIN"},
         "cas_perdant": {"decision_offchain": decision2["action"],
                         "gas_paye_si_skip_usd": 0.0,
                         "cout_revert_si_broadcast_matic": round(revert_gas_matic, 6),

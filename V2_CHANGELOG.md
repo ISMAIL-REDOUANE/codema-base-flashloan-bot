@@ -636,3 +636,149 @@ Paper-trade Amoy 2–4 semaines + audit payant (aucune solution 0 $) ;
 aucun vrai meme coin testé (preuves WETH/USDC + spread synthétique) ;
 100 simulations fork non lancées ; jambe Aerodrome toujours cassée sur
 Base ; payout sponsor on-chain non implémenté (Base v4, après audit).
+
+# v4.1 — Règle net > 0 $ + grosses pools + triangle + watchlist memes (2026-11-24 ~22:43–23:20 UTC)
+
+## v4.1.1 Changement de règle (Ismail) : min 3 $ abandonné sur Polygon
+
+Nouvelle règle : EXECUTE ssi net simulé **> 0 $ après TOUS les coûts**
+— flash 0 % (Morpho), frais de swap (dans les quotes), gas du trade
+**et budget revert** (pire cas : gas + gas de revert ; coût total
+budgété = 2 × gas). `polygon_guard.py` (nouveau) : `polygon_costs()`
+(gas_usd = 2 × gas, min_profit 0.0, gas_multiple 0.0),
+`polygon_decide()` (enveloppe `decide()` de Base, inchangé), `tranche()`
+/ `tranche_counts()` (>0$ / ≥0,50$ / ≥3$ / ≤0$).
+- `polygon_config.yaml` : min_profit_usd 3,0 → 0,0 (math/executor/
+  funding), `revert_budget_multiple: 1.0`, `gas_multiple: 3.0 → 0.0`.
+- Contrat `FlashLoanArbitragePolygon.sol` : minProfit on-chain **0,01 $**
+  (plancher anti-poussière, justification : éviter les trades de
+  poussière dont le profit est inférieur aux erreurs d'arrondi ; le
+  garde off-chain fait le vrai calcul).
+- `polygon_ledger.py` : MIN_PROFIT_USD = 0,0.
+- `fork_test_polygon.py` : section 6b (petit net) — simulation de
+  fractions poussées, choix de celle dont le net attendu est le plus
+  proche de 0,50 $ ; déploiement avec minProfit 0,01 $ vérifié
+  on-chain (`minProfit() == 10000`).
+- **Preuve fork (bloc 97 903 345) :** WIN +4,78 $ (loan 49,52 $, gas
+  0,0028 $) ; **petit net WIN +0,50 $** (loan 16,66 $, attendu 0,49 $,
+  tranche ≥0,50$ — aurait été SKIP à l'ancienne barre de 3 $) ;
+  perdant SKIP (net −0,01 $), revert confirmé on-chain 0,0014 $.
+  Détail : `polygon/FORK_TEST_RESULTS_POLYGON.md` § v4.1.
+- Le bot **Base garde min 3 $** (fichiers Base non touchés).
+
+## v4.1.2 Grosses pools — verdict MONITOR-ONLY
+
+Priorité d'Ismail : les grosses pools auraient moins de concurrence sur
+Polygon. `polygon/big_pools.py` (lecture seule) : 7 paires majors,
+venues découvertes live DexScreener (top 6, liq ≥ 10 k $), classées
+on-chain (V2 / Uni V3 / Algebra), quotes QuoterV2 / getAmountsOut /
+réserves virtuelles, tailles 1 000 $ / 5 000 $ / 20 000 $, net via
+`polygon_guard` (tranches rapportées).
+- **6 échantillons (22:51–23:18 UTC), 126 mesures : toutes négatives.**
+  Échantillons corrigés (Algebra incluses, blocs 97 903 998 /
+  97 904 286 / 97 904 555) : **63 mesures, 0 net > 0 $**, meilleur spread **−0,014 %**
+  (USDC.e/DAI, 1 000 $), meilleur net −0,02 $ partout. Meilleur achat
+  et meilleure vente souvent la **même venue** (marché aligné).
+- Bugs trouvés et corrigés en cours de route : (1) pairAddress Balancer
+  composite (« pool-tokens », pas une adresse) faisait planter web3
+  via le chemin ENS → Balancer exclu + `Web3.is_address` défensif ;
+  (2) `TOKENS[adresse]` + dépaquetage 3-tuple excluaient silencieusement
+  les venues Algebra et les V2 sans router — les 3 premiers échantillons
+  sont supplantés (`big_pools_samples_superseded_pre-algebra-fix.jsonl`).
+- Détail : `polygon/BIG_POOLS_POLYGON.md`, bruts `big_pools_samples.jsonl`.
+
+## v4.1.3 Triangle — verdict MONITOR-ONLY
+
+`polygon/triangle_detector.py` (lecture seule — **aucun code de
+broadcast**, vérifié statiquement par les tests) : 3 triples de grosses
+pools × 2 sens × 3 tailles, chaque jambe cotée on-chain sur la meilleure
+venue (le montant d'entrée = sortie réelle de la jambe précédente),
+frais sur chaque jambe, gas budgété 600 000 unités + budget revert.
+- **3 échantillons (22:57 / 23:01 / 23:09 UTC, blocs 97 903 718 /
+  97 903 868 / 97 904 182), 54 évaluations : 0 net > 0 $.** Meilleur net
+  **−4,19 $** (WMATIC → WETH → USDT → WMATIC, 1 000 $) ; pire −2 449 $
+  (20 000 $). La perte croît avec la taille (impact AMM) : 0,5–1,3 % à
+  1 000 $, 6–12 % à 20 000 $. Prior « textbook-only » confirmé.
+- Conditions de passage en exécutable (non remplies) : net > 0 $ répété
+  + preuve fork WIN + mêmes guards (kill switch, float ledger, max 10 %).
+- Détail : `polygon/TRIANGLE_EVALUATION.md`, bruts `triangle_samples.jsonl`.
+
+## v4.1.4 Memes — watchlist persistante, 0 opportunité
+
+`polygon/watchlist.py` + `watchlist_run.py` (agent dédié, vérifié) :
+store JSON persistant (venues, liquidité, first-seen, re-vérification
+d'une 2e venue à chaque run), 2e source DexScreener
+(`token-profiles/latest`), tier WATCH (1 k–500 k $, < 7 j, suivi sans
+exécuter) + tier EXEC inchangé (5 k–100 k $, < 72 h, spread ≥ 3 %),
+backoff 429 avec pages skippées journalisées, runner re-scan 2–4 h.
+- **Run 22:55 UTC : 100 pools GeckoTerminal lues (pages 1–5 ; page 6
+  skippée sur 429 persistant malgré 4 tentatives), 0 profil DexScreener
+  Polygon (flux du moment 100 % Solana), 96 tokens vérifiés → watchlist
+  96 (exec 0 / watch 4 / none 92), 5 paires à 2 venues (FUL, Rp,
+  VOLLAR, COMP, axlUSDC — tous vieux tokens / stable, tier none),
+  4 en watch (SWCH, GRIPS, VENUE, XFROG — 1 venue chacun),
+  0 opportunité exec.** Distribution net : >0$ 0 | ≥0,50$ 0 | ≥3$ 0.
+- Bugs corrigés pendant le run : préfixe `polygon_pos_0x…` invalide
+  pour DexScreener ; même DEX compté 2 fois (labels Gecko vs
+  DexScreener) → normalisation + déduplication par adresse de paire.
+- Détail : `polygon/MEME_POOLS_LIVE_POLYGON.md`,
+  `watchlist_scan_2026-11-24_2255.json`, `watchlist_runs.jsonl`.
+
+## v4.1.5 Résultats des tests (vérifiés le 2026-11-24 ~23:20 UTC)
+
+- `test_polygon.py` : **25/25** (était 20/20 ; + garde v4.1, petit net
+  +0,50 $ autorisé, 0,00 $ / négatif bloqués, tranches).
+- `test_watchlist.py` : **31/31** (2e venue détectée, watch jamais
+  exécuté, backoff 429, bornes des tiers, net +0,50 $ autorisé).
+- `test_big_pools_triangle.py` : **21/21** (math triangle pure, frais
+  par jambe, gas + revert, tranches, MONITOR-ONLY statique, filtres
+  DexScreener, classification).
+- **Polygon total (périmètre v4.1) : 77/77.** Base inchangée 85/85 (math 8/8, v2 11/11,
+  balancer 11/11, morpho 12/12, sponsor 12/12, $0 15/15, self_funded
+  16/16) — fichiers Base non touchés, `amoy_papertrade/` non touché.
+  (Avec les 22 tests v4.2 revert-protection, le total Polygon est 99/99 ;
+  voir § v4.2 pour le chiffre combiné de l'agent revert.)
+
+## v4.2 Protection revert Polygon — verdict honnête (2026-11-24 ~22:50 UTC)
+
+Demande d'Ismail : « mbritch nkhser dak l gas » — le revert doit coûter
+0 $. Vérifié (docs officielles + checks live) : **aucun service ne
+donne 0 $ sur un revert ON-CHAIN sur Polygon aujourd'hui.**
+- MEV Blocker `/noreverts` (simulation + drop avant inclusion) existe
+  mais **Ethereum seulement** (docs : « All features are supported on
+  Ethereum ») — endpoint `rpc.mevblocker.io/noreverts` sans réponse
+  exploitable depuis le sandbox ; même constat Flashbots Protect.
+- FastLane Atlas (Polygon) : **« No Free Reverts »** (blog officiel) +
+  framework solvers, pas une route pour un bot autonome ; relai PFL :
+  très peu de validateurs (latence en heures).
+- Polygon Private Mempool : existe (gratuit, live 2026-04-02, anti-
+  frontrunning) mais **AUCUNE simulation / drop de revert documentée** ;
+  endpoint non publié (accès sur demande). NE PEUT PAS prétendre au 0 $.
+- dRPC / Blink (ex-Merkle) / bloXroute Protect : vie privée MEV
+  seulement, aucune garantie revert documentée.
+- Paymaster ERC-4337 : **NE PEUT PAS** rendre le revert 0 $
+  (EntryPoint facture le gas même en revert — Trail of Bits, docs
+  ERC-4337). EIP-3529 : refund SELFDESTRUCT supprimé, max gasUsed/5.
+- Résidu chiffré : revert on-chain 0,0024 $ mesuré / 0,0095 $ prudent ;
+  E[revert] = taux de course × coût : 5 % → 0,000475 $/trade tenté
+  (~0,05 $ pour 100 trades tentés). Négligeable en $, mais pas 0 $.
+
+Implémenté (`polygon/revert_protection.py`, 22/22 tests) : **re-simulation
+`eth_call` au dernier bloc + fenêtre de fraîcheur 30 s + net > 0 $** —
+tout trade qui revert en re-sim, quote trop vieille ou net <= 0 est
+DROPPÉ avant broadcast (0 $ gas, sender jamais appelé). Routage
+`public` (défaut) / `private` (Polygon Private Mempool, endpoint TBD,
+désactivé, marqué NON VÉRIFIÉ pour le revert). Repli **fail-closed**
+par défaut : route privée down → NE PAS ENVOYER ; public seulement si
+`allow_public_fallback=true` ET net couvrant le budget revert.
+Journal `revert_protection_log.jsonl` : dropped_presend / sent /
+executed / reverted_onchain + gas payé. Sender par défaut = dry-run
+(rien n'est broadcast). Config : section `revert_protection:` dans
+`polygon_config.yaml`. Rapport complet :
+`polygon/REVERT_PROTECTION_POLYGON.md`.
+
+Tests : polygon **78/78** au dernier run combiné (test_revert_protection
+22/22 — stable, fichier v4.2 ; test_polygon + test_watchlist en cours
+d'édition par l'agent big pools/triangle au même moment, comptes en
+mouvement) ; Base inchangée 85/85 (math 8/8, v2 11/11, balancer 11/11,
+morpho 12/12, sponsor 12/12, $0 15/15, self_funded 16/16).

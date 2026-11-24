@@ -1,12 +1,29 @@
-# Fork test — Morpho Blue Polygon (v4.0)
+# Fork test — Morpho Blue Polygon (v4.0 + v4.1)
 
-**Date :** 2026-11-24 ~22:20 UTC — **Bloc fork :** 97 902 229
+**Date :** 2026-11-24 ~22:20 UTC (v4.0) et ~22:50 UTC (v4.1) — **Bloc fork v4.1 :** 97 903 345
 **Méthode :** Anvil fork de Polygon mainnet (RPC public `https://polygon.drpc.org`,
 aucun fond réel, aucune clé privée, aucun broadcast mainnet).
 **Script :** `bash fork_test_polygon.sh` → `fork_test_polygon.py` →
 résultats bruts `fork_results_polygon.json`.
 
-## Ce qui a été prouvé
+## v4.1 — Nouvelle règle : net > 0 $ après TOUS les coûts (min 3 $ abandonné)
+
+Ismail, 2026-11-24 : le min profit de 3 $ est abandonné sur Polygon.
+Nouvelle règle (voir `polygon_guard.py`) : EXECUTE ssi net > 0 $ après
+flash fee (0 %), frais de swap, gas du trade **et budget revert**
+(coût total budgété = 2 × gas). minProfit **on-chain = 0,01 $**
+(plancher anti-poussière ; le garde off-chain fait le vrai calcul).
+
+| Cas (fork bloc 97 903 345) | Résultat |
+|---|---|
+| Gagnant (spread synthétique 20,87 %) | **WIN net +4,78 $** — loan 49,52 $, gas 269 381 @ 134,69 gwei = 0,00275 $, tranche ≥3$ |
+| **Petit net (spread synthétique 6,78 %, fraction poussée 3 %)** | **WIN net +0,50 $** — loan 16,66 $, attendu 0,49 $, réalisé 0,50 $, tranche ≥0,50$ — **aurait été SKIP à l'ancienne barre de 3 $** |
+| Perdant (spread 0,58 %) | **SKIP** — net attendu −0,01 $ → 0 $ payé ; revert confirmé on-chain, coût mesuré 0,0014 $ |
+| minProfit on-chain | **10 000 (0,01 $)** vérifié par `minProfit()` après déploiement |
+| Soldes Morpho (fork, bloc 97 903 345) | USDC **70 916,88 $** · USDT **122 029,66 $** (les soldes bougent entre blocs — cf. 112 261 $ au bloc 97 902 229) |
+| Float 1,31 $ | **238 trades** au coût mesuré du fork (gas ×2) ; ~137 au coût prudent (0,0095 $/trade) |
+
+## v4.0 — Ce qui a été prouvé
 
 | Étape | Résultat |
 |---|---|

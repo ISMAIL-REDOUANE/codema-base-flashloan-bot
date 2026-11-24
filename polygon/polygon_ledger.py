@@ -32,7 +32,7 @@ FLOAT_MATIC = 17.2743            # solde réel d'Ismail (MetaMask, 2026-11-24)
 MATIC_PRICE_USD = 0.0758        # CoinGecko polygon-ecosystem-token
 FLOAT_USD = round(FLOAT_MATIC * MATIC_PRICE_USD, 2)   # 1,31 $
 LOW_FLOAT_ALERT_USD = 0.5
-MIN_PROFIT_USD = 3.0
+MIN_PROFIT_USD = 0.0   # v4.1 : min profit 3 $ abandonné — net > 0 $ après tous coûts
 
 
 def polygon_ledger(state_path: str = "float_state_polygon.json",

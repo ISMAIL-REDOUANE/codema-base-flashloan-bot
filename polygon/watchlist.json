@@ -1,0 +1,2983 @@
+{
+  "version": 1,
+  "updated": "2026-11-24T22:56:47.200720+00:00",
+  "tokens": {
+    "0x6b998441f7349a7bfdbb2a6d61a6d5f9acb90de8": {
+      "address": "0x6b998441f7349a7bfdbb2a6d61a6d5f9acb90de8",
+      "name": "ATH / USDT 99%",
+      "first_seen": "2026-11-24T22:55:40.760295+00:00",
+      "last_seen": "2026-11-24T22:55:40.760295+00:00",
+      "venues": {
+        "uniswap-v4": [
+          {
+            "pair": "0xfc9cb0021e6d47b3be49b35c1ed4d41c8af04904988532657b35c33f40d50ffc",
+            "liq_usd": 27.926,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap-v4"
+      ],
+      "max_liq_usd_seen": 27.926,
+      "max_age_h_seen": 2.2190890527777776,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x233363a2a8acc612e06b93837bf301a41fa8a6fd": {
+      "address": "0x233363a2a8acc612e06b93837bf301a41fa8a6fd",
+      "name": "pUSD",
+      "first_seen": "2026-11-24T22:55:40.760357+00:00",
+      "last_seen": "2026-11-24T22:55:42.559040+00:00",
+      "venues": {
+        "quickswap": [
+          {
+            "pair": "0xa7cb6d649f7367f90e2023ebf1c82c55ffbbb233",
+            "liq_usd": 1.3458,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "quickswap"
+      ],
+      "max_liq_usd_seen": 1.3458,
+      "max_age_h_seen": 3.174089052802192,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x64445f0aecc51e94ad52d8ac56b7190e764e561a": {
+      "address": "0x64445f0aecc51e94ad52d8ac56b7190e764e561a",
+      "name": "FXS / USDC 19%",
+      "first_seen": "2026-11-24T22:55:40.760380+00:00",
+      "last_seen": "2026-11-24T22:55:40.760380+00:00",
+      "venues": {
+        "uniswap-v4": [
+          {
+            "pair": "0x8e8efdcc0211f1d8b34161cd47543ed0cf22f9066ea2d7fedef99fb28e971b7c",
+            "liq_usd": 33.9819,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap-v4"
+      ],
+      "max_liq_usd_seen": 33.9819,
+      "max_age_h_seen": 4.2374223861111115,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xc974cbfe9c356d509a4a48216f21220674a42d47": {
+      "address": "0xc974cbfe9c356d509a4a48216f21220674a42d47",
+      "name": "USDT",
+      "first_seen": "2026-11-24T22:55:40.760394+00:00",
+      "last_seen": "2026-11-24T22:55:43.869054+00:00",
+      "venues": {
+        "quickswap": [
+          {
+            "pair": "0xff54ea3cba1bbe4388a8e86e541f8a28f2ea4ed8",
+            "liq_usd": 0.00108380440465241,
+            "price_usd": null
+          },
+          {
+            "pair": "0x39f5a92c63da560aff0cff7466b485f439561491",
+            "liq_usd": 0,
+            "price_usd": "0.0000008524"
+          }
+        ]
+      },
+      "dexs": [
+        "quickswap"
+      ],
+      "max_liq_usd_seen": 0.00108380440465241,
+      "max_age_h_seen": 10.830755719468858,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x5af5f2e692c61234611de3de7e52de74db3358c5": {
+      "address": "0x5af5f2e692c61234611de3de7e52de74db3358c5",
+      "name": "USDT",
+      "first_seen": "2026-11-24T22:55:40.760408+00:00",
+      "last_seen": "2026-11-24T22:55:44.358194+00:00",
+      "venues": {
+        "quickswap": [
+          {
+            "pair": "0x5846b9bd8a4c442402dc011b54bcf2ea7957a392",
+            "liq_usd": 0.1682,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "quickswap"
+      ],
+      "max_liq_usd_seen": 0.18,
+      "max_age_h_seen": 6.506311275024414,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x5f106f1a32c199fc61d9cf422d856474ff383168": {
+      "address": "0x5f106f1a32c199fc61d9cf422d856474ff383168",
+      "name": "FUL",
+      "first_seen": "2026-11-24T22:55:40.760419+00:00",
+      "last_seen": "2026-11-24T22:55:44.824908+00:00",
+      "venues": {
+        "sushiswap": [
+          {
+            "pair": "0x4da57485ff013c532407cda6f854237a0cc48e94",
+            "liq_usd": 2.187,
+            "price_usd": null
+          }
+        ],
+        "quickswap": [
+          {
+            "pair": "0xb1490bcf92d338fa0b530699036dc778c0f37246",
+            "liq_usd": 0,
+            "price_usd": "0.0000002538"
+          }
+        ]
+      },
+      "dexs": [
+        "quickswap",
+        "sushiswap"
+      ],
+      "max_liq_usd_seen": 2.2,
+      "max_age_h_seen": 13.17075571946886,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": "2026-11-24T22:55:44.824908+00:00",
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": true
+    },
+    "0x6bbc7d3ca4ff43b12c618de43e067b5749005d50": {
+      "address": "0x6bbc7d3ca4ff43b12c618de43e067b5749005d50",
+      "name": "CAPA",
+      "first_seen": "2026-11-24T22:55:40.760428+00:00",
+      "last_seen": "2026-11-24T22:55:45.544248+00:00",
+      "venues": {
+        "quickswap": [
+          {
+            "pair": "0xe96ed2046f889db1b5bd51eeba78fe06606587a1",
+            "liq_usd": 0.5047,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "quickswap"
+      ],
+      "max_liq_usd_seen": 0.57,
+      "max_age_h_seen": 8.857422386135525,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xa5740abf9a69fb28eb79cfd51da885402e4a211f": {
+      "address": "0xa5740abf9a69fb28eb79cfd51da885402e4a211f",
+      "name": "XLI",
+      "first_seen": "2026-11-24T22:55:40.760438+00:00",
+      "last_seen": "2026-11-24T22:55:46.610621+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xbb4a230ca8737132d81282a500f631c7d9f8393a",
+            "liq_usd": 371.4452,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 371.4452,
+      "max_age_h_seen": 9.435755719468858,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xef87ea7da714ac5140b7fc49f84f2a3914875120": {
+      "address": "0xef87ea7da714ac5140b7fc49f84f2a3914875120",
+      "name": "Rp",
+      "first_seen": "2026-11-24T22:55:40.760446+00:00",
+      "last_seen": "2026-11-24T22:55:47.196359+00:00",
+      "venues": {
+        "uniswap-v4": [
+          {
+            "pair": "0xe39a25df0110d8051c8d22bb08c68a9e347ad75387ad193e38cab9b9b7951dde",
+            "liq_usd": 2.0187,
+            "price_usd": null
+          }
+        ],
+        "uniswap": [
+          {
+            "pair": "0xa0f248efc06cf0cc0902c8fe0c6afd6e123c2d9f",
+            "liq_usd": 0,
+            "price_usd": "0.00000003832"
+          },
+          {
+            "pair": "0xc8bad2606f3ce67ed6800ac49372d850aff39ac8",
+            "liq_usd": 0,
+            "price_usd": "0.00000001549"
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap",
+        "uniswap-v4"
+      ],
+      "max_liq_usd_seen": 2.0187,
+      "max_age_h_seen": 495.5274223861355,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": "2026-11-24T22:55:47.196359+00:00",
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": true
+    },
+    "0x97e4160d220b78bbd58ec3194dfd027d5fb78b95": {
+      "address": "0x97e4160d220b78bbd58ec3194dfd027d5fb78b95",
+      "name": "USDT",
+      "first_seen": "2026-11-24T22:55:40.760453+00:00",
+      "last_seen": "2026-11-24T22:55:48.860053+00:00",
+      "venues": {
+        "quickswap": [
+          {
+            "pair": "0xf37bf512ca719d995dd379b083551f90e73aedf3",
+            "liq_usd": 7.402,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "quickswap"
+      ],
+      "max_liq_usd_seen": 7.45,
+      "max_age_h_seen": 13.979089052802191,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xb39f67bdb6633d501dd06fbfcad02015565c3775": {
+      "address": "0xb39f67bdb6633d501dd06fbfcad02015565c3775",
+      "name": "TDLGNS",
+      "first_seen": "2026-11-24T22:55:40.760461+00:00",
+      "last_seen": "2026-11-24T22:55:49.356593+00:00",
+      "venues": {
+        "quickswap": [
+          {
+            "pair": "0x3bc6057c550fa1015de8a59e5b65f35c16147c0a",
+            "liq_usd": 0.000470797164270264,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "quickswap"
+      ],
+      "max_liq_usd_seen": 0.000470797164270264,
+      "max_age_h_seen": 16.144922386135526,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xdaa0304f387c62ae14cb00faf3ba115820c0fb34": {
+      "address": "0xdaa0304f387c62ae14cb00faf3ba115820c0fb34",
+      "name": "NWD",
+      "first_seen": "2026-11-24T22:55:40.760469+00:00",
+      "last_seen": "2026-11-24T22:55:49.827580+00:00",
+      "venues": {
+        "quickswap": [
+          {
+            "pair": "0x350909470419364ec14b4e756d85f6ef8cf6cdfd",
+            "liq_usd": 0.5047,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "quickswap"
+      ],
+      "max_liq_usd_seen": 0.5047,
+      "max_age_h_seen": 17.87408905280219,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x2b4e0db30c40edaeecc22618bab0752ff20a300c": {
+      "address": "0x2b4e0db30c40edaeecc22618bab0752ff20a300c",
+      "name": "TDLGNS",
+      "first_seen": "2026-11-24T22:55:40.760476+00:00",
+      "last_seen": "2026-11-24T22:55:50.368697+00:00",
+      "venues": {
+        "quickswap": [
+          {
+            "pair": "0xf777b94592fea2459fd484fc9cab8e434d25d767",
+            "liq_usd": 14.9722,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "quickswap"
+      ],
+      "max_liq_usd_seen": 15.09,
+      "max_age_h_seen": 18.588255719468858,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x5cf4d0f64b2a4ff79775a5a4c63308fe20b76022": {
+      "address": "0x5cf4d0f64b2a4ff79775a5a4c63308fe20b76022",
+      "name": "TNUSD / USDC 0.038%",
+      "first_seen": "2026-11-24T22:55:40.760483+00:00",
+      "last_seen": "2026-11-24T22:55:40.760483+00:00",
+      "venues": {
+        "uniswap-v4": [
+          {
+            "pair": "0xa07e4c7946f2ca1503f369c078dfacb9fc153dcd8a08ffcf2d69077611609a55",
+            "liq_usd": 982.4457,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap-v4"
+      ],
+      "max_liq_usd_seen": 982.4457,
+      "max_age_h_seen": 24.033255719444444,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x44a2c6253bb48b33bff264b0d26c4246a46180af": {
+      "address": "0x44a2c6253bb48b33bff264b0d26c4246a46180af",
+      "name": "VOLLAR",
+      "first_seen": "2026-11-24T22:55:40.760491+00:00",
+      "last_seen": "2026-11-24T22:55:51.377795+00:00",
+      "venues": {
+        "uniswap-v4": [
+          {
+            "pair": "0x41a622d3b7a0ffcdfd59c7dd2f5c504505d90f4eda55655fa7140d89735d89ce",
+            "liq_usd": 0.0,
+            "price_usd": null
+          }
+        ],
+        "uniswap": [
+          {
+            "pair": "0xddbf611944cc2c7f39384e0bc8c66f9a8e6e231d",
+            "liq_usd": 15106.91,
+            "price_usd": "0.1015"
+          }
+        ],
+        "sushiswap": [
+          {
+            "pair": "0x0168684cf4128cee2a3224cde7b4558e2ff22f50",
+            "liq_usd": 78.85,
+            "price_usd": "0.09813"
+          }
+        ]
+      },
+      "dexs": [
+        "sushiswap",
+        "uniswap",
+        "uniswap-v4"
+      ],
+      "max_liq_usd_seen": 15106.91,
+      "max_age_h_seen": 22533.25575571947,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": "2026-11-24T22:55:51.377795+00:00",
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": true
+    },
+    "0xde9e0e9ca47e250392c19cb75b6f593ffce2ae47": {
+      "address": "0xde9e0e9ca47e250392c19cb75b6f593ffce2ae47",
+      "name": "CAPITAL / USDT 0.01%",
+      "first_seen": "2026-11-24T22:55:40.760501+00:00",
+      "last_seen": "2026-11-24T22:55:40.760501+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xec98baab598c0dc09fbfad06624844024708ccf6",
+            "liq_usd": 23.3836,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 23.3836,
+      "max_age_h_seen": 25.146311275,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xab5e9773b7a48246ed7220b101e5c8ab28caac72": {
+      "address": "0xab5e9773b7a48246ed7220b101e5c8ab28caac72",
+      "name": "BMC1x",
+      "first_seen": "2026-11-24T22:55:40.760512+00:00",
+      "last_seen": "2026-11-24T22:55:53.753969+00:00",
+      "venues": {
+        "quickswap-v4": [
+          {
+            "pair": "0x48af390c91a44013541d31c82922dc9e63ba8e81",
+            "liq_usd": 8.2431,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "quickswap-v4"
+      ],
+      "max_liq_usd_seen": 8.35,
+      "max_age_h_seen": 9999.0,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x0aef136f9b3096e79ec60b76cd4d26e71c79dbb7": {
+      "address": "0x0aef136f9b3096e79ec60b76cd4d26e71c79dbb7",
+      "name": "wKAZ / USDT 0.25%",
+      "first_seen": "2026-11-24T22:55:40.760521+00:00",
+      "last_seen": "2026-11-24T22:55:40.760521+00:00",
+      "venues": {
+        "uniswap-v4": [
+          {
+            "pair": "0x520a784af9b1649d62dee69da31af780178d5f3b2d98adc0684514e0d5663b38",
+            "liq_usd": 8.2431,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap-v4"
+      ],
+      "max_liq_usd_seen": 8.2431,
+      "max_age_h_seen": 26.42464460833333,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x36ad1fe5bf606c27e5db71b904f0d9fdc53d9045": {
+      "address": "0x36ad1fe5bf606c27e5db71b904f0d9fdc53d9045",
+      "name": "CAPITAL / USDT 0.01%",
+      "first_seen": "2026-11-24T22:55:40.760530+00:00",
+      "last_seen": "2026-11-24T22:55:40.760530+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xa95070dbeac659cb27d891444fd091c79cfee37b",
+            "liq_usd": 1.991379333e-06,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 1.991379333e-06,
+      "max_age_h_seen": 28.640755719444442,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xd234fbdd8f42109729937c70f59f54c2ad77584d": {
+      "address": "0xd234fbdd8f42109729937c70f59f54c2ad77584d",
+      "name": "RCH / WPOL 1%",
+      "first_seen": "2026-11-24T22:55:40.760537+00:00",
+      "last_seen": "2026-11-24T22:55:40.760537+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xcb6a4520e5b8e5aa87abcf3734b1a0fec04c45e9",
+            "liq_usd": 4.8786,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 4.8786,
+      "max_age_h_seen": 28.73908905277778,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xfe34c98a478323e5b281087cbbb257187b7586d6": {
+      "address": "0xfe34c98a478323e5b281087cbbb257187b7586d6",
+      "name": "XHI / USDC 0.01%",
+      "first_seen": "2026-11-24T22:55:40.760544+00:00",
+      "last_seen": "2026-11-24T22:55:40.760544+00:00",
+      "venues": {
+        "quickswap_v3": [
+          {
+            "pair": "0xbe3443c6720c111e78b2ab3fb69b2c89af20fa64",
+            "liq_usd": 1.000528081e-06,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "quickswap_v3"
+      ],
+      "max_liq_usd_seen": 1.000528081e-06,
+      "max_age_h_seen": 29.656311275,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xb23f3e0e7576b75f4582ab3a006c6f9089a97d5e": {
+      "address": "0xb23f3e0e7576b75f4582ab3a006c6f9089a97d5e",
+      "name": "TRX / U\u200cS\u200cD\u200cT",
+      "first_seen": "2026-11-24T22:55:40.760552+00:00",
+      "last_seen": "2026-11-24T22:55:40.760552+00:00",
+      "venues": {
+        "quickswap": [
+          {
+            "pair": "0x7eaa10a3626711abfcfd98cbff2849b8a071dd8e",
+            "liq_usd": 983847.6838,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "quickswap"
+      ],
+      "max_liq_usd_seen": 983847.6838,
+      "max_age_h_seen": 32.42492238611111,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x0000000000000000000000000000000000000000": {
+      "address": "0x0000000000000000000000000000000000000000",
+      "name": "POL / SHIB 0.9%",
+      "first_seen": "2026-11-24T22:55:40.760560+00:00",
+      "last_seen": "2026-11-24T22:55:40.760560+00:00",
+      "venues": {
+        "uniswap-v4": [
+          {
+            "pair": "0x6be3903216adb416bd541082bdd867c47cb27d941d4af1b3a75fb31d85da0c67",
+            "liq_usd": 13.1217,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap-v4"
+      ],
+      "max_liq_usd_seen": 13.1217,
+      "max_age_h_seen": 33.18547794166667,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x3ce1327867077b551ae9a6987bf10c9fd08edce1": {
+      "address": "0x3ce1327867077b551ae9a6987bf10c9fd08edce1",
+      "name": "SWCH / USDT 6.95%",
+      "first_seen": "2026-11-24T22:55:40.760568+00:00",
+      "last_seen": "2026-11-24T22:55:40.760568+00:00",
+      "venues": {
+        "uniswap-v4": [
+          {
+            "pair": "0x07f53a8b76dd6cf860292316cab79ffd84d502ae9ef73ff786a3dc21ebe750a3",
+            "liq_usd": 1021.3061,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap-v4"
+      ],
+      "max_liq_usd_seen": 1021.3061,
+      "max_age_h_seen": 33.61408905277778,
+      "tier": "watch",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [
+        "none->watch 2026-11-24T22:55:40.760568+00:00"
+      ],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x5227f8773b9122310380b59e335cde26166910df": {
+      "address": "0x5227f8773b9122310380b59e335cde26166910df",
+      "name": "IRON Finance Governance Token / USDC",
+      "first_seen": "2026-11-24T22:55:40.760577+00:00",
+      "last_seen": "2026-11-24T22:55:40.760577+00:00",
+      "venues": {
+        "quickswap": [
+          {
+            "pair": "0x98d1759212cf431e921a32709d15522e2749b111",
+            "liq_usd": 0.0153707540039538,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "quickswap"
+      ],
+      "max_liq_usd_seen": 0.0153707540039538,
+      "max_age_h_seen": 34.478811275,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xe747df88b33e67d183d3282cab69c3f294c046b0": {
+      "address": "0xe747df88b33e67d183d3282cab69c3f294c046b0",
+      "name": "sister / USDT 0.25%",
+      "first_seen": "2026-11-24T22:55:40.760588+00:00",
+      "last_seen": "2026-11-24T22:55:40.760588+00:00",
+      "venues": {
+        "uniswap-v4": [
+          {
+            "pair": "0x78f1aa3326fcf828dc935bf5afcf21472d789f69d60c85f5a9a3d35bbb3c49a6",
+            "liq_usd": 0.1682,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap-v4"
+      ],
+      "max_liq_usd_seen": 0.1682,
+      "max_age_h_seen": 35.47492238611111,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c": {
+      "address": "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c",
+      "name": "COMP",
+      "first_seen": "2026-11-24T22:55:40.760596+00:00",
+      "last_seen": "2026-11-24T22:55:59.011840+00:00",
+      "venues": {
+        "uniswap-v4": [
+          {
+            "pair": "0x021c811f13e7f0dbce8c4bdc0e4440799979de242a8e15ad311e8573a51ac37b",
+            "liq_usd": 0.0,
+            "price_usd": null
+          }
+        ],
+        "uniswap": [
+          {
+            "pair": "0x2d4e28956e83c49ac61dee9b14abf21b7374f7d2",
+            "liq_usd": 1416.84,
+            "price_usd": "16.83"
+          },
+          {
+            "pair": "0x495b3576e2f67fa870e14d0996433fbdb4015794",
+            "liq_usd": 633.08,
+            "price_usd": "16.52"
+          }
+        ],
+        "sushiswap": [
+          {
+            "pair": "0x9021a31062a1d9c9c35d632ed54a9d923e46809f",
+            "liq_usd": 721.2,
+            "price_usd": "16.56"
+          }
+        ],
+        "quickswap": [
+          {
+            "pair": "0xe40b3eb0c0cf160aeee610f902b9e0e248d066e7",
+            "liq_usd": null,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "quickswap",
+        "sushiswap",
+        "uniswap",
+        "uniswap-v4"
+      ],
+      "max_liq_usd_seen": 1416.84,
+      "max_age_h_seen": 46468.83186683058,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": "2026-11-24T22:55:59.011840+00:00",
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": true
+    },
+    "0x3b95b670205fec66521f28e7c258305aea667d8e": {
+      "address": "0x3b95b670205fec66521f28e7c258305aea667d8e",
+      "name": "SOUP",
+      "first_seen": "2026-11-24T22:55:40.760605+00:00",
+      "last_seen": "2026-11-24T22:55:59.894914+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x30d1fc7c7dad01819cb6fef00af24e3bc591ba7e",
+            "liq_usd": 0.5054,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.5054,
+      "max_age_h_seen": 40.04325571946886,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x077e88be6f394989494a213f62cecb6b195d703d": {
+      "address": "0x077e88be6f394989494a213f62cecb6b195d703d",
+      "name": "QUANTU",
+      "first_seen": "2026-11-24T22:55:40.760612+00:00",
+      "last_seen": "2026-11-24T22:56:00.408531+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xd5f725df4db8018bc9e640576fee8e60d58dda01",
+            "liq_usd": 3.5388,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3.5388,
+      "max_age_h_seen": 40.04575571946886,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x9dc3f9daaf1b51211902ac86d264558f185e58a1": {
+      "address": "0x9dc3f9daaf1b51211902ac86d264558f185e58a1",
+      "name": "LOCKER",
+      "first_seen": "2026-11-24T22:55:40.760620+00:00",
+      "last_seen": "2026-11-24T22:56:00.869703+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x797832c4992cddd829600d750f4a4a7d62f8d300",
+            "liq_usd": 3.5388,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3.56,
+      "max_age_h_seen": 40.048255719468855,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xbd67b1e9d2dcfc7fa04414532038e9dd86394bde": {
+      "address": "0xbd67b1e9d2dcfc7fa04414532038e9dd86394bde",
+      "name": "RAP / WPOL 0.3%",
+      "first_seen": "2026-11-24T22:55:40.760629+00:00",
+      "last_seen": "2026-11-24T22:55:40.760629+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x0c84e7e5ce3efd32cbe64ed000086e7a2cba326a",
+            "liq_usd": 0.0005943999926,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.0005943999926,
+      "max_age_h_seen": 40.051311275,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xba783f6b0499cd3476249acc57df8a92c24db1cf": {
+      "address": "0xba783f6b0499cd3476249acc57df8a92c24db1cf",
+      "name": "GLACIE",
+      "first_seen": "2026-11-24T22:55:40.760635+00:00",
+      "last_seen": "2026-11-24T22:56:02.039114+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x588f45d1a4f52c0230ddd0bec3bcca81c3e23ca1",
+            "liq_usd": 0.03966495978,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.03966495978,
+      "max_age_h_seen": 40.05408905280219,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x7d174082bee3278c32c606e693ce56bb3f6f2572": {
+      "address": "0x7d174082bee3278c32c606e693ce56bb3f6f2572",
+      "name": "SMRX",
+      "first_seen": "2026-11-24T22:55:40.760642+00:00",
+      "last_seen": "2026-11-24T22:56:02.671279+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x2e530f44534ffe45849f5df3ac4e6e6fbdc3f252",
+            "liq_usd": 0.02146983314,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.02146983314,
+      "max_age_h_seen": 40.056589052802195,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x629d7557cd4759e7e50507ad43483edca50c8b7f": {
+      "address": "0x629d7557cd4759e7e50507ad43483edca50c8b7f",
+      "name": "LOREM",
+      "first_seen": "2026-11-24T22:55:40.760649+00:00",
+      "last_seen": "2026-11-24T22:56:04.371075+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x6744bb8b7b6677ecfbd65fbb234053e1ea3887aa",
+            "liq_usd": 0.05900314129,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.05900314129,
+      "max_age_h_seen": 40.05881127502441,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x5916ca8519d85a2142dba2d5f4cdbb2fd435011a": {
+      "address": "0x5916ca8519d85a2142dba2d5f4cdbb2fd435011a",
+      "name": "FLEV",
+      "first_seen": "2026-11-24T22:55:40.760657+00:00",
+      "last_seen": "2026-11-24T22:56:05.604643+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x524ca33bcfb5be23ffbd4d2019e7ee9bb3719c5f",
+            "liq_usd": 3.5375,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3.5375,
+      "max_age_h_seen": 40.061311275024416,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x85e23529a5da43435e2a2b8ea1283c775eaf1865": {
+      "address": "0x85e23529a5da43435e2a2b8ea1283c775eaf1865",
+      "name": "RIDER",
+      "first_seen": "2026-11-24T22:55:40.760665+00:00",
+      "last_seen": "2026-11-24T22:56:07.005310+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xbf7270555c001fb997c5865929dc6bbc381b317b",
+            "liq_usd": 0.1685,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.1685,
+      "max_age_h_seen": 40.06381127502441,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x38c19dfae094736008f4f4d490698f611bf60035": {
+      "address": "0x38c19dfae094736008f4f4d490698f611bf60035",
+      "name": "DOS / WPOL 0.3%",
+      "first_seen": "2026-11-24T22:55:40.760673+00:00",
+      "last_seen": "2026-11-24T22:55:40.760673+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x34ebdb63af9170ea1f6a6a883f3b825a757c4e54",
+            "liq_usd": 359.3329,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 359.3329,
+      "max_age_h_seen": 40.066311275000004,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x757b666bad4932b02a4e936f488b6d17c3e110e7": {
+      "address": "0x757b666bad4932b02a4e936f488b6d17c3e110e7",
+      "name": "BOOM",
+      "first_seen": "2026-11-24T22:55:40.760682+00:00",
+      "last_seen": "2026-11-24T22:56:08.207157+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xb4541fdd3d56a5547427d41fe5a9dfdb5536d4ab",
+            "liq_usd": 1.3481,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 1.3481,
+      "max_age_h_seen": 40.068811275024416,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x0e281eadf8db8030b1fb72f696c1711f3532973d": {
+      "address": "0x0e281eadf8db8030b1fb72f696c1711f3532973d",
+      "name": "WRACK",
+      "first_seen": "2026-11-24T22:55:40.760688+00:00",
+      "last_seen": "2026-11-24T22:56:08.662115+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x4b65ee59d5ad06b95ffe07cf0bd4ba2a1a0020dc",
+            "liq_usd": 3.5388,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3.5388,
+      "max_age_h_seen": 40.071311275024414,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x5246fc15b5470cbe9704dd7e96985356252eebc9": {
+      "address": "0x5246fc15b5470cbe9704dd7e96985356252eebc9",
+      "name": "GRIPS",
+      "first_seen": "2026-11-24T22:55:40.760695+00:00",
+      "last_seen": "2026-11-24T22:56:10.747514+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x8842dba380f58677864745f042f2c5b08eb9c019",
+            "liq_usd": 1969.4348,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 1969.4348,
+      "max_age_h_seen": 40.074089052802194,
+      "tier": "watch",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [
+        "none->watch 2026-11-24T22:55:40.760695+00:00"
+      ],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x289c74707387336e0bb149fbe805d1a0dd15da15": {
+      "address": "0x289c74707387336e0bb149fbe805d1a0dd15da15",
+      "name": "GIRL",
+      "first_seen": "2026-11-24T22:55:40.760703+00:00",
+      "last_seen": "2026-11-24T22:56:11.223547+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x19669657c9721ec6d35581068245070f6700ac1e",
+            "liq_usd": 3.5388,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3.5388,
+      "max_age_h_seen": 40.07658905280219,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x2a03602d75a1ab34987279f5071bd108e089dcd1": {
+      "address": "0x2a03602d75a1ab34987279f5071bd108e089dcd1",
+      "name": "NPEDIA",
+      "first_seen": "2026-11-24T22:55:40.760710+00:00",
+      "last_seen": "2026-11-24T22:56:11.710342+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x7aae08c7d1cf8f3280cc88c9472226fa8bcb106c",
+            "liq_usd": 0.06514621066,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.06514621066,
+      "max_age_h_seen": 40.07964460835775,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xdcf4a1ce0abcd111cb19a2008782174cf29a49ce": {
+      "address": "0xdcf4a1ce0abcd111cb19a2008782174cf29a49ce",
+      "name": "SQUID",
+      "first_seen": "2026-11-24T22:55:40.760718+00:00",
+      "last_seen": "2026-11-24T22:56:12.406987+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x35f2acb410002a1511f7657c64828215d6979221",
+            "liq_usd": 0.05800766966,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.05800766966,
+      "max_age_h_seen": 40.082144608357744,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x026ab67a349d4b2ee3e5d9452f4f5291e61b56e5": {
+      "address": "0x026ab67a349d4b2ee3e5d9452f4f5291e61b56e5",
+      "name": "SOCC",
+      "first_seen": "2026-11-24T22:55:40.760726+00:00",
+      "last_seen": "2026-11-24T22:56:12.878895+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xbb71ee3bb72c0edcabc99a730de562c940092352",
+            "liq_usd": 3.7073,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3.7073,
+      "max_age_h_seen": 40.08464460835775,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x2d77f0e1a677bc3d82ac7b1436469ebb0d7515be": {
+      "address": "0x2d77f0e1a677bc3d82ac7b1436469ebb0d7515be",
+      "name": "DRAC",
+      "first_seen": "2026-11-24T22:55:40.760732+00:00",
+      "last_seen": "2026-11-24T22:56:14.631705+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x135582d98aa244783c5b7a12d1015a1e45627f05",
+            "liq_usd": 0.1685,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.1685,
+      "max_age_h_seen": 40.08714460835775,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xc63756587fd7497c388c2166480fd396dc7ba9fa": {
+      "address": "0xc63756587fd7497c388c2166480fd396dc7ba9fa",
+      "name": "ELONA",
+      "first_seen": "2026-11-24T22:55:40.760739+00:00",
+      "last_seen": "2026-11-24T22:56:15.402909+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xbf5e4c266b848454552dacaac6930ac01b124f85",
+            "liq_usd": 3.5375,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3.5375,
+      "max_age_h_seen": 40.089644608357744,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xa1a486fb95dd5c501433cc4102d08967a17cd342": {
+      "address": "0xa1a486fb95dd5c501433cc4102d08967a17cd342",
+      "name": "DANGER / WPOL 0.3%",
+      "first_seen": "2026-11-24T22:55:40.760745+00:00",
+      "last_seen": "2026-11-24T22:55:40.760745+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x0b45b6996bda71e2382edfe920207ef1e3d0bde5",
+            "liq_usd": 0.001138009519,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.001138009519,
+      "max_age_h_seen": 40.09242238611112,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xa73c069e6e3dbcbe465d98a0403b1f97e5dc628b": {
+      "address": "0xa73c069e6e3dbcbe465d98a0403b1f97e5dc628b",
+      "name": "TREE / WPOL 0.3%",
+      "first_seen": "2026-11-24T22:55:40.760765+00:00",
+      "last_seen": "2026-11-24T22:55:40.760765+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x52c054fb174abc9d04104c635d303750fccb20db",
+            "liq_usd": 0.001138015763,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.001138015763,
+      "max_age_h_seen": 40.094922386111115,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xabd1e2b5203df99805bc094f339ee5e691c1fd3b": {
+      "address": "0xabd1e2b5203df99805bc094f339ee5e691c1fd3b",
+      "name": "POPO",
+      "first_seen": "2026-11-24T22:55:40.760772+00:00",
+      "last_seen": "2026-11-24T22:56:16.944903+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x94b43cf4c06062520533cef20279241280a2763f",
+            "liq_usd": 0.04099884226,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.04099884226,
+      "max_age_h_seen": 40.09742238613553,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x4e76c7b0f70310b521f7dd15d510efb6349f806d": {
+      "address": "0x4e76c7b0f70310b521f7dd15d510efb6349f806d",
+      "name": "JACK",
+      "first_seen": "2026-11-24T22:55:40.760778+00:00",
+      "last_seen": "2026-11-24T22:56:17.379759+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x54e2f6e66354d94cfd4403c70f60e6b81477e0a4",
+            "liq_usd": 0.1685,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.1685,
+      "max_age_h_seen": 40.10047794169108,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xad45a22bc9ac7d3a998570621217fdd2b9bc8611": {
+      "address": "0xad45a22bc9ac7d3a998570621217fdd2b9bc8611",
+      "name": "DRS",
+      "first_seen": "2026-11-24T22:55:40.760844+00:00",
+      "last_seen": "2026-11-24T22:56:18.476754+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x7b730dbe6bc24e00bfcae94b710cb6a85376686c",
+            "liq_usd": 0.6738,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.69,
+      "max_age_h_seen": 40.10492238613553,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x9d4f9ffd378e9092d7489e27ebd6d7dad70259e1": {
+      "address": "0x9d4f9ffd378e9092d7489e27ebd6d7dad70259e1",
+      "name": "DEUX / WPOL",
+      "first_seen": "2026-11-24T22:55:40.760866+00:00",
+      "last_seen": "2026-11-24T22:55:40.760866+00:00",
+      "venues": {
+        "quickswap": [
+          {
+            "pair": "0xd73e667aeb9abcd659a32e1addfab415b1496b9c",
+            "liq_usd": 0.0236203064937485,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "quickswap"
+      ],
+      "max_liq_usd_seen": 0.0236203064937485,
+      "max_age_h_seen": 43.87575571944445,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x750e4c4984a9e0f12978ea6742bc1c5d248f40ed": {
+      "address": "0x750e4c4984a9e0f12978ea6742bc1c5d248f40ed",
+      "name": "axlUSDC",
+      "first_seen": "2026-11-24T22:55:40.760873+00:00",
+      "last_seen": "2026-11-24T22:56:19.986688+00:00",
+      "venues": {
+        "quickswap": [
+          {
+            "pair": "0x4d87603e0dd089e0ea530ff8c23396c061830231",
+            "liq_usd": 3.87549555148883e-05,
+            "price_usd": null
+          },
+          {
+            "pair": "0x6b7a1606558f586ffa1fad23a1ab84ccb9155b00",
+            "liq_usd": 17755.24,
+            "price_usd": "1.000092"
+          }
+        ],
+        "uniswap": [
+          {
+            "pair": "0x28b96d83fe1210f32a77953cb6accf8be6b6e232",
+            "liq_usd": 96351.37,
+            "price_usd": "1.00094"
+          },
+          {
+            "pair": "0x647fb01a63de9a551b39c7915693b25e6bcec502",
+            "liq_usd": 15211.23,
+            "price_usd": "1.00020"
+          }
+        ]
+      },
+      "dexs": [
+        "quickswap",
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 96351.37,
+      "max_age_h_seen": 38459.116033497245,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": "2026-11-24T22:56:19.986688+00:00",
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": true
+    },
+    "0x6dd04cf9d7221fedd6a8008d1577f3abbb011e1c": {
+      "address": "0x6dd04cf9d7221fedd6a8008d1577f3abbb011e1c",
+      "name": "EGG / WETH",
+      "first_seen": "2026-11-24T22:55:40.760880+00:00",
+      "last_seen": "2026-11-24T22:55:40.760880+00:00",
+      "venues": {
+        "quickswap": [
+          {
+            "pair": "0x15374ba8a6bdaf66e66d9db83f69e36b764c1f50",
+            "liq_usd": 1.5243555790474e-07,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "quickswap"
+      ],
+      "max_liq_usd_seen": 1.5243555790474e-07,
+      "max_age_h_seen": 45.23714460833334,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xd93de7b22451435ca6cd8a13e50fb278ae5b73e9": {
+      "address": "0xd93de7b22451435ca6cd8a13e50fb278ae5b73e9",
+      "name": "WABI",
+      "first_seen": "2026-11-24T22:55:40.760887+00:00",
+      "last_seen": "2026-11-24T22:56:21.338095+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xa1170605ff53fde1e3c4ddff57d2b804fdfe2a7c",
+            "liq_usd": 3.2006,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3.2006,
+      "max_age_h_seen": 46.09547794169108,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x056b0a209d739a50ee29d662c5c7a7b530c6c41d": {
+      "address": "0x056b0a209d739a50ee29d662c5c7a7b530c6c41d",
+      "name": "VINZ",
+      "first_seen": "2026-11-24T22:55:40.760894+00:00",
+      "last_seen": "2026-11-24T22:56:22.283598+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x0bb61c3f75058d69493e2bf358f13af21609893f",
+            "liq_usd": 0.03618560179,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.03618560179,
+      "max_age_h_seen": 46.09797794169108,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xb2fdd2355a79a0bfe5e0a62140833dc4d9526d0f": {
+      "address": "0xb2fdd2355a79a0bfe5e0a62140833dc4d9526d0f",
+      "name": "VENUE",
+      "first_seen": "2026-11-24T22:55:40.760902+00:00",
+      "last_seen": "2026-11-24T22:56:23.000676+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xca16a87e68a864a0dd6c75e46ba87329916ec8d9",
+            "liq_usd": 3525.365,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3525.365,
+      "max_age_h_seen": 46.10047794169108,
+      "tier": "watch",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [
+        "none->watch 2026-11-24T22:55:40.760902+00:00"
+      ],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xf6ea6a73202cdd2150fcd18229c64ef0229566c7": {
+      "address": "0xf6ea6a73202cdd2150fcd18229c64ef0229566c7",
+      "name": "VEGOUS / WPOL 0.3%",
+      "first_seen": "2026-11-24T22:55:40.760979+00:00",
+      "last_seen": "2026-11-24T22:55:40.760979+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x7a9837b325b567f23a5b66729d527035f6656048",
+            "liq_usd": 0.0009607777155,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.0009607777155,
+      "max_age_h_seen": 46.10297794166667,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x2f663a19e001ead5837f354f59e8e5e07b4d5c5c": {
+      "address": "0x2f663a19e001ead5837f354f59e8e5e07b4d5c5c",
+      "name": "SHARK",
+      "first_seen": "2026-11-24T22:55:40.760998+00:00",
+      "last_seen": "2026-11-24T22:56:24.244652+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x7814308bbfe98b74d54cd6dbba34d7ede3293118",
+            "liq_usd": 0.03886284222,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.03886284222,
+      "max_age_h_seen": 46.10575571946886,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xa81757d2bac782d830dc94b5b977bfdcda8adf72": {
+      "address": "0xa81757d2bac782d830dc94b5b977bfdcda8adf72",
+      "name": "ROOT",
+      "first_seen": "2026-11-24T22:55:40.761005+00:00",
+      "last_seen": "2026-11-24T22:56:24.780608+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xa3ea0ed1983d99423f6296ccbdd35f098ecef35c",
+            "liq_usd": 0.0703131981,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.0703131981,
+      "max_age_h_seen": 46.10825571946886,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x8e44f9044aa60467d957e139f9c40351aa7374f2": {
+      "address": "0x8e44f9044aa60467d957e139f9c40351aa7374f2",
+      "name": "RBOTS",
+      "first_seen": "2026-11-24T22:55:40.761011+00:00",
+      "last_seen": "2026-11-24T22:56:25.217047+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xfcc0a01d2b459e9a6c4396134d4e85b9562822fe",
+            "liq_usd": 0.04128083746,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.04128083746,
+      "max_age_h_seen": 46.110755719468855,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x00b6772ddd0ae529aaa830639ee6144a8e5c7926": {
+      "address": "0x00b6772ddd0ae529aaa830639ee6144a8e5c7926",
+      "name": "PLASMA",
+      "first_seen": "2026-11-24T22:55:40.761019+00:00",
+      "last_seen": "2026-11-24T22:56:25.757640+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x96bdc4f25f546684eef5b9c6ea5e8fcc51bc6bf1",
+            "liq_usd": 0.0327553127,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.0327553127,
+      "max_age_h_seen": 46.11325571946886,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xe3e48eed6d13214be6afad1d76d42646efb0f094": {
+      "address": "0xe3e48eed6d13214be6afad1d76d42646efb0f094",
+      "name": "PILLOW",
+      "first_seen": "2026-11-24T22:55:40.761025+00:00",
+      "last_seen": "2026-11-24T22:56:26.249596+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x2be2a72c742405699efd84e934d52b7ed35eadb8",
+            "liq_usd": 0.3369,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.3369,
+      "max_age_h_seen": 46.11575571946886,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x3bac433f9f4c65cfb6f43804d5dd3d503e16050e": {
+      "address": "0x3bac433f9f4c65cfb6f43804d5dd3d503e16050e",
+      "name": "PHOBOS",
+      "first_seen": "2026-11-24T22:55:40.761032+00:00",
+      "last_seen": "2026-11-24T22:56:26.703672+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xa74809c36fc97164bff051d55358f8c199bab861",
+            "liq_usd": 3.5375,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3.5375,
+      "max_age_h_seen": 46.118255719468856,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x3f3168c126093f1504a80cd655e366367997a5ba": {
+      "address": "0x3f3168c126093f1504a80cd655e366367997a5ba",
+      "name": "ONION",
+      "first_seen": "2026-11-24T22:55:40.761038+00:00",
+      "last_seen": "2026-11-24T22:56:27.149357+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x9c59f5ceb9bf15f3b66d444702fb095fb351c54c",
+            "liq_usd": 0.6741,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.6741,
+      "max_age_h_seen": 46.12075571946886,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xbe6cf36ce18a742dc997edacd2f6bcdc84bea198": {
+      "address": "0xbe6cf36ce18a742dc997edacd2f6bcdc84bea198",
+      "name": "MOVEMB",
+      "first_seen": "2026-11-24T22:55:40.761045+00:00",
+      "last_seen": "2026-11-24T22:56:27.621437+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xa75a87fd37ba1d0d1285ceb6e12d3428c9c03adb",
+            "liq_usd": 2.5277,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 2.56,
+      "max_age_h_seen": 46.12325571946886,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x8eb76b18cb991abe72a1e1069968737ebeadfbb0": {
+      "address": "0x8eb76b18cb991abe72a1e1069968737ebeadfbb0",
+      "name": "LOTH",
+      "first_seen": "2026-11-24T22:55:40.761060+00:00",
+      "last_seen": "2026-11-24T22:56:28.064504+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xc0ff079d503d9d04eee5be489c7005ed05bfe3af",
+            "liq_usd": 0.04661534805,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.04661534805,
+      "max_age_h_seen": 46.12631127502441,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xad77d217b4df4f9171b9b355ee6a320ae27ebf30": {
+      "address": "0xad77d217b4df4f9171b9b355ee6a320ae27ebf30",
+      "name": "LENA",
+      "first_seen": "2026-11-24T22:55:40.761074+00:00",
+      "last_seen": "2026-11-24T22:56:28.714370+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xf74803ac8fc30f09e621980173094e6363bb5ccd",
+            "liq_usd": 0.1685,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.1685,
+      "max_age_h_seen": 46.12881127502441,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xce2462451ac08471bb9ff3754e32da3c65cc28fb": {
+      "address": "0xce2462451ac08471bb9ff3754e32da3c65cc28fb",
+      "name": "INU / WPOL 0.3%",
+      "first_seen": "2026-11-24T22:55:40.761088+00:00",
+      "last_seen": "2026-11-24T22:55:40.761088+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x74bd2121f0376ea1a38cab9798df4fb0ec44a4ab",
+            "liq_usd": 0.00258807824,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.00258807824,
+      "max_age_h_seen": 46.131311275,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xb6cdc3153027ae5e0cb7fc9b388ae5a8eb969595": {
+      "address": "0xb6cdc3153027ae5e0cb7fc9b388ae5a8eb969595",
+      "name": "GUMS",
+      "first_seen": "2026-11-24T22:55:40.761094+00:00",
+      "last_seen": "2026-11-24T22:56:29.605202+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x7627165ff8e573349afe5bbba022213f5c8828e7",
+            "liq_usd": 3.3691,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3.3691,
+      "max_age_h_seen": 46.133811275024414,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xb95ee957aa626b127267341ba2802a93b9b8a55d": {
+      "address": "0xb95ee957aa626b127267341ba2802a93b9b8a55d",
+      "name": "GFORCE",
+      "first_seen": "2026-11-24T22:55:40.761101+00:00",
+      "last_seen": "2026-11-24T22:56:30.126590+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xc9f9fb15aa62ba499836bf893b3d649b2c63c1d6",
+            "liq_usd": 3.3691,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3.3691,
+      "max_age_h_seen": 46.13631127502441,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xa882672c08aa20e04c487171e4d647c26962f53c": {
+      "address": "0xa882672c08aa20e04c487171e4d647c26962f53c",
+      "name": "FREEZE",
+      "first_seen": "2026-11-24T22:55:40.761115+00:00",
+      "last_seen": "2026-11-24T22:56:30.705054+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x51a9d1ffff03c49c57cd298b63704e34041ca376",
+            "liq_usd": 0.05830074225,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.05830074225,
+      "max_age_h_seen": 46.138811275024416,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x6e10e2db68db9432edf1c249fb5dfbe3a51771b8": {
+      "address": "0x6e10e2db68db9432edf1c249fb5dfbe3a51771b8",
+      "name": "FOURS",
+      "first_seen": "2026-11-24T22:55:40.761122+00:00",
+      "last_seen": "2026-11-24T22:56:32.702475+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x2903c1963991e7a348798c0a3db5d4aa7e004a6f",
+            "liq_usd": 3.3691,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3.3691,
+      "max_age_h_seen": 46.141311275024414,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x7a9ae3261cd1b1274924a439e5ad59075c837fc9": {
+      "address": "0x7a9ae3261cd1b1274924a439e5ad59075c837fc9",
+      "name": "FOGPAD",
+      "first_seen": "2026-11-24T22:55:40.761129+00:00",
+      "last_seen": "2026-11-24T22:56:33.157363+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x1397c078bd2b6b98a5533b02182e35269d948b71",
+            "liq_usd": 0.0004202346145,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.0004202346145,
+      "max_age_h_seen": 46.14381127502441,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xa152508d197c33e4e8bca77a9bff7fe1efeeb618": {
+      "address": "0xa152508d197c33e4e8bca77a9bff7fe1efeeb618",
+      "name": "DOBY",
+      "first_seen": "2026-11-24T22:55:40.761143+00:00",
+      "last_seen": "2026-11-24T22:56:34.236745+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xe4cb964d0cb1cae5f4765cd58c5b12a3965d4800",
+            "liq_usd": 2.3584,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 2.41,
+      "max_age_h_seen": 46.146311275024416,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xd4bfef7d4949ae64050fd65ffad05906b9f9cede": {
+      "address": "0xd4bfef7d4949ae64050fd65ffad05906b9f9cede",
+      "name": "BTA",
+      "first_seen": "2026-11-24T22:55:40.761149+00:00",
+      "last_seen": "2026-11-24T22:56:35.206219+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xda75c5f4dbd0c639ba528db0804aa4b81b5c5a90",
+            "liq_usd": 0.04847044224,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.04847044224,
+      "max_age_h_seen": 46.14908905280219,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x33fe1fda4c1ea4c9bc32163f13922c3b82a038df": {
+      "address": "0x33fe1fda4c1ea4c9bc32163f13922c3b82a038df",
+      "name": "BITSOL",
+      "first_seen": "2026-11-24T22:55:40.761156+00:00",
+      "last_seen": "2026-11-24T22:56:35.696731+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xe147cf7b618163d81c23b55ed86c8438826b55de",
+            "liq_usd": 3.3691,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3.3691,
+      "max_age_h_seen": 46.151589052802194,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xb2361046da66ef8c8070b9abe309df6a66791631": {
+      "address": "0xb2361046da66ef8c8070b9abe309df6a66791631",
+      "name": "AMD",
+      "first_seen": "2026-11-24T22:55:40.761170+00:00",
+      "last_seen": "2026-11-24T22:56:36.159172+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x3d6952f963dcbd0e2411416198d33c1193bf5817",
+            "liq_usd": 0.03159853724,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.03159853724,
+      "max_age_h_seen": 46.15408905280219,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xd29e0de5021d43e06038021db52251a05d1d5d87": {
+      "address": "0xd29e0de5021d43e06038021db52251a05d1d5d87",
+      "name": "ADOBA",
+      "first_seen": "2026-11-24T22:55:40.761185+00:00",
+      "last_seen": "2026-11-24T22:56:36.607200+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xd641514cdf858bf0f66a97c81673052c7853918f",
+            "liq_usd": 0.02941634128,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.02941634128,
+      "max_age_h_seen": 46.15658905280219,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xd09ad88268dcc0cbabf806d5e1bd15138fced2af": {
+      "address": "0xd09ad88268dcc0cbabf806d5e1bd15138fced2af",
+      "name": "SYNX",
+      "first_seen": "2026-11-24T22:55:40.761191+00:00",
+      "last_seen": "2026-11-24T22:56:37.181932+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xd7210757270876da1571c0c4f925e622f0275f35",
+            "liq_usd": 0.6741,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.6741,
+      "max_age_h_seen": 46.159644608357745,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x6f99d63df26f76814230e27ecc52351e2c8c0cbc": {
+      "address": "0x6f99d63df26f76814230e27ecc52351e2c8c0cbc",
+      "name": "HEAD",
+      "first_seen": "2026-11-24T22:55:40.761198+00:00",
+      "last_seen": "2026-11-24T22:56:37.670297+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x631d59f729a0ed10a25972b11d04d33404dce470",
+            "liq_usd": 0.5055,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.5055,
+      "max_age_h_seen": 46.16214460835775,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x48c18287142810ed8d111ffbfa0cd3678f422e19": {
+      "address": "0x48c18287142810ed8d111ffbfa0cd3678f422e19",
+      "name": "FRAGS",
+      "first_seen": "2026-11-24T22:55:40.761204+00:00",
+      "last_seen": "2026-11-24T22:56:38.713400+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x15c0d590da6907d93689d9ed37cf865bf37751c5",
+            "liq_usd": 0.1685,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.18,
+      "max_age_h_seen": 46.16464460835775,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xca56508a90dd1d8515b35e7b4810e357f98efc64": {
+      "address": "0xca56508a90dd1d8515b35e7b4810e357f98efc64",
+      "name": "XFROG / WPOL 0.3%",
+      "first_seen": "2026-11-24T22:55:40.761219+00:00",
+      "last_seen": "2026-11-24T22:55:40.761219+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xbb8b2c1ce774fe91bfaa6ade3f92c9dd00c98d19",
+            "liq_usd": 1316.0398,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 1316.0398,
+      "max_age_h_seen": 46.16658905277778,
+      "tier": "watch",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [
+        "none->watch 2026-11-24T22:55:40.761219+00:00"
+      ],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x891666dfa78a0492642bc0123b55c9291e764189": {
+      "address": "0x891666dfa78a0492642bc0123b55c9291e764189",
+      "name": "VEO",
+      "first_seen": "2026-11-24T22:55:40.761226+00:00",
+      "last_seen": "2026-11-24T22:56:40.006789+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x5e4a2e639ee2e36c91b199abac77f393130dfb77",
+            "liq_usd": 0.02227032805,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.02227032805,
+      "max_age_h_seen": 46.16964460835775,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xf9ed720e99535ea70fa2420ee57341029984dff9": {
+      "address": "0xf9ed720e99535ea70fa2420ee57341029984dff9",
+      "name": "UKYO",
+      "first_seen": "2026-11-24T22:55:40.761233+00:00",
+      "last_seen": "2026-11-24T22:56:40.533386+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x5ee78053658281737f6a811236b2ab81240c8894",
+            "liq_usd": 0.3369,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.3369,
+      "max_age_h_seen": 46.17158905280219,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x9b04712c6345ca3f397354d13d494954ea62f1cd": {
+      "address": "0x9b04712c6345ca3f397354d13d494954ea62f1cd",
+      "name": "TEACUP",
+      "first_seen": "2026-11-24T22:55:40.761239+00:00",
+      "last_seen": "2026-11-24T22:56:41.045913+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x1a78bdf9bcc10593503994fbeecf6243986e1923",
+            "liq_usd": 0.06499600917,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.06499600917,
+      "max_age_h_seen": 46.174644608357745,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xb39bf5c56014238c245aa8d7d2c0ae8aa4206285": {
+      "address": "0xb39bf5c56014238c245aa8d7d2c0ae8aa4206285",
+      "name": "TAM",
+      "first_seen": "2026-11-24T22:55:40.761248+00:00",
+      "last_seen": "2026-11-24T22:56:41.479623+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xe759ecc429eba542100b4fa7db090e992a2f525d",
+            "liq_usd": 3.3703,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3.3703,
+      "max_age_h_seen": 46.17714460835775,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xd933feba24f44c998492125c95215dceaae5cc1e": {
+      "address": "0xd933feba24f44c998492125c95215dceaae5cc1e",
+      "name": "SWAN",
+      "first_seen": "2026-11-24T22:55:40.761262+00:00",
+      "last_seen": "2026-11-24T22:56:42.539198+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x44cd74c535529e4f054ff971628914fd0d77632c",
+            "liq_usd": 0.07444457958,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.07444457958,
+      "max_age_h_seen": 46.17992238613552,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xc3038407ce58e1f3844eb6a3edac4f0ddc0b6217": {
+      "address": "0xc3038407ce58e1f3844eb6a3edac4f0ddc0b6217",
+      "name": "SUNSHI",
+      "first_seen": "2026-11-24T22:55:40.761269+00:00",
+      "last_seen": "2026-11-24T22:56:43.055187+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x32556c9decc2c4f309da3f61b4cf032826f75a8a",
+            "liq_usd": 3.5375,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3.5375,
+      "max_age_h_seen": 46.18242238613553,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xbd5e86e28b77c4ee767b23f594c95a05cff95f42": {
+      "address": "0xbd5e86e28b77c4ee767b23f594c95a05cff95f42",
+      "name": "SLUMP",
+      "first_seen": "2026-11-24T22:55:40.761283+00:00",
+      "last_seen": "2026-11-24T22:56:43.482482+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x29ff683ab97888925d23440133dbb21ce0d6ff38",
+            "liq_usd": 1.0107,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 1.0107,
+      "max_age_h_seen": 46.184922386135526,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x6280f4601f8c5448e2e7f0c39da905e84e51f239": {
+      "address": "0x6280f4601f8c5448e2e7f0c39da905e84e51f239",
+      "name": "ROCKET",
+      "first_seen": "2026-11-24T22:55:40.761297+00:00",
+      "last_seen": "2026-11-24T22:56:44.046280+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xde66f3f70eac4903633d541d465f70518651f998",
+            "liq_usd": 0.1685,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.1685,
+      "max_age_h_seen": 46.18742238613552,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x71aa80cebed0802d27d564e5a93ae4683219e497": {
+      "address": "0x71aa80cebed0802d27d564e5a93ae4683219e497",
+      "name": "REBORN / WPOL 0.3%",
+      "first_seen": "2026-11-24T22:55:40.761304+00:00",
+      "last_seen": "2026-11-24T22:55:40.761304+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x0cb54bbc55915fdfca1d51b7064d18b0d8e15064",
+            "liq_usd": 0.001737863302,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.001737863302,
+      "max_age_h_seen": 46.189922386111114,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0x8070cc11223c7eb5ec1d0fa9fdaac775a1b18394": {
+      "address": "0x8070cc11223c7eb5ec1d0fa9fdaac775a1b18394",
+      "name": "RAZOR",
+      "first_seen": "2026-11-24T22:55:40.761318+00:00",
+      "last_seen": "2026-11-24T22:56:45.246256+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x5a95fd7e7f3d0c8cb604128d5d08a4857162460f",
+            "liq_usd": 0.05288617265,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.05288617265,
+      "max_age_h_seen": 46.192422386135526,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xdfd8abbc555e0a8b505ae3829ea941e8ba2989fe": {
+      "address": "0xdfd8abbc555e0a8b505ae3829ea941e8ba2989fe",
+      "name": "OILED",
+      "first_seen": "2026-11-24T22:55:40.761324+00:00",
+      "last_seen": "2026-11-24T22:56:45.729006+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0xd2c7c310a25b3fe39d6c19c9f618a0a764eb6caa",
+            "liq_usd": 3.5388,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3.5388,
+      "max_age_h_seen": 46.194922386135524,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xdf06cff158fead747c8530a3f76a846e180c0422": {
+      "address": "0xdf06cff158fead747c8530a3f76a846e180c0422",
+      "name": "ICEWOL",
+      "first_seen": "2026-11-24T22:55:40.761331+00:00",
+      "last_seen": "2026-11-24T22:56:46.178661+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x9002bea4b569c0d978e05891781cfe7dbed2bf35",
+            "liq_usd": 0.337,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 0.337,
+      "max_age_h_seen": 46.19742238613553,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    },
+    "0xc569c730db5ec073b9c1613e09278ae1d6086dcc": {
+      "address": "0xc569c730db5ec073b9c1613e09278ae1d6086dcc",
+      "name": "HABIT",
+      "first_seen": "2026-11-24T22:55:40.761338+00:00",
+      "last_seen": "2026-11-24T22:56:46.950397+00:00",
+      "venues": {
+        "uniswap": [
+          {
+            "pair": "0x3c077b34707d9fefc40aa8fa105b139eca349f0c",
+            "liq_usd": 3.706,
+            "price_usd": null
+          }
+        ]
+      },
+      "dexs": [
+        "uniswap"
+      ],
+      "max_liq_usd_seen": 3.706,
+      "max_age_h_seen": 46.200477941691084,
+      "tier": "none",
+      "goplus": {
+        "ok": null,
+        "note": null,
+        "checked": null
+      },
+      "second_venue_first_seen": null,
+      "promotions": [],
+      "source": "geckoterminal",
+      "_new_second_venue": false
+    }
+  }
+}

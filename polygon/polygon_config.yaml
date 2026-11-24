@@ -58,12 +58,18 @@ flashloan:
   morpho_wmatic_measured: 1000246.0   # ~75 854 $ à 0,0758 $/MATIC
 
 # --- CŒUR DU BOT : la taille n'est JAMAIS fixe, c'est le calcul qui décide ---
+# RÈGLE v4.1 (Ismail, 2026-11-24) : min profit 3 $ ABANDONNÉ sur Polygon.
+# Nouvelle règle : EXECUTE ssi net > 0 $ APRÈS TOUS LES COÛTS (flash 0 %,
+# frais de swap, gas du trade + budget revert = 2 × gas). gas_multiple = 0
+# (la marge « net > gas × 3 » est remplacée par le budget revert compté
+# dans gas_usd — sinon le gas serait compté deux fois). Voir polygon_guard.py.
 math:
   flash_fee_rate: 0.0         # Morpho 0 % — provider Polygon
   max_loan_usd: 50000.0       # plafond absolu du flash loan
   max_pct_liquidity: 0.10     # jamais plus de 10 % de la plus petite réserve USDC
-  min_profit_usd: 3.0         # net minimum pour exécuter — confirmé par Ismail 2026-11-24
-  gas_multiple: 3.0           # net doit être > gas x 3
+  min_profit_usd: 0.0         # v4.1 : net > 0 $ après tous coûts (ex-3 $)
+  revert_budget_multiple: 1.0 # budget revert = 1 × gas ; coût total = 2 × gas
+  gas_multiple: 0.0           # v4.1 : marge remplacée par le budget revert
   gas_units: 450000
   gas_price_gwei: 279.0       # mesuré live 2026-11-24 (bloc 97 901 602)
   gas_price_max_gwei: 1000.0  # au-dessus, on ne broadcast RIEN (en $ ça reste ~0,00003 $)
@@ -88,7 +94,7 @@ scanner:
 
 executor:
   mode: "dry_run"             # JAMAIS de broadcast mainnet sans audit + décision d'Ismail
-  min_profit_usd: 3.0
+  min_profit_usd: 0.0         # v4.1 : net > 0 $ après tous coûts (ex-3 $)
   max_trades_per_day: 50
   daily_loss_limit_usd: 20.0
   revert_pause_trades: 3
@@ -106,7 +112,29 @@ funding:
   matic_price_usd: 0.0758
   sponsor_share_pct: 0.0       # Ismail garde 100 % du profit
   gas_payer: "ismail"
-  min_profit_usd: 3.0
+  min_profit_usd: 0.0         # v4.1 : net > 0 $ après tous coûts (ex-3 $)
   low_float_alert_usd: 0.5
   state_file: "float_state_polygon.json"
   trades_file: "trades_polygon.jsonl"
+
+# --- PROTECTION REVERT v4.2 (2026-11-24, voir REVERT_PROTECTION_POLYGON.md) ---
+# VERDICT VÉRIFIÉ : AUCUN service ne donne 0 $ sur un revert ON-CHAIN
+# sur Polygon aujourd'hui. MEV Blocker /noreverts + Flashbots Protect =
+# Ethereum seulement. FastLane Atlas : « No Free Reverts ». Polygon
+# Private Mempool = anti-frontrunning seulement, endpoint non publié.
+# Ce module NE PRÉTEND PAS au 0 $ revert : il re-simule au dernier
+# bloc avant envoi et DROP avant broadcast (0 $) tout ce qui revert,
+# est trop vieux (> 30 s) ou a un net <= 0 $. Le résidu (course entre
+# la re-sim et l'inclusion) coûte 0,0024 $ mesuré / 0,0095 $ prudent
+# par revert ; E[revert] ≈ 0,0005 $/trade tenté à 5 % de courses.
+revert_protection:
+  route: "public"              # "public" (défaut) ou "private"
+  private_endpoint: null       # endpoint Polygon Private Mempool : NON PUBLIÉ,
+                               # NON VÉRIFIÉ pour le revert — laisser null.
+  private_timeout_seconds: 3.0
+  max_quote_age_seconds: 30    # quote plus vieille -> DROP (0 $)
+  allow_public_fallback: false # false = FAIL-CLOSED : route privée down ->
+                               # NE PAS ENVOYER. true = repli public autorisé
+                               # seulement si le net couvre le budget revert.
+  revert_budget_usd: 0.0095    # coût prudent d'un revert (450 000 × 279 gwei)
+  log_file: "revert_protection_log.jsonl"

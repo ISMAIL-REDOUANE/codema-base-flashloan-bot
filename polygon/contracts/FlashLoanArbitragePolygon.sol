@@ -18,7 +18,11 @@ pragma solidity ^0.8.20;
  *     (vérifiée 2026-11-24 : idToMarketParams == API Morpho, soldes
  *     USDC 113,7 M$ / USDT 122,0 M$, voir POLYGON_FLASH_VERIFICATION.md).
  *  3. Aerodrome N'EXISTE PAS sur Polygon — aucune jambe Aerodrome ici.
- *  4. minProfit par défaut : 3 $ (3 * 1e6 USDC) — confirmé par Ismail.
+ *  4. minProfit on-chain : 0,01 $ (plancher anti-poussière, v4.1) — le
+ *     min profit de 3 $ est ABANDONNÉ sur Polygon (Ismail, 2026-11-24) :
+ *     le garde off-chain (polygon_guard.py) autorise tout trade à net
+ *     > 0 $ après TOUS les coûts (gas + budget revert) ; le require
+ *     on-chain n'est que le filet atomique (profit < 0,01 $ → revert).
  *  5. La jambe de vente est Uniswap V3 EN DIRECT (pool.swap + callback) :
  *     le SwapRouter02 Polygon (0x68b346…) N'EXPOSE PAS exactInputSingle
  *     (sélecteur 0x414bf389 ABSENT du bytecode — vérifié 2026-11-24 par
