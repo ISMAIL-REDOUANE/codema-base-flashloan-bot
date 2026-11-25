@@ -257,6 +257,13 @@ def fetch_pairs_from_dexscreener(token_address: str, timeout: int = 10) -> List[
     except Exception as e:  # réseau coupé, rate-limit, token inconnu
         print(f"[scanner] DexScreener indisponible pour {token_address}: {e}")
         return []
+    # RE-MESUREMENT 2026-11-25 : l'endpoint /token-pairs/v1 renvoie en
+    # LIVE un TABLEAU JSON nu ([{paire}, ...]), PAS {"pairs": [...]}
+    # (la docstring du fix #4 supposait le schéma de l'ancien endpoint —
+    # le test mocké passait, le live crashait avec AttributeError).
+    # On accepte les deux formes.
+    if isinstance(data, list):
+        return data
     return data.get("pairs") or []
 
 

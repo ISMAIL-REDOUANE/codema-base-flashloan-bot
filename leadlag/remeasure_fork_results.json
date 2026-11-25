@@ -1,0 +1,21 @@
+{
+  "method": "fork_preflight (Anvil, SYNTHETIQUE)",
+  "runs": [
+    {
+      "synthetic": true,
+      "amount_raw": 100000000,
+      "contract": "0x52edA2728B274B7a307d4Cee7EaC3b0a89Db9E78",
+      "caller": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "status": "REVERT",
+      "revert_reason": "pas de quoi rembourser le loan",
+      "gas_estimate": null,
+      "gas_used": 327643,
+      "tx_hash": "fe9cbb9e1340418d3d5b2ade7f6b62aebb7d82f2b0c150ff86be729b9c3a2b56",
+      "block": 62106592,
+      "call_ok": false,
+      "gas_estimate_error": "pas de quoi rembourser le loan",
+      "fork_block": 62106593,
+      "label": "majors WETH/USDC 100$ UniV2->BaseSwapV2"
+    }
+  ]
+}
