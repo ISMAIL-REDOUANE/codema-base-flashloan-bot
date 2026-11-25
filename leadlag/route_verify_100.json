@@ -52,17 +52,6 @@
   "sell": true
  },
  "tvl_buy_usd": 4779934.12,
- "tvl_sell_usd": 442583.75
+ "tvl_sell_usd": 442583.75,
+  "legacy_readout": "--- LECTURE ---\nbloc 62077712 | taille $100 | gap mid 0.0273%\nbrut +0.0273 $ | fee achat 0.0085 $ | impact achat 0.0000 $ | fee vente 0.0300 $ | impact vente 0.0021 $ | gas 0.0044 $\nNET -0.0178 $ (direct -0.0183 $, écart identité +5.21e-04 $) | threshold 0.0429%\nréférence scan : net -0.0183 $, threshold 0.0429%\ncrossed_tick achat=False vente=False | crosscheck v3_quote_python: {'buy_diff_pct': 0.0, 'sell_diff_pct': 0.0}\nfactories: achat 0x9cb220581b91b0c83223012fe69688b92ad07a76 | vente 0xf8f2eb4940cfe7d13603dddd87f123820fc061ef\nquoter guards: {'buy': {'quoter': None, 'out_raw': None}, 'sell': {'quoter': 'aero_mixed_quoter_v3 (GaugesV3)', 'out_raw': 170382}}\ngarde quoter jambe vente : quoter 170382 raw vs analytique 170382 raw -> écart -0.0001% (seuil 2%)\nTVL ok (10x taille): {'buy': True, 'sell': True}\nfee sources: achat pool_fee() | vente pool_fee()"
 }
-
---- LECTURE ---
-bloc 62077712 | taille $100 | gap mid 0.0273%
-brut +0.0273 $ | fee achat 0.0085 $ | impact achat 0.0000 $ | fee vente 0.0300 $ | impact vente 0.0021 $ | gas 0.0044 $
-NET -0.0178 $ (direct -0.0183 $, écart identité +5.21e-04 $) | threshold 0.0429%
-référence scan : net -0.0183 $, threshold 0.0429%
-crossed_tick achat=False vente=False | crosscheck v3_quote_python: {'buy_diff_pct': 0.0, 'sell_diff_pct': 0.0}
-factories: achat 0x9cb220581b91b0c83223012fe69688b92ad07a76 | vente 0xf8f2eb4940cfe7d13603dddd87f123820fc061ef
-quoter guards: {'buy': {'quoter': None, 'out_raw': None}, 'sell': {'quoter': 'aero_mixed_quoter_v3 (GaugesV3)', 'out_raw': 170382}}
-garde quoter jambe vente : quoter 170382 raw vs analytique 170382 raw -> écart -0.0001% (seuil 2%)
-TVL ok (10x taille): {'buy': True, 'sell': True}
-fee sources: achat pool_fee() | vente pool_fee()
