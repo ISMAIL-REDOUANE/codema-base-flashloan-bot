@@ -1,0 +1,14 @@
+{
+  "Uni V3 Factory": 0,
+  "Uni V3 SwapRouter02": 0,
+  "Uni V3 QuoterV2": 0,
+  "Uni V2 Factory": 0,
+  "Uni V2 Router02": 24535,
+  "Aave PoolAddressesProvider": 0,
+  "Aave V3 Pool (mainnet addr)": 0,
+  "Morpho Blue": 15623,
+  "WETH (predeploy)": 2041,
+  "USDC Base Sepolia (Circle)": "ERR Unknown format '0x036CbD53842c5426634e7929541eC2318f3dCF7eb', attempted to normalize to '0x036cbd53842c5426634e7929541ec2318f3dcf7eb'",
+  "USDC Base mainnet addr": 0,
+  "Multicall3": 3808
+}

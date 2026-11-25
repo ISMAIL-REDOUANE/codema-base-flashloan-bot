@@ -782,3 +782,95 @@ Tests : polygon **78/78** au dernier run combiné (test_revert_protection
 d'édition par l'agent big pools/triangle au même moment, comptes en
 mouvement) ; Base inchangée 85/85 (math 8/8, v2 11/11, balancer 11/11,
 morpho 12/12, sponsor 12/12, $0 15/15, self_funded 16/16).
+
+# v4.3 — Scan PRO V2 / V3 / V4, grosses pools ou petites ? (2026-11-24 23:31 – 2026-11-25 00:05 UTC)
+
+Ordre d'Ismail : « mymknch Polygon kamla mykonch fiha foras — 9leb ka
+wahd pro, V2 V3 V4 ochof fin kyn profit wch pool lkbar ola sghar ».
+
+## v4.3.1 Fichiers créés (polygon/)
+
+- `pro_scan.py` (~45 Ko) — scan PRO, lecture seule, MONITOR-ONLY.
+  Sections : (1) intra-Uni : tous les pools V3 par fee tier (100 / 500 /
+  3000 / 10000 via factory getPool) + pools V4 (clés standard sans hooks
+  + poolIds DexScreener) ; (2) mid-caps LINK / AAVE / GHST / SAND /
+  QUICK / MAI vs USDC.e / USDT (Uni V3 + QuickSwap V3 Algebra +
+  QuickSwap V2 / Sushi V2) ; (3) watchlist : 5 paires à 2 venues
+  (FUL, Rp, VOLLAR, COMP, axlUSDC). Tailles 1 000 $ / 5 000 $ /
+  20 000 $, net via `polygon_guard` (règle net > 0 $).
+- `test_pro_scan.py` — 23 tests (voir § v4.3.3).
+- `PRO_SCAN_POLYGON.md` — rapport complet (verdict, agrégat, détail par
+  paire / échantillon, mid-caps résolus, corrections).
+- `pro_scan_samples.jsonl` + `pro_scan_measurement_2026-11-24T2353.json`
+  / `...T2359.json` / `pro_scan_measurement_2026-11-25T0005.json` —
+  données brutes des 3 échantillons.
+
+## v4.3.2 Résultats LIVE (3 échantillons, blocs 97905847 / 97906084 / 97906315)
+
+- **117 mesures, 0 net > 0 $ — meilleur net −0,019 $ (GHST/USDT,
+  1 seule venue), meilleur spread −0,0202 % (USDC.e/USDT, 1 000 $).**
+  Tranches : >0$ 0 / ≥0,50$ 0 / ≥3$ 0 / ≤0$ 117.
+- Intra-Uni (36 mesures) : WMATIC/USDC.e 5 venues (4 V3 + 1 V4 1 bp) ;
+  WMATIC/USDT 4 venues V3, 0 V4 ; WETH/USDC.e 7 venues (4 V3 + 3 V4) ;
+  USDC.e/USDT 6 venues (4 V3 + 2 V4). Tous spreads négatifs.
+- Mid-caps (72 mesures) : LINK, AAVE, GHST, SAND, QUICK résolus et
+  vérifiés on-chain (adresses dans PRO_SCAN_POLYGON.md) ; **MAI SKIPPÉ**
+  (DexScreener sans candidat Polygon — adresse jamais devinée).
+  SAND/USDC.e et QUICK/USDT : 0 venue live (spreads None).
+- Watchlist (9 mesures) : seule axlUSDC/USDC mesurable (3 venues,
+  spread −0,0213 %, net −0,02 $) ; FUL / Rp / VOLLAR / COMP : 1 venue
+  live ou prix introuvable — SKIP sur les 3 échantillons.
+- V4 : PoolManager 0x6736… code présent, pas de getSlot0/getLiquidity —
+  état via extsload (pools mapping slot 6 ; tick <-> sqrtPrice validés
+  sur 3 pools connus). Quoter V4 0x31AB… inutilisable (pas de
+  quoteExactInputSingle) — quotes V4 par réserves virtuelles.
+  V4 trouvés : WETH/USDC.e 5 bp (liq 3,13e14, 7,65 WETH / 12 842 USDC.e,
+  prix 1 678,25 $ au marché), 30 bp (dust, tick hors marché 1 994 $),
+  1 % (0,087 WETH) ; USDC.e/USDT 1 bp et 1 % ; WMATIC/USDC.e 1 bp
+  (via DexScreener). Les ticks hors marché des pools V4 abandonnées ne
+  donnent rien une fois la vraie liquidité lue (voir § v4.3.4).
+- Gas mesuré pendant le scan : 282–283 gwei ≈ 0,0096 $/trade.
+
+## v4.3.3 Résultats des tests (vérifiés 2026-11-25 ~00:10 UTC)
+
+Polygon **122/122** (test_polygon 25/25 + test_watchlist 31/31 +
+test_big_pools_triangle 21/21 + test_revert_protection 22/22 +
+test_pro_scan 23/23) ; Base inchangée 85/85. `test_pro_scan` couvre :
+PoolId V4 déterministe, décodage extsload (slot0 + liquidité à base+3),
+réserves virtuelles + orientation, fee dynamique non cotable,
+découverte des tiers V3 (mockée), skip token non vérifié (MAI),
+agrégat + tranches, garde prix manquant, MONITOR-ONLY statique (aucun
+send_transaction / build_transaction / private_key / broadcast).
+
+## v4.3.4 Corrections majeures (honnêteté — chiffres du 1er run jetés)
+
+Premier run (23:39–23:42, échantillon 1 complet + échantillon 2
+crashé) : chiffres FAUX, fichiers supprimés, exclus de l'agrégat.
+1. **Liquidité V4 au mauvais slot** : `v4_pool_state` lisait `base+1`
+   = `feeGrowthGlobal0X128` (~1e26–1e30) au lieu de la liquidité à
+   `base+3` (slot0 base, feeGrowthGlobal0 base+1, feeGrowthGlobal1
+   base+2, liquidité uint128 base+3). Réserves virtuelles
+   astronomiques (2,5e15 WETH), impact prix ~0 → faux spread
+   **+62,44 % / net +31 218,78 $** sur WETH/USDC.e (et +13,16 % /
+   +6 580,90 $ sur USDC.e/USDT) à partir de ticks hors marché de pools
+   V4 abandonnées (1 bp à 2 727 $ vs 1 678 $ marché). Corrigé et
+   vérifié live (pool 5 bp : 7,65 WETH / 12 842 USDC.e, prix au
+   marché ; pool 1 bp : liquidité 0, exclu). Test ajouté : lecture de
+   la liquidité à base+3 vérifiée par les arguments d'extsload.
+2. **Crash KeyError 'axlUSDC'** (échantillon 2 du 1er run) : cache
+   module TOKEN_INFO gardait le prix d'axlUSDC de l'échantillon 1,
+   mais `prices_usd` est refait à chaque échantillon. Corrigé :
+   resynchronisation du cache dans `prices_usd` (section watchlist),
+   garde dans `measure_generic` (paire SKIPée si prix manquant),
+   sections protégées par try/except. Test ajouté (prix manquant →
+   SKIP sans crash).
+
+## v4.3.5 Ce qui manque encore
+
+Aucune route mesurée ne donne de profit net > 0 $ sur les échantillons
+du 24–25 nov 2026. Le scan ne couvre pas : les paires fines/exotiques
+au-delà de la watchlist (96 tokens), les boucles multi-pools intra-Uni
+V3/V4 (au-delà du simple cross-tier), les liquidations / depegs, les
+nouveaux lancements en continu (le marché bouge — un scan ponctuel ne
+prouve pas l'absence de profit la semaine prochaine). Décision
+d'Ismail en attente : surveillance continue (2–4 h) ou arrêt.

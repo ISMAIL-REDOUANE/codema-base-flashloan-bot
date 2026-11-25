@@ -1,0 +1,19 @@
+# Foundry project for the Sepolia REAL test (testnet only).
+# Self-contained: compiles the test token + pulls in the repo's
+# MorphoFlashLoanArbitrage (root contracts/) + Uniswap V2 (lib/).
+[profile.default]
+src = "contracts"
+out = "out"
+libs = ["../lib"]
+auto_detect_solc = true
+optimizer = true
+optimizer_runs = 200
+remappings = [
+    "@openzeppelin/contracts/=../lib/openzeppelin-contracts/contracts/",
+    "@aave/core-v3/=../lib/aave-v3-core/",
+    "@uniswap/v2-core/=../lib/v2-core/",
+    "@uniswap/v2-periphery/=../lib/v2-periphery/",
+    "@root/=../",
+    "@uniswap/lib/=../lib/uniswap-lib/",
+]
+allow_paths = ["../contracts", "../lib"]

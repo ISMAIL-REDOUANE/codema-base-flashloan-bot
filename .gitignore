@@ -21,3 +21,7 @@ float_state.json
 
 # Vendored upstream test wallets (Aave public test private keys, NOT needed for forge build)
 lib/aave-v3-core/test-wallets.js
+
+# Sepolia REAL test (testnet only) - secrets
+sepolia/.test-wallet.json
+sepolia/sepolia_config.json

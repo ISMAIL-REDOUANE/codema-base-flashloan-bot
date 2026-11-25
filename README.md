@@ -491,3 +491,39 @@ désactivé) ; repli **fail-closed** par défaut (route privée down → NE
 PAS ENVOYER). Journal `revert_protection_log.jsonl`. Résidu chiffré :
 revert on-chain 0,0024 $ mesuré / 0,0095 $ prudent ; E[revert] ≈
 0,0005 $/trade tenté à 5 % de courses — pas 0 $, mais négligeable.
+
+### v4.3 — Scan PRO V2 / V3 / V4, grosses pools ou petites ? (2026-11-24 23:31–2026-11-25 00:05 UTC)
+
+Ordre d'Ismail : « mymknch Polygon kamla mykonch fiha foras — 9leb ka
+wahd pro, V2 V3 V4 ». `polygon/pro_scan.py` mesure la couverture NON
+mesurée jusque-là, live et en lecture seule : (1) **intra-Uniswap** —
+tous les pools V3 par fee tier (0,01 / 0,05 / 0,3 / 1 % via factory
+getPool) + pools V4 (clés standard sans hooks + poolIds DexScreener),
+spreads cross-tier ET cross-version V3 vs V4 ; (2) **mid-caps** LINK,
+AAVE, GHST, SAND, QUICK, MAI vs USDC.e / USDT sur Uni V3 + QuickSwap
+V3 (Algebra) + QuickSwap V2 / Sushi V2, adresses vérifiées on-chain
+(eth_getCode + symbol()) — MAI SKIPPÉ (non vérifiable) ; (3)
+**watchlist** : les 5 paires à 2 venues (FUL, Rp, VOLLAR, COMP,
+axlUSDC) — seule axlUSDC/USDC mesurable (les 4 autres : 1 venue live
+ou prix introuvable). V4 lu via extsload (pools mapping slot 6) ;
+Quoter V4 0x31AB… inutilisable (pas de quoteExactInputSingle) → quotes
+V4 par réserves virtuelles.
+
+**VERDICT : 3 échantillons (blocs 97905847 / 97906084 / 97906315, gas
+282–283 gwei ≈ 0,0096 $/trade), 117 mesures, 0 net > 0 $ — meilleur
+net −0,019 $ (GHST/USDT, 1 venue), meilleur spread −0,0202 %
+(USDC.e/USDT, 1 000 $).** Ni V2, ni V3, ni V4 ; ni grosses pools, ni
+petites. Détail : `polygon/PRO_SCAN_POLYGON.md`.
+
+**Deux bugs attrapés et corrigés pendant ce scan (chiffres du premier
+run jetés) :** (1) liquidité V4 lue à `base+1` = feeGrowthGlobal0X128
+(~1e26–1e30) au lieu de `base+3` — gonflait les réserves virtuelles et
+fabriquait un faux spread +62,44 % / +31 218,78 $ sur WETH/USDC.e ;
+(2) crash KeyError 'axlUSDC' (cache prix module vs dict par
+échantillon) — garde + resync + sections en try/except. Tests
+`test_pro_scan.py` 23/23 (découverte tiers/V4, décodage extsload,
+slot liquidité base+3, skip token non vérifié, MONITOR-ONLY statique).
+
+**Tests Polygon au total : 122/122** (test_polygon 25 + test_watchlist
+31 + test_big_pools_triangle 21 + test_revert_protection 22 +
+test_pro_scan 23). Base inchangée 85/85.

@@ -1,0 +1,20 @@
+{
+  "usdc": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+  "morpho_usdc": 120324424112,
+  "morpho_weth": 1348525406181830040,
+  "v2_router_code": 24535,
+  "Sushi V2 Factory": 0,
+  "Sushi V2 Router02": 0,
+  "Uni V3 Factory canonical": 0,
+  "Uni V3 SwapRouter02 Sepolia?": 24497,
+  "Aave Provider A": {
+    "code": 6840,
+    "getPool": "0x07eA79F68B2B3df564D0A34F8e19D9B1e339814b"
+  },
+  "Aave Provider B": {
+    "code": 6697,
+    "getPool": "0x8bAB6d1b75f19e9eD9fCe8b9BD338844fF79aE27"
+  },
+  "Aave Pool A": 1892,
+  "Aave Pool B": 1853
+}
