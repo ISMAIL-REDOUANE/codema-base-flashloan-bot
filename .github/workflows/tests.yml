@@ -1,0 +1,23 @@
+name: Solidity and Python checks
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci --ignore-scripts
+      - run: node scripts/compile_contracts.cjs --test
+      - run: pip install -r requirements-dev.txt
+      - run: python -m pytest tests -q
+      - run: >-
+          python -m pytest test_math_engine.py test_gas.py test_v2.py
+          test_balancer.py test_morpho.py test_sponsor.py test_zero_cost.py
+          test_circuit_breaker.py test_self_funded.py leadlag/test_route_verify.py
+          polygon -k 'not live' -q
