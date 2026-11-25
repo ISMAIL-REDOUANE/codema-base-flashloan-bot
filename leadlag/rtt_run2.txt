@@ -1,0 +1,9 @@
+{'endpoint': 'data-api.binance.vision ping', 'n': 20, 'http_codes': ['200'], 'median_ms': 1225.7, 'p95_ms': 2475.6, 'min_ms': 840.4, 'max_ms': 4008.3}
+{'endpoint': 'data-api.binance.vision ticker', 'n': 20, 'http_codes': ['200'], 'median_ms': 1205.3, 'p95_ms': 1385.7, 'min_ms': 833.2, 'max_ms': 1390.5}
+{'endpoint': 'alchemy-base eth_blockNumber', 'n': 20, 'http_codes': ['200'], 'median_ms': 640.7, 'p95_ms': 836.9, 'min_ms': 531.3, 'max_ms': 865.9}
+WS fail: TimeoutError timed out during opening handshake
+WS fail: TimeoutError timed out during opening handshake
+WS fail: TimeoutError timed out during opening handshake
+WS fail: TimeoutError timed out during opening handshake
+WS fail: TimeoutError timed out during opening handshake
+WS data-stream.binance.vision: None

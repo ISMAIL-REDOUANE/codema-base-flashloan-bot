@@ -1,0 +1,811 @@
+{
+  "date": "2026-11-24T22:57:26.048424+00:00",
+  "chain": "polygon",
+  "chain_id": 137,
+  "block": 97903718,
+  "mode": "MONITOR-ONLY",
+  "gas_price_gwei": 278.3,
+  "triangle_gas_units": 600000,
+  "reference_prices_usd": {
+    "WMATIC": 0.076094,
+    "USDC": 0.999491,
+    "USDC.e": 0.999491,
+    "USDT": 0.998837,
+    "WETH": 1683.97,
+    "DAI": 0.999987
+  },
+  "cycles": [
+    {
+      "cycle": "WMATIC -> USDC.e -> USDT -> WMATIC",
+      "start_usd": 1000.0,
+      "final_usd": 991.3259,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "USDC.e",
+          "amount_in": 13141.640602412806,
+          "amount_out": 991.428927,
+          "dex": "quickswap",
+          "kind": "v2",
+          "method": "getAmountsOut"
+        },
+        {
+          "from": "USDC.e",
+          "to": "USDT",
+          "amount_in": 991.428927,
+          "amount_out": 992.677988,
+          "dex": "quickswap",
+          "kind": "algebra",
+          "method": "algebra-virtual"
+        },
+        {
+          "from": "USDT",
+          "to": "WMATIC",
+          "amount_in": 992.677988,
+          "amount_out": 13027.648288197255,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -8.6741,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -8.6995,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    },
+    {
+      "cycle": "WMATIC -> USDC.e -> USDT -> WMATIC",
+      "start_usd": 5000.0,
+      "final_usd": 4880.5188,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "USDC.e",
+          "amount_in": 65708.20301206403,
+          "amount_out": 4884.104222,
+          "dex": "quickswap",
+          "kind": "v2",
+          "method": "getAmountsOut"
+        },
+        {
+          "from": "USDC.e",
+          "to": "USDT",
+          "amount_in": 4884.104222,
+          "amount_out": 4889.984049,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "USDT",
+          "to": "WMATIC",
+          "amount_in": 4889.984049,
+          "amount_out": 64138.023691173395,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -119.4812,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -119.5066,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    },
+    {
+      "cycle": "WMATIC -> USDC.e -> USDT -> WMATIC",
+      "start_usd": 20000.0,
+      "final_usd": 18462.3876,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "USDC.e",
+          "amount_in": 262832.8120482561,
+          "amount_out": 18513.475224,
+          "dex": "quickswap",
+          "kind": "v2",
+          "method": "getAmountsOut"
+        },
+        {
+          "from": "USDC.e",
+          "to": "USDT",
+          "amount_in": 18513.475224,
+          "amount_out": 18535.392765,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "USDT",
+          "to": "WMATIC",
+          "amount_in": 18535.392765,
+          "amount_out": 242626.06308473626,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -1537.6124,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -1537.6378,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    },
+    {
+      "cycle": "WMATIC -> USDT -> USDC.e -> WMATIC",
+      "start_usd": 1000.0,
+      "final_usd": 993.7429,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "USDT",
+          "amount_in": 13141.640602412806,
+          "amount_out": 1000.068821,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "USDT",
+          "to": "USDC.e",
+          "amount_in": 1000.068821,
+          "amount_out": 998.618352,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "USDC.e",
+          "to": "WMATIC",
+          "amount_in": 998.618352,
+          "amount_out": 13059.41205713724,
+          "dex": "quickswap",
+          "kind": "v2",
+          "method": "getAmountsOut"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -6.2571,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -6.2825,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    },
+    {
+      "cycle": "WMATIC -> USDT -> USDC.e -> WMATIC",
+      "start_usd": 5000.0,
+      "final_usd": 4892.1135,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "USDT",
+          "amount_in": 65708.20301206403,
+          "amount_out": 4997.109362,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "USDT",
+          "to": "USDC.e",
+          "amount_in": 4997.109362,
+          "amount_out": 4989.604655,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "USDC.e",
+          "to": "WMATIC",
+          "amount_in": 4989.604655,
+          "amount_out": 64290.39720530502,
+          "dex": "quickswap",
+          "kind": "v2",
+          "method": "getAmountsOut"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -107.8865,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -107.9119,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    },
+    {
+      "cycle": "WMATIC -> USDT -> USDC.e -> WMATIC",
+      "start_usd": 20000.0,
+      "final_usd": 18501.8115,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "USDT",
+          "amount_in": 262832.8120482561,
+          "amount_out": 19943.720584,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "USDT",
+          "to": "USDC.e",
+          "amount_in": 19943.720584,
+          "amount_out": 19909.558339,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "USDC.e",
+          "to": "WMATIC",
+          "amount_in": 19909.558339,
+          "amount_out": 243144.15706882157,
+          "dex": "quickswap",
+          "kind": "v2",
+          "method": "getAmountsOut"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -1498.1885,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -1498.2139,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    },
+    {
+      "cycle": "WMATIC -> USDC.e -> WETH -> WMATIC",
+      "start_usd": 1000.0,
+      "final_usd": 987.3061,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "USDC.e",
+          "amount_in": 13141.640602412806,
+          "amount_out": 991.428927,
+          "dex": "quickswap",
+          "kind": "v2",
+          "method": "getAmountsOut"
+        },
+        {
+          "from": "USDC.e",
+          "to": "WETH",
+          "amount_in": 991.428927,
+          "amount_out": 0.5874536877074406,
+          "dex": "quickswap",
+          "kind": "v2",
+          "method": "getAmountsOut"
+        },
+        {
+          "from": "WETH",
+          "to": "WMATIC",
+          "amount_in": 0.5874536877074406,
+          "amount_out": 12974.822139348003,
+          "dex": "quickswap",
+          "kind": "algebra",
+          "method": "algebra-virtual"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -12.6939,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -12.7193,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    },
+    {
+      "cycle": "WMATIC -> USDC.e -> WETH -> WMATIC",
+      "start_usd": 5000.0,
+      "final_usd": 4812.7255,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "USDC.e",
+          "amount_in": 65708.20301206403,
+          "amount_out": 4884.104222,
+          "dex": "quickswap",
+          "kind": "v2",
+          "method": "getAmountsOut"
+        },
+        {
+          "from": "USDC.e",
+          "to": "WETH",
+          "amount_in": 4884.104222,
+          "amount_out": 2.88206751185909,
+          "dex": "quickswap",
+          "kind": "v2",
+          "method": "getAmountsOut"
+        },
+        {
+          "from": "WETH",
+          "to": "WMATIC",
+          "amount_in": 2.88206751185909,
+          "amount_out": 63247.108199128896,
+          "dex": "quickswap",
+          "kind": "algebra",
+          "method": "algebra-virtual"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -187.2745,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -187.3,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    },
+    {
+      "cycle": "WMATIC -> USDC.e -> WETH -> WMATIC",
+      "start_usd": 20000.0,
+      "final_usd": 17596.0355,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "USDC.e",
+          "amount_in": 262832.8120482561,
+          "amount_out": 18513.475224,
+          "dex": "quickswap",
+          "kind": "v2",
+          "method": "getAmountsOut"
+        },
+        {
+          "from": "USDC.e",
+          "to": "WETH",
+          "amount_in": 18513.475224,
+          "amount_out": 10.769305138975072,
+          "dex": "quickswap",
+          "kind": "v2",
+          "method": "getAmountsOut"
+        },
+        {
+          "from": "WETH",
+          "to": "WMATIC",
+          "amount_in": 10.769305138975072,
+          "amount_out": 231240.77465457257,
+          "dex": "quickswap",
+          "kind": "algebra",
+          "method": "algebra-virtual"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -2403.9645,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -2403.9899,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    },
+    {
+      "cycle": "WMATIC -> WETH -> USDC.e -> WMATIC",
+      "start_usd": 1000.0,
+      "final_usd": 989.0986,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "WETH",
+          "amount_in": 13141.640602412806,
+          "amount_out": 0.5922036523926474,
+          "dex": "quickswap",
+          "kind": "algebra",
+          "method": "algebra-virtual"
+        },
+        {
+          "from": "WETH",
+          "to": "USDC.e",
+          "amount_in": 0.5922036523926474,
+          "amount_out": 993.933875,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "USDC.e",
+          "to": "WMATIC",
+          "amount_in": 993.933875,
+          "amount_out": 12998.37897380168,
+          "dex": "quickswap",
+          "kind": "v2",
+          "method": "getAmountsOut"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -10.9014,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -10.9268,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    },
+    {
+      "cycle": "WMATIC -> WETH -> USDC.e -> WMATIC",
+      "start_usd": 5000.0,
+      "final_usd": 4809.1025,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "WETH",
+          "amount_in": 65708.20301206403,
+          "amount_out": 2.9413933462605657,
+          "dex": "quickswap",
+          "kind": "algebra",
+          "method": "algebra-virtual"
+        },
+        {
+          "from": "WETH",
+          "to": "USDC.e",
+          "amount_in": 2.9413933462605657,
+          "amount_out": 4903.378571,
+          "dex": "quickswap",
+          "kind": "v2",
+          "method": "getAmountsOut"
+        },
+        {
+          "from": "USDC.e",
+          "to": "WMATIC",
+          "amount_in": 4903.378571,
+          "amount_out": 63199.496446486424,
+          "dex": "quickswap",
+          "kind": "v2",
+          "method": "getAmountsOut"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -190.8975,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -190.9229,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    },
+    {
+      "cycle": "WMATIC -> WETH -> USDC.e -> WMATIC",
+      "start_usd": 20000.0,
+      "final_usd": 17583.6759,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "WETH",
+          "amount_in": 262832.8120482561,
+          "amount_out": 11.480242333225632,
+          "dex": "quickswap",
+          "kind": "algebra",
+          "method": "algebra-virtual"
+        },
+        {
+          "from": "WETH",
+          "to": "USDC.e",
+          "amount_in": 11.480242333225632,
+          "amount_out": 18851.539648,
+          "dex": "quickswap",
+          "kind": "v2",
+          "method": "getAmountsOut"
+        },
+        {
+          "from": "USDC.e",
+          "to": "WMATIC",
+          "amount_in": 18851.539648,
+          "amount_out": 231078.34942041629,
+          "dex": "quickswap",
+          "kind": "v2",
+          "method": "getAmountsOut"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -2416.3241,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -2416.3495,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    },
+    {
+      "cycle": "WMATIC -> USDT -> WETH -> WMATIC",
+      "start_usd": 1000.0,
+      "final_usd": 994.7409,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "USDT",
+          "amount_in": 13141.640602412806,
+          "amount_out": 999.843161,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "USDT",
+          "to": "WETH",
+          "amount_in": 999.843161,
+          "amount_out": 0.5918848297601863,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "WETH",
+          "to": "WMATIC",
+          "amount_in": 0.5918848297601863,
+          "amount_out": 13072.527985329652,
+          "dex": "quickswap",
+          "kind": "algebra",
+          "method": "algebra-virtual"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -5.2591,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -5.2845,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    },
+    {
+      "cycle": "WMATIC -> USDT -> WETH -> WMATIC",
+      "start_usd": 5000.0,
+      "final_usd": 4909.5294,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "USDT",
+          "amount_in": 65708.20301206403,
+          "amount_out": 4996.229341,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "USDT",
+          "to": "WETH",
+          "amount_in": 4996.229341,
+          "amount_out": 2.9405176891660143,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "WETH",
+          "to": "WMATIC",
+          "amount_in": 2.9405176891660143,
+          "amount_out": 64519.271137721116,
+          "dex": "quickswap",
+          "kind": "algebra",
+          "method": "algebra-virtual"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -90.4706,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -90.496,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    },
+    {
+      "cycle": "WMATIC -> USDT -> WETH -> WMATIC",
+      "start_usd": 20000.0,
+      "final_usd": 18766.1305,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "USDT",
+          "amount_in": 262832.8120482561,
+          "amount_out": 19940.192716,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "USDT",
+          "to": "WETH",
+          "amount_in": 19940.192716,
+          "amount_out": 11.508635923026674,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "WETH",
+          "to": "WMATIC",
+          "amount_in": 11.508635923026674,
+          "amount_out": 246617.74286654967,
+          "dex": "quickswap",
+          "kind": "algebra",
+          "method": "algebra-virtual"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -1233.8695,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -1233.8949,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    },
+    {
+      "cycle": "WMATIC -> WETH -> USDT -> WMATIC",
+      "start_usd": 1000.0,
+      "final_usd": 995.3027,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "WETH",
+          "amount_in": 13141.640602412806,
+          "amount_out": 0.5922036523926474,
+          "dex": "quickswap",
+          "kind": "algebra",
+          "method": "algebra-virtual"
+        },
+        {
+          "from": "WETH",
+          "to": "USDT",
+          "amount_in": 0.5922036523926474,
+          "amount_out": 996.436202,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "USDT",
+          "to": "WMATIC",
+          "amount_in": 996.436202,
+          "amount_out": 13079.90974308454,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -4.6973,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -4.7228,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    },
+    {
+      "cycle": "WMATIC -> WETH -> USDT -> WMATIC",
+      "start_usd": 5000.0,
+      "final_usd": 4911.7217,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "WETH",
+          "amount_in": 65708.20301206403,
+          "amount_out": 2.9413933462605657,
+          "dex": "quickswap",
+          "kind": "algebra",
+          "method": "algebra-virtual"
+        },
+        {
+          "from": "WETH",
+          "to": "USDT",
+          "amount_in": 2.9413933462605657,
+          "amount_out": 4920.160937,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "USDT",
+          "to": "WMATIC",
+          "amount_in": 4920.160937,
+          "amount_out": 64548.08127938906,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -88.2783,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -88.3037,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    },
+    {
+      "cycle": "WMATIC -> WETH -> USDT -> WMATIC",
+      "start_usd": 20000.0,
+      "final_usd": 18703.0676,
+      "legs": [
+        {
+          "from": "WMATIC",
+          "to": "WETH",
+          "amount_in": 262832.8120482561,
+          "amount_out": 11.480242333225632,
+          "dex": "quickswap",
+          "kind": "algebra",
+          "method": "algebra-virtual"
+        },
+        {
+          "from": "WETH",
+          "to": "USDT",
+          "amount_in": 11.480242333225632,
+          "amount_out": 18766.938768,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        },
+        {
+          "from": "USDT",
+          "to": "WMATIC",
+          "amount_in": 18766.938768,
+          "amount_out": 245788.99219385433,
+          "dex": "uniswap",
+          "kind": "v3-uni",
+          "method": "QuoterV2"
+        }
+      ],
+      "gas_gwei": 278.3,
+      "net": {
+        "gross_usd": -1296.9324,
+        "gas_usd": 0.012706,
+        "revert_budget_usd": 0.012706,
+        "total_cost_usd": 0.025412,
+        "net_usd": -1296.9578,
+        "action": "SKIP",
+        "tranche": "<=0$"
+      }
+    }
+  ]
+}

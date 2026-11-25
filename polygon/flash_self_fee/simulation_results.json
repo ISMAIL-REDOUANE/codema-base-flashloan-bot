@@ -1,0 +1,141 @@
+{
+  "fork_block": 97921663,
+  "gas_price_gwei": 279.0,
+  "matic_price_usd": 0.0758,
+  "seed_per_pool_usd": 50000,
+  "external_move_tkb": 2500,
+  "cases": {
+    "iv_own_one_pair_self_arb": {
+      "owner_wealth_usd": 102496.5236,
+      "lp_plus_wallet_usd": 102496.5283,
+      "gas_paid_usd": 0.004763,
+      "fair_price_tkb_per_tka": 1.049382,
+      "lp_share_a": 1.0,
+      "lp_share_b": 0.0,
+      "tx_hash": "3939075d9e8aed5e99292f7517012a3658fa890a6179613fbc8099d9feee691a",
+      "block": 97921686,
+      "guard_action": "EXECUTE",
+      "guard_expected_net_usd": 53.59,
+      "optimal_loan_usd": 1144.29,
+      "borrow_tka": 1115.4067354600083,
+      "repay_tkb": 1144.2899999999997,
+      "fee_leg_a_usd": 3.4329,
+      "fee_leg_b_usd": 3.522,
+      "price_a_after": 1.046225,
+      "price_b_after": 1.052539,
+      "reserves_a_before": [
+        50000.0,
+        50000.0
+      ],
+      "reserves_a_after": [
+        48884.593264539995,
+        51144.29
+      ],
+      "reserves_b_before": [
+        47625.85131209221,
+        52500.0
+      ],
+      "reserves_b_after": [
+        48741.25804755221,
+        51302.099333725295
+      ],
+      "gas_units": 225216
+    },
+    "iii_external_arb": {
+      "owner_wealth_usd": 102442.9177,
+      "lp_plus_wallet_usd": 102442.9177,
+      "gas_paid_usd": 0.0,
+      "fair_price_tkb_per_tka": 1.049382,
+      "lp_share_a": 1.0,
+      "lp_share_b": 0.0,
+      "tx_hash": "0b2b944c4bb3dc34a721076834c718809b325a5d9ed5a9f4600087f2004e4960",
+      "block": 97921686,
+      "guard_action": "EXECUTE",
+      "guard_expected_net_usd": 53.59,
+      "optimal_loan_usd": 1144.29,
+      "borrow_tka": 1115.4067354600083,
+      "repay_tkb": 1144.2899999999997,
+      "fee_leg_a_usd": 3.4329,
+      "fee_leg_b_usd": 3.522,
+      "external_arber_profit_usd": 53.6107,
+      "reserves_a_before": [
+        50000.0,
+        50000.0
+      ],
+      "reserves_a_after": [
+        48884.593264539995,
+        51144.29
+      ],
+      "reserves_b_before": [
+        47625.85131209221,
+        52500.0
+      ],
+      "reserves_b_after": [
+        48741.25804755221,
+        51302.099333725295
+      ],
+      "gas_units": 225216,
+      "gas_paid_by_stranger_usd": 0.004763
+    },
+    "i_hold": {
+      "owner_wealth_usd": 102469.1158,
+      "lp_plus_wallet_usd": 102469.1158,
+      "gas_paid_usd": 0.0,
+      "fair_price_tkb_per_tka": 1.049382,
+      "lp_share_a": 1.0,
+      "lp_share_b": 0.0,
+      "note": "no tx; LP valued at the same converged price P* as the arb cases"
+    },
+    "ii_self_arb_own_both": {
+      "owner_wealth_usd": 204946.8371,
+      "lp_plus_wallet_usd": 204946.8419,
+      "gas_paid_usd": 0.004763,
+      "fair_price_tkb_per_tka": 1.049382,
+      "lp_share_a": 1.0,
+      "lp_share_b": 1.0,
+      "tx_hash": "56a7d98a7ca62e1587990976ba08ca6f420a6f8b388fa84ca0a9db5b81af7ce5",
+      "block": 97921684,
+      "guard_action": "EXECUTE",
+      "guard_expected_net_usd": 53.59,
+      "optimal_loan_usd": 1144.29,
+      "borrow_tka": 1115.4067354600083,
+      "repay_tkb": 1144.2899999999997,
+      "fee_leg_a_usd": 3.4329,
+      "fee_leg_b_usd": 3.522,
+      "price_a_after": 1.046225,
+      "price_b_after": 1.052539,
+      "reserves_a_before": [
+        50000.0,
+        50000.0
+      ],
+      "reserves_a_after": [
+        48884.593264539995,
+        51144.29
+      ],
+      "reserves_b_before": [
+        47625.85131209221,
+        52500.0
+      ],
+      "reserves_b_after": [
+        48741.25804755221,
+        51302.099333725295
+      ],
+      "gas_units": 225216
+    },
+    "i_hold_both_baseline": {
+      "owner_wealth_usd": 204946.8419,
+      "lp_plus_wallet_usd": 204946.8419,
+      "gas_paid_usd": 0.0,
+      "fair_price_tkb_per_tka": 1.049382,
+      "lp_share_a": 1.0,
+      "lp_share_b": 1.0,
+      "note": "owner LP of both, no trade, valued at P*"
+    }
+  },
+  "deltas_vs_hold_usd": {
+    "iv_own_one_pair_minus_hold": 27.4078,
+    "iii_external_minus_hold": -26.1981,
+    "ii_own_both_minus_hold_both": -0.0048,
+    "iv_minus_iii": 53.6059
+  }
+}

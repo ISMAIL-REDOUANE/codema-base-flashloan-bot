@@ -1,0 +1,113 @@
+{
+  "date": "2026-11-24T22:55:30.720590+00:00",
+  "chain": "polygon",
+  "chain_id": 137,
+  "sources": {
+    "geckoterminal_pages": 6,
+    "geckoterminal_pools_read": 100,
+    "geckoterminal_skipped_pages": [
+      6
+    ],
+    "dexscreener_profiles_polygon": 0,
+    "dexscreener_profiles_new_tokens": 0
+  },
+  "tokens_checked_pairs": 96,
+  "watchlist_before": {
+    "total_tokens": 0,
+    "tier_exec": 0,
+    "tier_watch": 0,
+    "tier_none": 0,
+    "two_venue_total": 0,
+    "two_venue_exec": 0,
+    "two_venue_watch": 0,
+    "updated": null
+  },
+  "watchlist_after": {
+    "total_tokens": 96,
+    "tier_exec": 0,
+    "tier_watch": 4,
+    "tier_none": 92,
+    "two_venue_total": 5,
+    "two_venue_exec": 0,
+    "two_venue_watch": 0,
+    "updated": null
+  },
+  "new_second_venues": [
+    {
+      "token": "0x5f106f1a32c199fc61d9cf422d856474ff383168",
+      "name": "FUL",
+      "dexs": [
+        "quickswap",
+        "sushiswap"
+      ],
+      "tier": "none"
+    },
+    {
+      "token": "0xef87ea7da714ac5140b7fc49f84f2a3914875120",
+      "name": "Rp",
+      "dexs": [
+        "uniswap",
+        "uniswap-v4"
+      ],
+      "tier": "none"
+    },
+    {
+      "token": "0x44a2c6253bb48b33bff264b0d26c4246a46180af",
+      "name": "VOLLAR",
+      "dexs": [
+        "sushiswap",
+        "uniswap",
+        "uniswap-v4"
+      ],
+      "tier": "none"
+    },
+    {
+      "token": "0x8505b9d2254a7ae468c0e9dd10ccea3a837aef5c",
+      "name": "COMP",
+      "dexs": [
+        "quickswap",
+        "sushiswap",
+        "uniswap",
+        "uniswap-v4"
+      ],
+      "tier": "none"
+    },
+    {
+      "token": "0x750e4c4984a9e0f12978ea6742bc1c5d248f40ed",
+      "name": "axlUSDC",
+      "dexs": [
+        "quickswap",
+        "uniswap"
+      ],
+      "tier": "none"
+    }
+  ],
+  "watch_two_venue": [],
+  "exec_opportunities": [],
+  "net_distribution": {
+    "evaluated_exec_goplus_ok": 0,
+    "net_gt_0": 0,
+    "net_ge_0_50": 0,
+    "net_ge_3": 0,
+    "net_le_0": 0
+  },
+  "filters": {
+    "exec_liq_usd": [
+      5000.0,
+      100000.0
+    ],
+    "exec_max_age_h": 72,
+    "watch_liq_usd": [
+      1000.0,
+      500000.0
+    ],
+    "watch_max_age_h": 168,
+    "min_spread_pct": 3.0,
+    "min_profit_usd": 0.0,
+    "min_profit_rule": "net > 0 $ apr\u00e8s tous co\u00fbts (gas + budget revert ~2\u00d7 gas) \u2014 min 3 $ abandonn\u00e9 2026-11-24",
+    "max_pct_liquidity": 0.1,
+    "gas_usd_per_trade": 0.0095,
+    "revert_budget_usd": 0.0095,
+    "total_cost_worst_case_usd": 0.019
+  }
+}

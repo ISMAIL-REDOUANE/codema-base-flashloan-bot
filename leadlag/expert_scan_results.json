@@ -1,0 +1,1025 @@
+{
+  "generated_utc": "2026-11-25T10:45:35.127125+00:00",
+  "duration_s": 162.0,
+  "eth_px": 1646.93,
+  "gas_gwei": 0.006,
+  "gas_usd_per_trade": 0.004447,
+  "gas_total_budget_usd": 0.008893,
+  "results": [
+    {
+      "name": "WETH / USDC 0.01%",
+      "symbol": "ETH",
+      "band": "major",
+      "pool": "0xb4CB800910B228ED3d0834cF79D697127BBB00e5",
+      "gt": {
+        "name": "WETH / USDC 0.01%",
+        "reserve_usd": "576401.8101",
+        "vol24": "13125606.479818",
+        "chg24": "-2.247",
+        "created": "2023-09-16T17:31:47Z",
+        "dex": "uniswap-v3-base"
+      },
+      "dex": "uniswap",
+      "labels": [
+        "v3"
+      ],
+      "ds_liq_usd": 577231.71,
+      "ds_vol_h24": 13629750.72,
+      "ds_vol_h1": 344597.05,
+      "ds_chg_h24": -2.17,
+      "ds_chg_h6": -0.51,
+      "ds_chg_h1": 0.52,
+      "ds_txns_h24": {
+        "buys": 40244,
+        "sells": 45264
+      },
+      "ds_txns_h1": {
+        "buys": 1130,
+        "sells": 1303
+      },
+      "ds_created": 1694885507000,
+      "base_token": "0x4200000000000000000000000000000000000006",
+      "quote_token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "base_symbol": "WETH",
+      "quote_symbol": "USDC",
+      "onchain": {
+        "fee_bps": 100,
+        "fee_pct": 0.01,
+        "tick": -202267,
+        "liquidity": 108857837267230422,
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "factory_getPool_match": true,
+        "dec0": 18,
+        "dec1": 6
+      },
+      "goplus": {
+        "is_honeypot": "0",
+        "buy_tax": null,
+        "sell_tax": null,
+        "holder_count": "5376395"
+      },
+      "binance": {
+        "listed": true,
+        "mid": 1647.1750000000002,
+        "spread_bps": 0.06071000349076998,
+        "imb_01": 0.1395,
+        "bid_d_01": 3146795.9,
+        "ask_d_01": 2376287.5,
+        "imb_05": 0.105,
+        "bid_d_05": 8796758.3,
+        "ask_d_05": 7124931.3,
+        "vol_to_move_01_up_usdt": 2376287.5,
+        "vol_to_move_01_dn_usdt": 3146795.9
+      },
+      "binance_sigma": {
+        "sigma_1m_pct": 0.08235,
+        "sigma_4s_pct": 0.02126,
+        "n_candles": 120
+      },
+      "thresholds": {
+        "100": {
+          "roundtrip_cost_pct": 0.05172,
+          "threshold_pct": 0.06061,
+          "proceeds_usd": 99.95
+        },
+        "250": {
+          "roundtrip_cost_pct": 0.03132,
+          "threshold_pct": 0.03488,
+          "proceeds_usd": 249.92
+        },
+        "1000": {
+          "roundtrip_cost_pct": 0.06526,
+          "threshold_pct": 0.06615,
+          "proceeds_usd": 999.35
+        },
+        "5000": {
+          "roundtrip_cost_pct": 0.24602,
+          "threshold_pct": 0.24619,
+          "proceeds_usd": 4987.7
+        }
+      },
+      "move_proxy_4s_pct": 0.02126,
+      "move_proxy_src": "binance klines 1m (sigma_4s)",
+      "turnover_24h": 23.612,
+      "signal_factor": 1.0,
+      "ratio_move_threshold": 0.321,
+      "turnover_factor": 2.0,
+      "ev_score": 0.6428,
+      "p_move_gt_threshold": 0.0009
+    },
+    {
+      "name": "cbBTC / USDC 0.05%",
+      "symbol": "BTC",
+      "band": "major",
+      "pool": "0xfBB6Eed8e7aa03B138556eeDaF5D271A5E1e43ef",
+      "gt": {
+        "name": "cbBTC / USDC 0.05%",
+        "reserve_usd": "6087718.4734",
+        "vol24": "12753516.9547775",
+        "chg24": "-1.19",
+        "created": "2024-09-14T12:04:07Z",
+        "dex": "uniswap-v3-base"
+      },
+      "dex": "uniswap",
+      "labels": [
+        "v3"
+      ],
+      "ds_liq_usd": 6090737.75,
+      "ds_vol_h24": 13157810.18,
+      "ds_vol_h1": 356897.46,
+      "ds_chg_h24": -1.21,
+      "ds_chg_h6": -0.08,
+      "ds_chg_h1": 0.21,
+      "ds_txns_h24": {
+        "buys": 6021,
+        "sells": 7117
+      },
+      "ds_txns_h1": {
+        "buys": 213,
+        "sells": 201
+      },
+      "ds_created": 1726315447000,
+      "base_token": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+      "quote_token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "base_symbol": "cbBTC",
+      "quote_symbol": "USDC",
+      "onchain": {
+        "fee_bps": 500,
+        "fee_pct": 0.05,
+        "tick": -63791,
+        "liquidity": 1121719895900,
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "factory_getPool_match": true,
+        "dec0": 6,
+        "dec1": 8
+      },
+      "goplus": {
+        "is_honeypot": "0",
+        "buy_tax": "0",
+        "sell_tax": "0",
+        "holder_count": "517620"
+      },
+      "binance": {
+        "listed": true,
+        "mid": 58996.545,
+        "spread_bps": 0.0016950145134833352,
+        "imb_01": -0.4473,
+        "bid_d_01": 2750669.4,
+        "ask_d_01": 7202919.7,
+        "imb_05": -0.3136,
+        "bid_d_05": 7124181.3,
+        "ask_d_05": 13632472.1,
+        "vol_to_move_01_up_usdt": 7202919.7,
+        "vol_to_move_01_dn_usdt": 2750669.4
+      },
+      "binance_sigma": {
+        "sigma_1m_pct": 0.06919,
+        "sigma_4s_pct": 0.01786,
+        "n_candles": 120
+      },
+      "thresholds": {
+        "100": {
+          "roundtrip_cost_pct": 0.10132,
+          "threshold_pct": 0.11021,
+          "proceeds_usd": 99.9
+        },
+        "250": {
+          "roundtrip_cost_pct": 0.10222,
+          "threshold_pct": 0.10578,
+          "proceeds_usd": 249.74
+        },
+        "1000": {
+          "roundtrip_cost_pct": 0.10744,
+          "threshold_pct": 0.10833,
+          "proceeds_usd": 998.93
+        },
+        "5000": {
+          "roundtrip_cost_pct": 0.13668,
+          "threshold_pct": 0.13686,
+          "proceeds_usd": 4993.17
+        }
+      },
+      "move_proxy_4s_pct": 0.01786,
+      "move_proxy_src": "binance klines 1m (sigma_4s)",
+      "turnover_24h": 2.16,
+      "signal_factor": 1.0,
+      "ratio_move_threshold": 0.165,
+      "turnover_factor": 2.0,
+      "ev_score": 0.3297,
+      "p_move_gt_threshold": 0.0
+    },
+    {
+      "name": "AERO / USDC 0.015% (via DS)",
+      "symbol": "AERO",
+      "band": "mid",
+      "pool": "0xE5B5f522E98B5a2baAe212d4dA66b865B781DB97",
+      "gt": null,
+      "dex": "uniswap",
+      "labels": [
+        "v3"
+      ],
+      "ds_liq_usd": 129330.91,
+      "ds_vol_h24": 126296.83,
+      "ds_vol_h1": 3352.5,
+      "ds_chg_h24": -5.15,
+      "ds_chg_h6": 0.32,
+      "ds_chg_h1": -0.09,
+      "ds_txns_h24": {
+        "buys": 2518,
+        "sells": 2363
+      },
+      "ds_txns_h1": {
+        "buys": 73,
+        "sells": 76
+      },
+      "ds_created": 1711396783000,
+      "base_token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "quote_token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "base_symbol": "AERO",
+      "quote_symbol": "USDC",
+      "onchain": {
+        "fee_bps": 500,
+        "fee_pct": 0.05,
+        "tick": 285783,
+        "liquidity": 256146914917287399,
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+        "factory_getPool_match": true,
+        "dec0": 6,
+        "dec1": 18
+      },
+      "goplus": {
+        "is_honeypot": "0",
+        "buy_tax": "0",
+        "sell_tax": "0",
+        "holder_count": "733528"
+      },
+      "binance": {
+        "listed": true,
+        "mid": 0.38905,
+        "spread_bps": 7.711091119392545,
+        "imb_01": 0.3497,
+        "bid_d_01": 7768.7,
+        "ask_d_01": 3743.4,
+        "imb_05": 0.3303,
+        "bid_d_05": 55276.4,
+        "ask_d_05": 27828.1,
+        "vol_to_move_01_up_usdt": 3743.4,
+        "vol_to_move_01_dn_usdt": 7768.7
+      },
+      "binance_sigma": {
+        "sigma_1m_pct": 0.14244,
+        "sigma_4s_pct": 0.03678,
+        "n_candles": 120
+      },
+      "thresholds": {
+        "100": {
+          "roundtrip_cost_pct": 0.2249,
+          "threshold_pct": 0.23379,
+          "proceeds_usd": 99.78
+        },
+        "250": {
+          "roundtrip_cost_pct": 0.41169,
+          "threshold_pct": 0.41525,
+          "proceeds_usd": 248.97
+        },
+        "1000": {
+          "roundtrip_cost_pct": 1.3351,
+          "threshold_pct": 1.33599,
+          "proceeds_usd": 986.65
+        },
+        "5000": {
+          "roundtrip_cost_pct": 5.92447,
+          "threshold_pct": 5.92465,
+          "proceeds_usd": 4703.78
+        }
+      },
+      "move_proxy_4s_pct": 0.03678,
+      "move_proxy_src": "binance klines 1m (sigma_4s)",
+      "turnover_24h": 0.977,
+      "signal_factor": 1.0,
+      "ratio_move_threshold": 0.028,
+      "turnover_factor": 0.977,
+      "ev_score": 0.0269,
+      "p_move_gt_threshold": 0.0
+    },
+    {
+      "name": "SOL / USDC 0.012% (via DS)",
+      "symbol": "SOL",
+      "band": "mid",
+      "pool": "0x1cCA8388E671e83010843a1A0535B04F2D7E946B",
+      "gt": null,
+      "dex": "uniswap",
+      "labels": [
+        "v3"
+      ],
+      "ds_liq_usd": 65358.07,
+      "ds_vol_h24": 26510.79,
+      "ds_vol_h1": 137.47,
+      "ds_chg_h24": -4.2,
+      "ds_chg_h6": -1.9,
+      "ds_chg_h1": 0.03,
+      "ds_txns_h24": {
+        "buys": 321,
+        "sells": 439
+      },
+      "ds_txns_h1": {
+        "buys": 4,
+        "sells": 4
+      },
+      "ds_created": 1767815553000,
+      "base_token": "0x311935Cd80B76769bF2ecC9D8Ab7635b2139cf82",
+      "quote_token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "base_symbol": "SOL",
+      "quote_symbol": "USDC",
+      "onchain": {
+        "fee_bps": 3000,
+        "fee_pct": 0.3,
+        "tick": -26947,
+        "liquidity": 567966540232,
+        "token0": "0x311935Cd80B76769bF2ecC9D8Ab7635b2139cf82",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "factory_getPool_match": true,
+        "dec0": 9,
+        "dec1": 6
+      },
+      "goplus": {
+        "is_honeypot": "0",
+        "buy_tax": "0",
+        "sell_tax": "0",
+        "holder_count": "31857"
+      },
+      "binance": {
+        "listed": true,
+        "mid": 67.805,
+        "spread_bps": 1.4748174913362015,
+        "imb_01": 0.0112,
+        "bid_d_01": 458906.5,
+        "ask_d_01": 448758.4,
+        "imb_05": 0.194,
+        "bid_d_05": 1639840.0,
+        "ask_d_05": 1106912.1,
+        "vol_to_move_01_up_usdt": 448758.4,
+        "vol_to_move_01_dn_usdt": 458906.5
+      },
+      "binance_sigma": {
+        "sigma_1m_pct": 0.09482,
+        "sigma_4s_pct": 0.02448,
+        "n_candles": 120
+      },
+      "thresholds": {
+        "100": {
+          "roundtrip_cost_pct": 0.73098,
+          "threshold_pct": 0.73987,
+          "proceeds_usd": 99.27
+        },
+        "250": {
+          "roundtrip_cost_pct": 0.9214,
+          "threshold_pct": 0.92496,
+          "proceeds_usd": 247.7
+        },
+        "1000": {
+          "roundtrip_cost_pct": 1.85543,
+          "threshold_pct": 1.85632,
+          "proceeds_usd": 981.45
+        },
+        "5000": {
+          "roundtrip_cost_pct": 49.28072,
+          "threshold_pct": 49.2809,
+          "proceeds_usd": 2535.96
+        }
+      },
+      "move_proxy_4s_pct": 0.02448,
+      "move_proxy_src": "binance klines 1m (sigma_4s)",
+      "turnover_24h": 0.406,
+      "signal_factor": 1.0,
+      "ratio_move_threshold": 0.013,
+      "turnover_factor": 0.406,
+      "ev_score": 0.0053,
+      "p_move_gt_threshold": 0.0
+    },
+    {
+      "name": "xdp / USDC 0.01%",
+      "symbol": "XDP",
+      "band": "mid",
+      "pool": "0x2dF380544B88AdB3ad0A94100dcC45fd705aAE2d",
+      "gt": {
+        "name": "xdp / USDC 0.01%",
+        "reserve_usd": "690182.4709",
+        "vol24": "3160420.0263221",
+        "chg24": "-6.678",
+        "created": "2026-09-28T12:52:05Z",
+        "dex": "uniswap-v3-base"
+      },
+      "dex": "uniswap",
+      "labels": [
+        "v3"
+      ],
+      "ds_liq_usd": 692314.97,
+      "ds_vol_h24": 3247210.09,
+      "ds_vol_h1": 117326.32,
+      "ds_chg_h24": -6.24,
+      "ds_chg_h6": 0.5,
+      "ds_chg_h1": 0.32,
+      "ds_txns_h24": {
+        "buys": 18656,
+        "sells": 18867
+      },
+      "ds_txns_h1": {
+        "buys": 680,
+        "sells": 675
+      },
+      "ds_created": 1790599925000,
+      "base_token": "0x07b3D902783c3C12b077508c3B5c00113d1291D0",
+      "quote_token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "base_symbol": "XDP",
+      "quote_symbol": "USDC",
+      "onchain": {
+        "fee_bps": 100,
+        "fee_pct": 0.01,
+        "tick": -319351,
+        "liquidity": 3631976567911272186,
+        "token0": "0x07b3D902783c3C12b077508c3B5c00113d1291D0",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "factory_getPool_match": true,
+        "dec0": 18,
+        "dec1": 6
+      },
+      "goplus": {
+        "is_honeypot": "0",
+        "buy_tax": "0",
+        "sell_tax": "0",
+        "holder_count": "15961"
+      },
+      "binance": {
+        "listed": false,
+        "error": "GET https://data-api.binance.vision/api/v3/depth?symbol=XDPUSDT&limit=1000 failed: HTTP Error 400: Bad Request"
+      },
+      "binance_sigma": null,
+      "thresholds": {
+        "100": {
+          "roundtrip_cost_pct": 0.06729,
+          "threshold_pct": 0.07618,
+          "proceeds_usd": 99.93
+        },
+        "250": {
+          "roundtrip_cost_pct": 0.15833,
+          "threshold_pct": 0.16188,
+          "proceeds_usd": 249.6
+        },
+        "1000": {
+          "roundtrip_cost_pct": 0.49094,
+          "threshold_pct": 0.49183,
+          "proceeds_usd": 995.09
+        },
+        "5000": {
+          "roundtrip_cost_pct": 2.33343,
+          "threshold_pct": 2.33361,
+          "proceeds_usd": 4883.33
+        }
+      },
+      "move_proxy_4s_pct": 0.0013770607453181926,
+      "move_proxy_src": "|h1%|/60/sqrt(15) \u2014 proxy grossier",
+      "turnover_24h": 4.69,
+      "signal_factor": 0.15,
+      "ratio_move_threshold": 0.003,
+      "turnover_factor": 2.0,
+      "ev_score": 0.0008,
+      "p_move_gt_threshold": 0.0
+    },
+    {
+      "name": "VVV / USDC 0.038% (via DS)",
+      "symbol": "VVV",
+      "band": "small",
+      "pool": "0x67A11022B7B6ed66f81233F6C8Ed6e48F7826530",
+      "gt": null,
+      "dex": "uniswap",
+      "labels": [
+        "v3"
+      ],
+      "ds_liq_usd": 1070376.41,
+      "ds_vol_h24": 1359501.02,
+      "ds_vol_h1": 53665.04,
+      "ds_chg_h24": -0.25,
+      "ds_chg_h6": 0.33,
+      "ds_chg_h1": 2,
+      "ds_txns_h24": {
+        "buys": 1481,
+        "sells": 1763
+      },
+      "ds_txns_h1": {
+        "buys": 92,
+        "sells": 45
+      },
+      "ds_created": 1738014861000,
+      "base_token": "0xacfE6019Ed1A7Dc6f7B508C02d1b04ec88cC21bf",
+      "quote_token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "base_symbol": "VVV",
+      "quote_symbol": "USDC",
+      "onchain": {
+        "fee_bps": 3000,
+        "fee_pct": 0.3,
+        "tick": 244132,
+        "liquidity": 684738484661021304,
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xacfE6019Ed1A7Dc6f7B508C02d1b04ec88cC21bf",
+        "factory_getPool_match": true,
+        "dec0": 6,
+        "dec1": 18
+      },
+      "goplus": {
+        "is_honeypot": "0",
+        "buy_tax": "0",
+        "sell_tax": "0",
+        "holder_count": "161302"
+      },
+      "binance": {
+        "listed": false,
+        "error": "GET https://data-api.binance.vision/api/v3/depth?symbol=VVVUSDT&limit=1000 failed: HTTP Error 400: Bad Request"
+      },
+      "binance_sigma": null,
+      "thresholds": {
+        "100": {
+          "roundtrip_cost_pct": 0.60488,
+          "threshold_pct": 0.61377,
+          "proceeds_usd": 99.4
+        },
+        "250": {
+          "roundtrip_cost_pct": 0.61355,
+          "threshold_pct": 0.61711,
+          "proceeds_usd": 248.47
+        },
+        "1000": {
+          "roundtrip_cost_pct": 0.65687,
+          "threshold_pct": 0.65776,
+          "proceeds_usd": 993.43
+        },
+        "5000": {
+          "roundtrip_cost_pct": 0.88687,
+          "threshold_pct": 0.88705,
+          "proceeds_usd": 4955.66
+        }
+      },
+      "move_proxy_4s_pct": 0.008606629658238704,
+      "move_proxy_src": "|h1%|/60/sqrt(15) \u2014 proxy grossier",
+      "turnover_24h": 1.27,
+      "signal_factor": 0.15,
+      "ratio_move_threshold": 0.013,
+      "turnover_factor": 1.27,
+      "ev_score": 0.0025,
+      "p_move_gt_threshold": 0.0
+    },
+    {
+      "name": "ELSA / USDC 0.01% (via DS)",
+      "symbol": "ELSA",
+      "band": "small",
+      "pool": "0xdc8F367884437e398FBF4a94D3333fE0b5B376Db",
+      "gt": null,
+      "dex": "uniswap",
+      "labels": [
+        "v3"
+      ],
+      "ds_liq_usd": 20290.19,
+      "ds_vol_h24": 17354.99,
+      "ds_vol_h1": 152.46,
+      "ds_chg_h24": -28.89,
+      "ds_chg_h6": -2.29,
+      "ds_chg_h1": -1.03,
+      "ds_txns_h24": {
+        "buys": 231,
+        "sells": 677
+      },
+      "ds_txns_h1": {
+        "buys": 0,
+        "sells": 13
+      },
+      "ds_created": 1768895803000,
+      "base_token": "0x29cC30f9D113B356Ce408667aa6433589CeCBDcA",
+      "quote_token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "base_symbol": "ELSA",
+      "quote_symbol": "USDC",
+      "onchain": {
+        "fee_bps": 10000,
+        "fee_pct": 1.0,
+        "tick": -302711,
+        "liquidity": 110060212406971718,
+        "token0": "0x29cC30f9D113B356Ce408667aa6433589CeCBDcA",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "factory_getPool_match": true,
+        "dec0": 18,
+        "dec1": 6
+      },
+      "goplus": {
+        "is_honeypot": "0",
+        "buy_tax": "0",
+        "sell_tax": "0",
+        "holder_count": "242190"
+      },
+      "binance": {
+        "listed": false,
+        "error": "GET https://data-api.binance.vision/api/v3/depth?symbol=ELSAUSDT&limit=1000 failed: HTTP Error 400: Bad Request"
+      },
+      "binance_sigma": null,
+      "thresholds": {
+        "100": {
+          "roundtrip_cost_pct": 2.6419,
+          "threshold_pct": 2.65079,
+          "proceeds_usd": 97.36
+        },
+        "250": {
+          "roundtrip_cost_pct": 3.60364,
+          "threshold_pct": 3.60719,
+          "proceeds_usd": 240.99
+        },
+        "1000": {
+          "roundtrip_cost_pct": 8.14075,
+          "threshold_pct": 8.14164,
+          "proceeds_usd": 918.59
+        },
+        "5000": {
+          "roundtrip_cost_pct": 25.35413,
+          "threshold_pct": 25.35431,
+          "proceeds_usd": 3732.29
+        }
+      },
+      "move_proxy_4s_pct": 0.0044324142739929325,
+      "move_proxy_src": "|h1%|/60/sqrt(15) \u2014 proxy grossier",
+      "turnover_24h": 0.855,
+      "signal_factor": 0.15,
+      "ratio_move_threshold": 0.001,
+      "turnover_factor": 0.855,
+      "ev_score": 0.0001,
+      "p_move_gt_threshold": 0.0
+    },
+    {
+      "name": "PLAY / USDC 0.01% (via DS)",
+      "symbol": "PLAY",
+      "band": "small",
+      "pool": "0xE6dcff8301A348eF4D25aD301DD08275e873c6ba",
+      "gt": null,
+      "dex": "uniswap",
+      "labels": [
+        "v3"
+      ],
+      "ds_liq_usd": 2066.48,
+      "ds_vol_h24": 86.09,
+      "ds_vol_h1": 3.31,
+      "ds_chg_h24": -10.68,
+      "ds_chg_h6": -5.1,
+      "ds_chg_h1": -0.91,
+      "ds_txns_h24": {
+        "buys": 18,
+        "sells": 45
+      },
+      "ds_txns_h1": {
+        "buys": 0,
+        "sells": 3
+      },
+      "ds_created": 1757492455000,
+      "base_token": "0x853a7c99227499DbA9dB8C3A02aA691aFDeBf841",
+      "quote_token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "base_symbol": "PLAY",
+      "quote_symbol": "USDC",
+      "onchain": {
+        "fee_bps": 3000,
+        "fee_pct": 0.3,
+        "tick": 326656,
+        "liquidity": 8967606926433353,
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0x853a7c99227499DbA9dB8C3A02aA691aFDeBf841",
+        "factory_getPool_match": true,
+        "dec0": 6,
+        "dec1": 18
+      },
+      "goplus": {
+        "is_honeypot": "0",
+        "buy_tax": "0",
+        "sell_tax": "0",
+        "holder_count": "7274"
+      },
+      "binance": {
+        "listed": false,
+        "error": "GET https://data-api.binance.vision/api/v3/depth?symbol=PLAYUSDT&limit=1000 failed: HTTP Error 400: Bad Request"
+      },
+      "binance_sigma": null,
+      "thresholds": {
+        "100": {
+          "roundtrip_cost_pct": 23.61137,
+          "threshold_pct": 23.62026,
+          "proceeds_usd": 76.39
+        },
+        "250": {
+          "roundtrip_cost_pct": 43.775,
+          "threshold_pct": 43.77855,
+          "proceeds_usd": 140.56
+        },
+        "1000": {
+          "roundtrip_cost_pct": 75.77626,
+          "threshold_pct": 75.77715,
+          "proceeds_usd": 242.24
+        },
+        "5000": {
+          "roundtrip_cost_pct": 93.99824,
+          "threshold_pct": 93.99841,
+          "proceeds_usd": 300.09
+        }
+      },
+      "move_proxy_4s_pct": 0.00391601649449861,
+      "move_proxy_src": "|h1%|/60/sqrt(15) \u2014 proxy grossier",
+      "turnover_24h": 0.042,
+      "signal_factor": 0.15,
+      "ratio_move_threshold": 0.0,
+      "turnover_factor": 0.042,
+      "ev_score": 0.0,
+      "p_move_gt_threshold": 0.0
+    },
+    {
+      "name": "CTR / USDC 0.029% (via DS)",
+      "symbol": "CTR",
+      "band": "small",
+      "pool": "0xc01A30F6257d3a6e145876Ee7bef19a279500256",
+      "gt": null,
+      "dex": "uniswap",
+      "labels": [
+        "v3"
+      ],
+      "ds_liq_usd": 344.56,
+      "ds_vol_h24": 20.69,
+      "ds_vol_h1": 2.25,
+      "ds_chg_h24": -5.72,
+      "ds_chg_h6": -1.31,
+      "ds_chg_h1": -0.87,
+      "ds_txns_h24": {
+        "buys": 3,
+        "sells": 15
+      },
+      "ds_txns_h1": {
+        "buys": 0,
+        "sells": 2
+      },
+      "ds_created": 1779788365000,
+      "base_token": "0x11030f79109269d796fd0FB956D6244e502757f7",
+      "quote_token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "base_symbol": "CTR",
+      "quote_symbol": "USDC",
+      "onchain": {
+        "fee_bps": 10000,
+        "fee_pct": 1.0,
+        "tick": -318207,
+        "liquidity": 4185794870084104,
+        "token0": "0x11030f79109269d796fd0FB956D6244e502757f7",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "factory_getPool_match": true,
+        "dec0": 18,
+        "dec1": 6
+      },
+      "goplus": {
+        "is_honeypot": "0",
+        "buy_tax": "0",
+        "sell_tax": "0",
+        "holder_count": "3929"
+      },
+      "binance": {
+        "listed": false,
+        "error": "GET https://data-api.binance.vision/api/v3/depth?symbol=CTRUSDT&limit=1000 failed: HTTP Error 400: Bad Request"
+      },
+      "binance_sigma": null,
+      "thresholds": {
+        "100": {
+          "roundtrip_cost_pct": 29.08363,
+          "threshold_pct": 29.09252,
+          "proceeds_usd": 70.92
+        },
+        "250": {
+          "roundtrip_cost_pct": 67.80719,
+          "threshold_pct": 67.81075,
+          "proceeds_usd": 80.48
+        },
+        "1000": {
+          "roundtrip_cost_pct": 91.9518,
+          "threshold_pct": 91.95269,
+          "proceeds_usd": 80.48
+        },
+        "5000": {
+          "roundtrip_cost_pct": 98.39036,
+          "threshold_pct": 98.39054,
+          "proceeds_usd": 80.48
+        }
+      },
+      "move_proxy_4s_pct": 0.0037438839013338365,
+      "move_proxy_src": "|h1%|/60/sqrt(15) \u2014 proxy grossier",
+      "turnover_24h": 0.06,
+      "signal_factor": 0.15,
+      "ratio_move_threshold": 0.0,
+      "turnover_factor": 0.06,
+      "ev_score": 0.0,
+      "p_move_gt_threshold": 0.0
+    },
+    {
+      "name": "VIRTUAL/WETH v3",
+      "symbol": "VIRTUAL",
+      "band": "small",
+      "pool": "0x9c087Eb773291e50CF6c6a90ef0F4500e349B903",
+      "gt": null,
+      "dex": "uniswap",
+      "labels": [
+        "v3"
+      ],
+      "ds_liq_usd": 271455.78,
+      "ds_vol_h24": 288122.65,
+      "ds_vol_h1": 12357.13,
+      "ds_chg_h24": -2.33,
+      "ds_chg_h6": 0.35,
+      "ds_chg_h1": 0.21,
+      "ds_txns_h24": {
+        "buys": 2778,
+        "sells": 2835
+      },
+      "ds_txns_h1": {
+        "buys": 106,
+        "sells": 86
+      },
+      "ds_created": 1730195457000,
+      "base_token": "0x0b3e328455c4059EEb9e3f84b5543F74E24e7E1b",
+      "quote_token": "0x4200000000000000000000000000000000000006",
+      "base_symbol": "VIRTUAL",
+      "quote_symbol": "WETH",
+      "onchain": {
+        "fee_bps": 500,
+        "fee_pct": 0.05,
+        "tick": -84546,
+        "liquidity": 33171764394425468793306,
+        "token0": "0x0b3e328455c4059EEb9e3f84b5543F74E24e7E1b",
+        "token1": "0x4200000000000000000000000000000000000006",
+        "factory_getPool_match": true,
+        "dec0": 18,
+        "dec1": 18
+      },
+      "goplus": {
+        "is_honeypot": "0",
+        "buy_tax": "0",
+        "sell_tax": "0",
+        "holder_count": "1017814"
+      },
+      "binance": {
+        "listed": true,
+        "mid": 0.35025,
+        "spread_bps": 2.8551034975014695,
+        "imb_01": 0.5839,
+        "bid_d_01": 12209.5,
+        "ask_d_01": 3207.5,
+        "imb_05": 0.3895,
+        "bid_d_05": 69988.2,
+        "ask_d_05": 30753.2,
+        "vol_to_move_01_up_usdt": 3207.5,
+        "vol_to_move_01_dn_usdt": 12209.5
+      },
+      "binance_sigma": {
+        "sigma_1m_pct": 0.12625,
+        "sigma_4s_pct": 0.0326,
+        "n_candles": 120
+      },
+      "thresholds": {
+        "100": {
+          "roundtrip_cost_pct": 0.12501,
+          "threshold_pct": 0.1339,
+          "proceeds_usd": 99.87
+        },
+        "250": {
+          "roundtrip_cost_pct": 0.16254,
+          "threshold_pct": 0.1661,
+          "proceeds_usd": 249.59
+        },
+        "1000": {
+          "roundtrip_cost_pct": 0.35189,
+          "threshold_pct": 0.35278,
+          "proceeds_usd": 996.48
+        },
+        "5000": {
+          "roundtrip_cost_pct": 1.45226,
+          "threshold_pct": 1.45244,
+          "proceeds_usd": 4927.39
+        }
+      },
+      "move_proxy_4s_pct": 0.0326,
+      "move_proxy_src": "binance klines 1m (sigma_4s)",
+      "turnover_24h": 1.061,
+      "signal_factor": 1.0,
+      "ratio_move_threshold": 0.092,
+      "turnover_factor": 1.061,
+      "ev_score": 0.0981,
+      "p_move_gt_threshold": 0.0
+    },
+    {
+      "name": "PROS/USDC V3",
+      "symbol": "PROS",
+      "band": "mid",
+      "pool": "0x3f4E90Ff4125d9FCC4F4B7Ba5213f596e9A1115d",
+      "gt": null,
+      "dex": "uniswap",
+      "labels": [
+        "v3"
+      ],
+      "ds_liq_usd": 204.67,
+      "ds_vol_h24": 2486.33,
+      "ds_vol_h1": 97.33,
+      "ds_chg_h24": 11.82,
+      "ds_chg_h6": 13.52,
+      "ds_chg_h1": 1.38,
+      "ds_txns_h24": {
+        "buys": 490,
+        "sells": 462
+      },
+      "ds_txns_h1": {
+        "buys": 22,
+        "sells": 20
+      },
+      "ds_created": 1777387571000,
+      "base_token": "0x8B7DdE054BE9D180c1Be7FaE0874697374A49832",
+      "quote_token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "base_symbol": "PROS",
+      "quote_symbol": "USDC",
+      "onchain": {
+        "fee_bps": 3000,
+        "fee_pct": 0.3,
+        "tick": 279586,
+        "liquidity": 1929251850555860,
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0x8B7DdE054BE9D180c1Be7FaE0874697374A49832",
+        "factory_getPool_match": true,
+        "dec0": 6,
+        "dec1": 18
+      },
+      "goplus": {
+        "is_honeypot": "0",
+        "buy_tax": "0",
+        "sell_tax": "0",
+        "holder_count": "4413"
+      },
+      "binance": {
+        "listed": false,
+        "error": "empty order book (delisted/illiquid)"
+      },
+      "binance_sigma": null,
+      "thresholds": {
+        "100": {
+          "roundtrip_cost_pct": 19.32703,
+          "threshold_pct": 19.33592,
+          "proceeds_usd": 80.67
+        },
+        "250": {
+          "roundtrip_cost_pct": 67.73081,
+          "threshold_pct": 67.73437,
+          "proceeds_usd": 80.67
+        },
+        "1000": {
+          "roundtrip_cost_pct": 91.9327,
+          "threshold_pct": 91.93359,
+          "proceeds_usd": 80.67
+        },
+        "5000": {
+          "roundtrip_cost_pct": 98.38654,
+          "threshold_pct": 98.38672,
+          "proceeds_usd": 80.67
+        }
+      },
+      "move_proxy_4s_pct": 0.005938574464184706,
+      "move_proxy_src": "|h1%|/60/sqrt(15) \u2014 proxy grossier",
+      "turnover_24h": 12.148,
+      "signal_factor": 0.15,
+      "ratio_move_threshold": 0.0,
+      "turnover_factor": 2.0,
+      "ev_score": 0.0,
+      "p_move_gt_threshold": 0.0
+    }
+  ],
+  "skipped_at_resolution": [
+    {
+      "name": "HYPE / WETH 0.087%",
+      "reason": "adresse non trouv\u00e9e sur GeckoTerminal"
+    },
+    {
+      "name": "VELVET / USDC 0.01%",
+      "reason": "adresse non trouv\u00e9e sur GeckoTerminal"
+    },
+    {
+      "name": "KNTQ / USDC 0.073%",
+      "reason": "adresse non trouv\u00e9e sur GeckoTerminal"
+    }
+  ],
+  "ranking": [
+    "WETH / USDC 0.01%",
+    "cbBTC / USDC 0.05%",
+    "VIRTUAL/WETH v3",
+    "AERO / USDC 0.015% (via DS)",
+    "SOL / USDC 0.012% (via DS)",
+    "VVV / USDC 0.038% (via DS)",
+    "xdp / USDC 0.01%",
+    "ELSA / USDC 0.01% (via DS)",
+    "PLAY / USDC 0.01% (via DS)",
+    "CTR / USDC 0.029% (via DS)",
+    "PROS/USDC V3"
+  ]
+}

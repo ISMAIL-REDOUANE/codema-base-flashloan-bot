@@ -1,0 +1,632 @@
+{
+ "n_records": 2273,
+ "n_evals": 2268,
+ "pairs": [
+  "ETH/USDC",
+  "AERO/USDC",
+  "ICNT/USDC",
+  "SOSO/USDC"
+ ],
+ "errors": 0,
+ "calibration": {
+  "ETH/USDC": {
+   "n": 190,
+   "corr_imb01_next": 0.113,
+   "corr_imb01_next2": 0.0227,
+   "corr_imb05_next": 0.115,
+   "corr_imb05_next2": 0.0411,
+   "chosen_band": "imb05@next",
+   "chosen_corr": 0.115,
+   "chosen_slope": 0.022792,
+   "median_dt_next_s": 3.0,
+   "median_dt_next2_s": 6.0
+  },
+  "SOSO/USDC": {
+   "binance_signal": false,
+   "n": 190,
+   "dex_mv_next_median_abs_pct": 0.0,
+   "dex_mv_next_p95_abs_pct": 0.13736,
+   "dex_mv_next_max_abs_pct": 0.90262,
+   "dex_mv_next2_median_abs_pct": 0.0,
+   "dex_mv_next2_p95_abs_pct": 0.29692,
+   "dex_mv_next2_max_abs_pct": 1.20415,
+   "median_dt_next_s": 3.0,
+   "median_dt_next2_s": 6.0
+  },
+  "AERO/USDC": {
+   "n": 190,
+   "corr_imb01_next": 0.1572,
+   "corr_imb01_next2": 0.1799,
+   "corr_imb05_next": 0.0505,
+   "corr_imb05_next2": 0.0692,
+   "chosen_band": "imb01@next2",
+   "chosen_corr": 0.1799,
+   "chosen_slope": 0.032575,
+   "median_dt_next_s": 3.0,
+   "median_dt_next2_s": 6.0
+  },
+  "ICNT/USDC": {
+   "binance_signal": false,
+   "n": 190,
+   "dex_mv_next_median_abs_pct": 0.0,
+   "dex_mv_next_p95_abs_pct": 0.0628,
+   "dex_mv_next_max_abs_pct": 0.44157,
+   "dex_mv_next2_median_abs_pct": 0.0,
+   "dex_mv_next2_p95_abs_pct": 0.10055,
+   "dex_mv_next2_max_abs_pct": 0.44157,
+   "median_dt_next_s": 3.0,
+   "median_dt_next2_s": 6.0
+  }
+ },
+ "thresholds": {
+  "ETH/USDC": {
+   "100": {
+    "threshold_pct_med": 0.0334,
+    "threshold_pct_min": 0.0271,
+    "threshold_pct_max": 0.0335,
+    "threshold_usd_med": 0.0334,
+    "best_size_med": 100.0,
+    "n": 567
+   },
+   "500": {
+    "threshold_pct_med": 0.1054,
+    "threshold_pct_min": 0.1021,
+    "threshold_pct_max": 0.1055,
+    "threshold_usd_med": 0.2635,
+    "best_size_med": 250.0,
+    "n": 567
+   },
+   "3000": {
+    "threshold_pct_med": 0.6001,
+    "threshold_pct_min": 0.6001,
+    "threshold_pct_max": 0.6001,
+    "threshold_usd_med": 12.002,
+    "best_size_med": 2000.0,
+    "n": 567
+   }
+  },
+  "AERO/USDC": {
+   "500": {
+    "threshold_pct_med": 0.2337,
+    "threshold_pct_min": 0.2335,
+    "threshold_pct_max": 0.2338,
+    "threshold_usd_med": 0.2337,
+    "best_size_med": 100.0,
+    "n": 567
+   }
+  },
+  "ICNT/USDC": {
+   "500": {
+    "threshold_pct_med": 0.2059,
+    "threshold_pct_min": 0.2056,
+    "threshold_pct_max": 0.2061,
+    "threshold_usd_med": 0.2059,
+    "best_size_med": 100.0,
+    "n": 567
+   }
+  },
+  "SOSO/USDC": {
+   "100": {
+    "threshold_pct_med": 0.0993,
+    "threshold_pct_min": 0.0988,
+    "threshold_pct_max": 0.0995,
+    "threshold_usd_med": 0.0993,
+    "best_size_med": 100.0,
+    "n": 567
+   }
+  }
+ },
+ "live": {
+  "ETH/USDC": {
+   "n": 376,
+   "decisions": {
+    "SKIP": 376
+   },
+   "skip_reasons": {
+    "net pr\u00e9vu <= 0 $ sur tous les tiers": 376
+   },
+   "pred_net_best": -0.0275,
+   "pred_net_med": -0.0337,
+   "pred_move_max_abs": 0.00493,
+   "pred_move_p95_abs": 0.0034,
+   "retro_net_best": null,
+   "retro_net_med": null,
+   "retro_n": 0
+  },
+  "AERO/USDC": {
+   "n": 376,
+   "decisions": {
+    "SKIP": 376
+   },
+   "skip_reasons": {
+    "net pr\u00e9vu <= 0 $ sur tous les tiers": 376
+   },
+   "pred_net_best": -0.209,
+   "pred_net_med": -0.2277,
+   "pred_move_max_abs": 0.02471,
+   "pred_move_p95_abs": 0.01976,
+   "retro_net_best": null,
+   "retro_net_med": null,
+   "retro_n": 0
+  },
+  "ICNT/USDC": {
+   "n": 376,
+   "decisions": {
+    "MEASURE": 375,
+    "OPPORTUNITY": 1
+   },
+   "skip_reasons": {},
+   "pred_net_best": null,
+   "pred_net_med": null,
+   "pred_move_max_abs": null,
+   "pred_move_p95_abs": null,
+   "retro_net_best": 0.0295,
+   "retro_net_med": -0.2057,
+   "retro_n": 376
+  },
+  "SOSO/USDC": {
+   "n": 376,
+   "decisions": {
+    "MEASURE": 340,
+    "OPPORTUNITY": 36
+   },
+   "skip_reasons": {},
+   "pred_net_best": null,
+   "pred_net_med": null,
+   "pred_move_max_abs": null,
+   "pred_move_p95_abs": null,
+   "retro_net_best": 0.5686,
+   "retro_net_med": -0.099,
+   "retro_n": 376
+  }
+ },
+ "n_entries": 0,
+ "n_opportunities": 37,
+ "dex_moves": {
+  "ETH/USDC": {
+   "n": 376,
+   "mv1c_med_abs_pct": 0.0054,
+   "mv1c_p95_abs_pct": 0.02985,
+   "mv1c_max_abs_pct": 0.06087,
+   "mv2c_med_abs_pct": 0.0107,
+   "mv2c_p95_abs_pct": 0.04012,
+   "mv2c_max_abs_pct": 0.06844,
+   "cycles_over_min_threshold": 42,
+   "cycles_with_threshold": 376,
+   "pct_over_min_threshold": 11.2
+  },
+  "AERO/USDC": {
+   "n": 376,
+   "mv1c_med_abs_pct": 0.0,
+   "mv1c_p95_abs_pct": 0.02568,
+   "mv1c_max_abs_pct": 0.26784,
+   "mv2c_med_abs_pct": 0.0,
+   "mv2c_p95_abs_pct": 0.04729,
+   "mv2c_max_abs_pct": 0.26784,
+   "cycles_over_min_threshold": 2,
+   "cycles_with_threshold": 376,
+   "pct_over_min_threshold": 0.5
+  },
+  "ICNT/USDC": {
+   "n": 376,
+   "mv1c_med_abs_pct": 0.0,
+   "mv1c_p95_abs_pct": 0.06301,
+   "mv1c_max_abs_pct": 0.18793,
+   "mv2c_med_abs_pct": 0.0,
+   "mv2c_p95_abs_pct": 0.09819,
+   "mv2c_max_abs_pct": 0.2358,
+   "cycles_over_min_threshold": 1,
+   "cycles_with_threshold": 376,
+   "pct_over_min_threshold": 0.3
+  },
+  "SOSO/USDC": {
+   "n": 376,
+   "mv1c_med_abs_pct": 0.0,
+   "mv1c_p95_abs_pct": 0.10023,
+   "mv1c_max_abs_pct": 0.2967,
+   "mv2c_med_abs_pct": 0.0,
+   "mv2c_p95_abs_pct": 0.1607,
+   "mv2c_max_abs_pct": 0.42689,
+   "cycles_over_min_threshold": 36,
+   "cycles_with_threshold": 376,
+   "pct_over_min_threshold": 9.6
+  }
+ },
+ "opportunities_detail": [
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604174096,
+   "realized_move_pct": 0.1741,
+   "direction": "LONG",
+   "min_threshold_pct": 0.0993,
+   "retrospective_net_usd": 0.0746,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604176729,
+   "realized_move_pct": 0.1741,
+   "direction": "LONG",
+   "min_threshold_pct": 0.0993,
+   "retrospective_net_usd": 0.0746,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604347274,
+   "realized_move_pct": 0.22046,
+   "direction": "LONG",
+   "min_threshold_pct": 0.0993,
+   "retrospective_net_usd": 0.1209,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604349931,
+   "realized_move_pct": 0.15078,
+   "direction": "LONG",
+   "min_threshold_pct": 0.0993,
+   "retrospective_net_usd": 0.0513,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604517328,
+   "realized_move_pct": 0.23486,
+   "direction": "LONG",
+   "min_threshold_pct": 0.0993,
+   "retrospective_net_usd": 0.1353,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604520006,
+   "realized_move_pct": 0.23486,
+   "direction": "LONG",
+   "min_threshold_pct": 0.0993,
+   "retrospective_net_usd": 0.1353,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604582209,
+   "realized_move_pct": 0.11311,
+   "direction": "LONG",
+   "min_threshold_pct": 0.0993,
+   "retrospective_net_usd": 0.0137,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604585310,
+   "realized_move_pct": 0.11311,
+   "direction": "LONG",
+   "min_threshold_pct": 0.0993,
+   "retrospective_net_usd": 0.0137,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604597131,
+   "realized_move_pct": 0.23553,
+   "direction": "LONG",
+   "min_threshold_pct": 0.0992,
+   "retrospective_net_usd": 0.1361,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604600249,
+   "realized_move_pct": 0.27848,
+   "direction": "LONG",
+   "min_threshold_pct": 0.0991,
+   "retrospective_net_usd": 0.1971,
+   "retrospective_size_usd": 250.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604603658,
+   "realized_move_pct": 0.10791,
+   "direction": "LONG",
+   "min_threshold_pct": 0.0991,
+   "retrospective_net_usd": 0.0087,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604644417,
+   "realized_move_pct": 0.2967,
+   "direction": "LONG",
+   "min_threshold_pct": 0.099,
+   "retrospective_net_usd": 0.2436,
+   "retrospective_size_usd": 250.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604647341,
+   "realized_move_pct": 0.42689,
+   "direction": "LONG",
+   "min_threshold_pct": 0.0989,
+   "retrospective_net_usd": 0.5686,
+   "retrospective_size_usd": 250.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604650433,
+   "realized_move_pct": 0.1298,
+   "direction": "LONG",
+   "min_threshold_pct": 0.0989,
+   "retrospective_net_usd": 0.0307,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604679144,
+   "realized_move_pct": -0.1607,
+   "direction": "SHORT",
+   "min_threshold_pct": 0.0989,
+   "retrospective_net_usd": 0.0616,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604682080,
+   "realized_move_pct": -0.1607,
+   "direction": "SHORT",
+   "min_threshold_pct": 0.0989,
+   "retrospective_net_usd": 0.0616,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604691439,
+   "realized_move_pct": -0.23206,
+   "direction": "SHORT",
+   "min_threshold_pct": 0.099,
+   "retrospective_net_usd": 0.1328,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604694149,
+   "realized_move_pct": -0.23206,
+   "direction": "SHORT",
+   "min_threshold_pct": 0.099,
+   "retrospective_net_usd": 0.1328,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604705919,
+   "realized_move_pct": 0.1003,
+   "direction": "LONG",
+   "min_threshold_pct": 0.099,
+   "retrospective_net_usd": 0.0012,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "ICNT/USDC",
+   "t_ms": 1795604826142,
+   "realized_move_pct": -0.2358,
+   "direction": "SHORT",
+   "min_threshold_pct": 0.2057,
+   "retrospective_net_usd": 0.0295,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604899210,
+   "realized_move_pct": 0.146,
+   "direction": "LONG",
+   "min_threshold_pct": 0.0989,
+   "retrospective_net_usd": 0.0469,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604902025,
+   "realized_move_pct": 0.16952,
+   "direction": "LONG",
+   "min_threshold_pct": 0.0989,
+   "retrospective_net_usd": 0.0704,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604945919,
+   "realized_move_pct": -0.1245,
+   "direction": "SHORT",
+   "min_threshold_pct": 0.099,
+   "retrospective_net_usd": 0.0254,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604955161,
+   "realized_move_pct": -0.10197,
+   "direction": "SHORT",
+   "min_threshold_pct": 0.099,
+   "retrospective_net_usd": 0.0028,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604958154,
+   "realized_move_pct": -0.10997,
+   "direction": "SHORT",
+   "min_threshold_pct": 0.099,
+   "retrospective_net_usd": 0.0108,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604961090,
+   "realized_move_pct": -0.10823,
+   "direction": "SHORT",
+   "min_threshold_pct": 0.0991,
+   "retrospective_net_usd": 0.0091,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795604963917,
+   "realized_move_pct": -0.16706,
+   "direction": "SHORT",
+   "min_threshold_pct": 0.0991,
+   "retrospective_net_usd": 0.0678,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795605005059,
+   "realized_move_pct": 0.16663,
+   "direction": "LONG",
+   "min_threshold_pct": 0.099,
+   "retrospective_net_usd": 0.0674,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795605007865,
+   "realized_move_pct": 0.16663,
+   "direction": "LONG",
+   "min_threshold_pct": 0.099,
+   "retrospective_net_usd": 0.0674,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795605046583,
+   "realized_move_pct": 0.10012,
+   "direction": "LONG",
+   "min_threshold_pct": 0.099,
+   "retrospective_net_usd": 0.001,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795605091935,
+   "realized_move_pct": 0.12414,
+   "direction": "LONG",
+   "min_threshold_pct": 0.099,
+   "retrospective_net_usd": 0.025,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795605095920,
+   "realized_move_pct": 0.12414,
+   "direction": "LONG",
+   "min_threshold_pct": 0.099,
+   "retrospective_net_usd": 0.025,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795605150009,
+   "realized_move_pct": 0.16584,
+   "direction": "LONG",
+   "min_threshold_pct": 0.0989,
+   "retrospective_net_usd": 0.0667,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795605153487,
+   "realized_move_pct": 0.16584,
+   "direction": "LONG",
+   "min_threshold_pct": 0.0989,
+   "retrospective_net_usd": 0.0667,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795605222381,
+   "realized_move_pct": -0.14325,
+   "direction": "SHORT",
+   "min_threshold_pct": 0.099,
+   "retrospective_net_usd": 0.0441,
+   "retrospective_size_usd": 100.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795605224500,
+   "realized_move_pct": -0.39959,
+   "direction": "SHORT",
+   "min_threshold_pct": 0.0991,
+   "retrospective_net_usd": 0.4992,
+   "retrospective_size_usd": 250.0
+  },
+  {
+   "pair": "SOSO/USDC",
+   "t_ms": 1795605227819,
+   "realized_move_pct": -0.2567,
+   "direction": "SHORT",
+   "min_threshold_pct": 0.0991,
+   "retrospective_net_usd": 0.1573,
+   "retrospective_size_usd": 100.0
+  }
+ ],
+ "tier_disagreement": {
+  "ETH/USDC": {
+   "n_evals_with_tiers": 376,
+   "disagree_evals": 0,
+   "per_tier": {
+    "100": {
+     "SKIP": 376
+    },
+    "500": {
+     "SKIP": 376
+    },
+    "3000": {
+     "SKIP": 376
+    }
+   }
+  },
+  "AERO/USDC": {
+   "n_evals_with_tiers": 376,
+   "disagree_evals": 0,
+   "per_tier": {
+    "500": {
+     "SKIP": 376
+    }
+   }
+  },
+  "ICNT/USDC": {
+   "n_evals_with_tiers": 0,
+   "disagree_evals": 0,
+   "per_tier": {}
+  },
+  "SOSO/USDC": {
+   "n_evals_with_tiers": 0,
+   "disagree_evals": 0,
+   "per_tier": {}
+  }
+ },
+ "entries_detail": [],
+ "survival": {
+  "n": 0
+ },
+ "holdout": {
+  "ETH/USDC": {
+   "n": 375,
+   "corr_next": 0.1438878242104768,
+   "corr_next2": 0.1195588703234116
+  },
+  "AERO/USDC": {
+   "n": 375,
+   "corr_next": 0.15771738981506764,
+   "corr_next2": 0.2079961759858025
+  },
+  "ICNT/USDC": {
+   "n": 0,
+   "corr_next": null,
+   "corr_next2": null
+  },
+  "SOSO/USDC": {
+   "n": 0,
+   "corr_next": null,
+   "corr_next2": null
+  }
+ }
+}

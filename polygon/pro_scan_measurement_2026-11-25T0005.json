@@ -1,0 +1,1411 @@
+{
+  "date": "2026-11-25T00:02:22.649251+00:00",
+  "chain": "polygon",
+  "chain_id": 137,
+  "block": 97906315,
+  "gas_price_gwei": 283.26,
+  "gas_usd_per_trade": 0.009662,
+  "reference_prices_usd": {
+    "WMATIC": 0.075797,
+    "USDC": 0.999511,
+    "USDC.e": 0.999511,
+    "USDT": 0.99883,
+    "WETH": 1678.37,
+    "DAI": 1.0,
+    "LINK": 8.85,
+    "AAVE": 93.99,
+    "GHST": 0.04655,
+    "SAND": 0.0317,
+    "QUICK": 0.002884
+  },
+  "sections": {
+    "intra_uni": [
+      {
+        "pair": "WMATIC/USDC.e (intra-Uni)",
+        "block": 97906322,
+        "venues": [
+          {
+            "dex": "uniswap",
+            "pair": "0x0a6c4588b7D8Bd22cF120283B1FFf953420c45F3",
+            "kind": "v3-uni",
+            "fee_tier": 100,
+            "fee_bps": 1,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap",
+            "pair": "0xA374094527e1673A86dE625aa59517c5dE346d32",
+            "kind": "v3-uni",
+            "fee_tier": 500,
+            "fee_bps": 5,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap",
+            "pair": "0x88f3C15523544835fF6c738DDb30995339AD57d6",
+            "kind": "v3-uni",
+            "fee_tier": 3000,
+            "fee_bps": 30,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap",
+            "pair": "0x67e708986a809aCefDe16f2417FA5701241E3935",
+            "kind": "v3-uni",
+            "fee_tier": 10000,
+            "fee_bps": 100,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap-v4",
+            "pair": "0xa0ff715d787b6ca8f8378e6d846be3562e38f8fc300256bb5dd61240f32614d5",
+            "kind": "v4",
+            "fee_tier": 100,
+            "fee_bps": 1,
+            "liq_usd": null
+          }
+        ],
+        "skipped": [],
+        "sizes": {
+          "1000.0": {
+            "spread_pct": -2.9523,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0xA374094527e1673A86dE625aa59517c5dE346d32",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.076893
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0xA374094527e1673A86dE625aa59517c5dE346d32",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.074623
+            },
+            "venues_quoted": 4,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "5000.0": {
+            "spread_pct": -15.09,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0xA374094527e1673A86dE625aa59517c5dE346d32",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.082389
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0xA374094527e1673A86dE625aa59517c5dE346d32",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.069956
+            },
+            "venues_quoted": 4,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "20000.0": {
+            "spread_pct": -73.946,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0xA374094527e1673A86dE625aa59517c5dE346d32",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.089772
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0xA374094527e1673A86dE625aa59517c5dE346d32",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.023389
+            },
+            "venues_quoted": 4,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          }
+        },
+        "section": "intra-uni"
+      },
+      {
+        "pair": "WMATIC/USDT (intra-Uni)",
+        "block": 97906337,
+        "venues": [
+          {
+            "dex": "uniswap",
+            "pair": "0x3BFcb475E528F54246f1847EC0e7b53Dd88bda4e",
+            "kind": "v3-uni",
+            "fee_tier": 100,
+            "fee_bps": 1,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap",
+            "pair": "0x9B08288C3Be4F62bbf8d1C20Ac9C5e6f9467d8B7",
+            "kind": "v3-uni",
+            "fee_tier": 500,
+            "fee_bps": 5,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap",
+            "pair": "0x781067Ef296E5C4A4203F81C593274824b7C185d",
+            "kind": "v3-uni",
+            "fee_tier": 3000,
+            "fee_bps": 30,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap",
+            "pair": "0x9a72FC3Fb9E99087d2eAE500355E7902C763f9B3",
+            "kind": "v3-uni",
+            "fee_tier": 10000,
+            "fee_bps": 100,
+            "liq_usd": null
+          }
+        ],
+        "skipped": [],
+        "sizes": {
+          "1000.0": {
+            "spread_pct": -0.1298,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x9B08288C3Be4F62bbf8d1C20Ac9C5e6f9467d8B7",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.075843
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x9B08288C3Be4F62bbf8d1C20Ac9C5e6f9467d8B7",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.075745
+            },
+            "venues_quoted": 4,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "5000.0": {
+            "spread_pct": -0.2487,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x9B08288C3Be4F62bbf8d1C20Ac9C5e6f9467d8B7",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.075889
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x9B08288C3Be4F62bbf8d1C20Ac9C5e6f9467d8B7",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.0757
+            },
+            "venues_quoted": 3,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "20000.0": {
+            "spread_pct": -0.6975,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x9B08288C3Be4F62bbf8d1C20Ac9C5e6f9467d8B7",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.076058
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x9B08288C3Be4F62bbf8d1C20Ac9C5e6f9467d8B7",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.075527
+            },
+            "venues_quoted": 3,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          }
+        },
+        "section": "intra-uni"
+      },
+      {
+        "pair": "WETH/USDC.e (intra-Uni)",
+        "block": 97906353,
+        "venues": [
+          {
+            "dex": "uniswap",
+            "pair": "0x04537F43f6adD7b1b60CAb199c7a910024eE0594",
+            "kind": "v3-uni",
+            "fee_tier": 100,
+            "fee_bps": 1,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap",
+            "pair": "0x45dDa9cb7c25131DF268515131f647d726f50608",
+            "kind": "v3-uni",
+            "fee_tier": 500,
+            "fee_bps": 5,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap",
+            "pair": "0x0e44cEb592AcFC5D3F09D996302eB4C499ff8c10",
+            "kind": "v3-uni",
+            "fee_tier": 3000,
+            "fee_bps": 30,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap",
+            "pair": "0xBD934A7778771A7E2D9bf80596002a214D8C9304",
+            "kind": "v3-uni",
+            "fee_tier": 10000,
+            "fee_bps": 100,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap-v4",
+            "pair": "0xe4300c2d5861190bc83d212e05359b617071d3afdb3cc0726920eb39cbd1ba85",
+            "kind": "v4",
+            "fee_tier": 500,
+            "fee_bps": 5,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap-v4",
+            "pair": "0x3e6394e1d311b104da8aef3e6826cdca28a3204a396632535d85110e331de594",
+            "kind": "v4",
+            "fee_tier": 3000,
+            "fee_bps": 30,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap-v4",
+            "pair": "0xa28ae9947e46ba8fbb508e14b02bd8990530d811ac09bdd36f7bcd6815ccd1d0",
+            "kind": "v4",
+            "fee_tier": 10000,
+            "fee_bps": 100,
+            "liq_usd": null
+          }
+        ],
+        "skipped": [],
+        "sizes": {
+          "1000.0": {
+            "spread_pct": -0.5978,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x45dDa9cb7c25131DF268515131f647d726f50608",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 1681.079092
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x45dDa9cb7c25131DF268515131f647d726f50608",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 1671.029347
+            },
+            "venues_quoted": 7,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "5000.0": {
+            "spread_pct": -2.6237,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x45dDa9cb7c25131DF268515131f647d726f50608",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 1698.372477
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x45dDa9cb7c25131DF268515131f647d726f50608",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 1653.81199
+            },
+            "venues_quoted": 7,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "20000.0": {
+            "spread_pct": -9.0194,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x45dDa9cb7c25131DF268515131f647d726f50608",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 1757.434363
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x45dDa9cb7c25131DF268515131f647d726f50608",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 1598.923787
+            },
+            "venues_quoted": 7,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          }
+        },
+        "section": "intra-uni"
+      },
+      {
+        "pair": "USDC.e/USDT (intra-Uni)",
+        "block": 97906371,
+        "venues": [
+          {
+            "dex": "uniswap",
+            "pair": "0xDaC8A8E6DBf8c690ec6815e0fF03491B2770255D",
+            "kind": "v3-uni",
+            "fee_tier": 100,
+            "fee_bps": 1,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap",
+            "pair": "0x3F5228d0e7D75467366be7De2c31D0d098bA2C23",
+            "kind": "v3-uni",
+            "fee_tier": 500,
+            "fee_bps": 5,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap",
+            "pair": "0x24555B1E26407b8b56621da41F175c5E2B80f1b8",
+            "kind": "v3-uni",
+            "fee_tier": 3000,
+            "fee_bps": 30,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap",
+            "pair": "0x7109C674e52b14FCFb8A04ffe254f454f9C61C18",
+            "kind": "v3-uni",
+            "fee_tier": 10000,
+            "fee_bps": 100,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap-v4",
+            "pair": "0xd94926480e4db41cb61b009c592cacfb7fa17dd872885217bedcbe7495c0a750",
+            "kind": "v4",
+            "fee_tier": 100,
+            "fee_bps": 1,
+            "liq_usd": null
+          },
+          {
+            "dex": "uniswap-v4",
+            "pair": "0x92e867e85e56e754bc5c53edc2545599fd45ba6da7f2557f7325daf26029a981",
+            "kind": "v4",
+            "fee_tier": 10000,
+            "fee_bps": 100,
+            "liq_usd": null
+          }
+        ],
+        "skipped": [],
+        "sizes": {
+          "1000.0": {
+            "spread_pct": -0.0202,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0xDaC8A8E6DBf8c690ec6815e0fF03491B2770255D",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 1.000171
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0xDaC8A8E6DBf8c690ec6815e0fF03491B2770255D",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.999969
+            },
+            "venues_quoted": 6,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "5000.0": {
+            "spread_pct": -0.0212,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0xDaC8A8E6DBf8c690ec6815e0fF03491B2770255D",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 1.000176
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0xDaC8A8E6DBf8c690ec6815e0fF03491B2770255D",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.999964
+            },
+            "venues_quoted": 6,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "20000.0": {
+            "spread_pct": -0.0247,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0xDaC8A8E6DBf8c690ec6815e0fF03491B2770255D",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 1.000194
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0xDaC8A8E6DBf8c690ec6815e0fF03491B2770255D",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.999947
+            },
+            "venues_quoted": 6,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          }
+        },
+        "section": "intra-uni"
+      }
+    ],
+    "midcaps": [
+      {
+        "pair": "LINK/USDC.e",
+        "block": 97906386,
+        "venues": [
+          {
+            "dex": "uniswap",
+            "pair": "0x94Ab9E4553fFb839431E37CC79ba8905f45BfBeA",
+            "kind": "v3-uni",
+            "fee_tier": null,
+            "fee_bps": 30,
+            "liq_usd": 148174.34
+          },
+          {
+            "dex": "uniswap",
+            "pair": "0x22177148e681A6ca5242c9888Ace170EE7eC47BD",
+            "kind": "v3-uni",
+            "fee_tier": null,
+            "fee_bps": 5,
+            "liq_usd": 1457.89
+          },
+          {
+            "dex": "0xf08aE17C2A2728a788bb1b6C243fe7eb3E5bBaDc",
+            "pair": "0xBA85Aeaa410dbc73809c3786b8EBc411AFF3196f",
+            "kind": "v2",
+            "fee_tier": null,
+            "fee_bps": 30,
+            "liq_usd": 436.91
+          },
+          {
+            "dex": "dfyn",
+            "pair": "0x86cC48EDcedff70AdAcBA59dEA9B61670f90eAc3",
+            "kind": "v2",
+            "fee_tier": null,
+            "fee_bps": 30,
+            "liq_usd": 253.37
+          }
+        ],
+        "skipped": [],
+        "sizes": {
+          "1000.0": {
+            "spread_pct": -1.9658,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x94Ab9E4553fFb839431E37CC79ba8905f45BfBeA",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 8.931076
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x94Ab9E4553fFb839431E37CC79ba8905f45BfBeA",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 8.755505
+            },
+            "venues_quoted": 4,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "5000.0": {
+            "spread_pct": -7.1932,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x94Ab9E4553fFb839431E37CC79ba8905f45BfBeA",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 9.176546
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x94Ab9E4553fFb839431E37CC79ba8905f45BfBeA",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 8.516458
+            },
+            "venues_quoted": 4,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "20000.0": {
+            "spread_pct": -23.4226,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x94Ab9E4553fFb839431E37CC79ba8905f45BfBeA",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 9.97271
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x94Ab9E4553fFb839431E37CC79ba8905f45BfBeA",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 7.636838
+            },
+            "venues_quoted": 4,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          }
+        },
+        "section": "midcaps"
+      },
+      {
+        "pair": "LINK/USDT",
+        "block": 97906393,
+        "venues": [
+          {
+            "dex": "uniswap",
+            "pair": "0x3c92bd9596E6aca8cfa29ec733ebe0c189bec1F3",
+            "kind": "v3-uni",
+            "fee_tier": null,
+            "fee_bps": 30,
+            "liq_usd": 3859.7
+          },
+          {
+            "dex": "sushiswap",
+            "pair": "0x43C355d9cE77f91b7E1A314E258246D155100be9",
+            "kind": "v2",
+            "fee_tier": null,
+            "fee_bps": 30,
+            "liq_usd": 86.33
+          }
+        ],
+        "skipped": [],
+        "sizes": {
+          "1000.0": {
+            "spread_pct": -81.6546,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x3c92bd9596E6aca8cfa29ec733ebe0c189bec1F3",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 10.600031
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x3c92bd9596E6aca8cfa29ec733ebe0c189bec1F3",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 1.944613
+            },
+            "venues_quoted": 2,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "5000.0": {
+            "spread_pct": -97.5194,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x3c92bd9596E6aca8cfa29ec733ebe0c189bec1F3",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 15.685784
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x3c92bd9596E6aca8cfa29ec733ebe0c189bec1F3",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.389105
+            },
+            "venues_quoted": 2,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "20000.0": {
+            "spread_pct": -99.8098,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x3c92bd9596E6aca8cfa29ec733ebe0c189bec1F3",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 51.13638
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x3c92bd9596E6aca8cfa29ec733ebe0c189bec1F3",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.097283
+            },
+            "venues_quoted": 2,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          }
+        },
+        "section": "midcaps"
+      },
+      {
+        "pair": "AAVE/USDC.e",
+        "block": 97906402,
+        "venues": [
+          {
+            "dex": "uniswap",
+            "pair": "0xa236278beC0e0677A48527340cfB567b4E6e9AdC",
+            "kind": "v3-uni",
+            "fee_tier": null,
+            "fee_bps": 30,
+            "liq_usd": 21972.84
+          },
+          {
+            "dex": "quickswap",
+            "pair": "0x7c76B6B3FE14831A39C0fec908DA5f17180df677",
+            "kind": "v2",
+            "fee_tier": null,
+            "fee_bps": 30,
+            "liq_usd": 1665.8
+          },
+          {
+            "dex": "0x42E635D36913c94a340567761Ec8383b9932906a",
+            "pair": "0xEc3434a26545a8A04dc3971C8bDdCBA23efB1b61",
+            "kind": "v2",
+            "fee_tier": null,
+            "fee_bps": 30,
+            "liq_usd": 1462.98
+          },
+          {
+            "dex": "0xf08aE17C2A2728a788bb1b6C243fe7eb3E5bBaDc",
+            "pair": "0x939e9Fef580aA433DEb7c86E79aeA0cC7C3555B3",
+            "kind": "v2",
+            "fee_tier": null,
+            "fee_bps": 30,
+            "liq_usd": 213.08
+          },
+          {
+            "dex": "sushiswap",
+            "pair": "0x3E9a0586088caEb2aDFf32B0C06CfA44151c7a5B",
+            "kind": "v2",
+            "fee_tier": null,
+            "fee_bps": 30,
+            "liq_usd": 209.86
+          }
+        ],
+        "skipped": [],
+        "sizes": {
+          "1000.0": {
+            "spread_pct": -13.6462,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0xa236278beC0e0677A48527340cfB567b4E6e9AdC",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 99.556106
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0xa236278beC0e0677A48527340cfB567b4E6e9AdC",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 85.970498
+            },
+            "venues_quoted": 5,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "5000.0": {
+            "spread_pct": -52.1593,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0xa236278beC0e0677A48527340cfB567b4E6e9AdC",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 116.569175
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0xa236278beC0e0677A48527340cfB567b4E6e9AdC",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 55.767458
+            },
+            "venues_quoted": 5,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "20000.0": {
+            "spread_pct": -91.2319,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0xa236278beC0e0677A48527340cfB567b4E6e9AdC",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 176.863707
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0xa236278beC0e0677A48527340cfB567b4E6e9AdC",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 15.507523
+            },
+            "venues_quoted": 5,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          }
+        },
+        "section": "midcaps"
+      },
+      {
+        "pair": "AAVE/USDT",
+        "block": 97906409,
+        "venues": [
+          {
+            "dex": "uniswap",
+            "pair": "0x20fB28b6209eD80eeE40894BAA9a199C07B03e55",
+            "kind": "v3-uni",
+            "fee_tier": null,
+            "fee_bps": 30,
+            "liq_usd": 200178.55
+          }
+        ],
+        "skipped": [],
+        "sizes": {
+          "1000.0": {
+            "spread_pct": -2.3938,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x20fB28b6209eD80eeE40894BAA9a199C07B03e55",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 94.949322
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x20fB28b6209eD80eeE40894BAA9a199C07B03e55",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 92.676394
+            },
+            "venues_quoted": 1,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "5000.0": {
+            "spread_pct": -26.9647,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x20fB28b6209eD80eeE40894BAA9a199C07B03e55",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 98.413737
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x20fB28b6209eD80eeE40894BAA9a199C07B03e55",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 71.876789
+            },
+            "venues_quoted": 1,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "20000.0": {
+            "spread_pct": -83.5761,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x20fB28b6209eD80eeE40894BAA9a199C07B03e55",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 109.409251
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x20fB28b6209eD80eeE40894BAA9a199C07B03e55",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 17.969213
+            },
+            "venues_quoted": 1,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          }
+        },
+        "section": "midcaps"
+      },
+      {
+        "pair": "GHST/USDC.e",
+        "block": 97906415,
+        "venues": [
+          {
+            "dex": "quickswap",
+            "pair": "0x096C5CCb33cFc5732Bcd1f3195C13dBeFC4c82f4",
+            "kind": "v2",
+            "fee_tier": null,
+            "fee_bps": 30,
+            "liq_usd": 66544.7
+          },
+          {
+            "dex": "quickswap",
+            "pair": "0xe3703608393727C6B3761471d13e064c77c8d836",
+            "kind": "algebra",
+            "fee_tier": null,
+            "fee_bps": 16,
+            "liq_usd": 219.39
+          }
+        ],
+        "skipped": [],
+        "sizes": {
+          "1000.0": {
+            "spread_pct": -6.3014,
+            "best_buy": {
+              "dex": "quickswap",
+              "pair": "0x096C5CCb33cFc5732Bcd1f3195C13dBeFC4c82f4",
+              "kind": "v2",
+              "price_usd_per_unit": 0.048074
+            },
+            "best_sell": {
+              "dex": "quickswap",
+              "pair": "0x096C5CCb33cFc5732Bcd1f3195C13dBeFC4c82f4",
+              "kind": "v2",
+              "price_usd_per_unit": 0.045044
+            },
+            "venues_quoted": 2,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "5000.0": {
+            "spread_pct": -24.8252,
+            "best_buy": {
+              "dex": "quickswap",
+              "pair": "0x096C5CCb33cFc5732Bcd1f3195C13dBeFC4c82f4",
+              "kind": "v2",
+              "price_usd_per_unit": 0.053671
+            },
+            "best_sell": {
+              "dex": "quickswap",
+              "pair": "0x096C5CCb33cFc5732Bcd1f3195C13dBeFC4c82f4",
+              "kind": "v2",
+              "price_usd_per_unit": 0.040347
+            },
+            "venues_quoted": 2,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "20000.0": {
+            "spread_pct": -61.1516,
+            "best_buy": {
+              "dex": "quickswap",
+              "pair": "0x096C5CCb33cFc5732Bcd1f3195C13dBeFC4c82f4",
+              "kind": "v2",
+              "price_usd_per_unit": 0.07466
+            },
+            "best_sell": {
+              "dex": "quickswap",
+              "pair": "0x096C5CCb33cFc5732Bcd1f3195C13dBeFC4c82f4",
+              "kind": "v2",
+              "price_usd_per_unit": 0.029004
+            },
+            "venues_quoted": 2,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          }
+        },
+        "section": "midcaps"
+      },
+      {
+        "pair": "GHST/USDT",
+        "block": 97906418,
+        "venues": [
+          {
+            "dex": "sushiswap",
+            "pair": "0x6436f5e99Be830D10387299FfdA076e87a06986B",
+            "kind": "v2",
+            "fee_tier": null,
+            "fee_bps": 30,
+            "liq_usd": 80.22
+          }
+        ],
+        "skipped": [],
+        "sizes": {
+          "1000.0": {
+            "spread_pct": -99.8516,
+            "best_buy": {
+              "dex": "sushiswap",
+              "pair": "0x6436f5e99Be830D10387299FfdA076e87a06986B",
+              "kind": "v2",
+              "price_usd_per_unit": 1.21529
+            },
+            "best_sell": {
+              "dex": "sushiswap",
+              "pair": "0x6436f5e99Be830D10387299FfdA076e87a06986B",
+              "kind": "v2",
+              "price_usd_per_unit": 0.001803
+            },
+            "venues_quoted": 1,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.0,
+              "expected_net_usd": -0.01932320944567546,
+              "tranche": "SKIP"
+            }
+          },
+          "5000.0": {
+            "spread_pct": -99.9937,
+            "best_buy": {
+              "dex": "sushiswap",
+              "pair": "0x6436f5e99Be830D10387299FfdA076e87a06986B",
+              "kind": "v2",
+              "price_usd_per_unit": 5.888642
+            },
+            "best_sell": {
+              "dex": "sushiswap",
+              "pair": "0x6436f5e99Be830D10387299FfdA076e87a06986B",
+              "kind": "v2",
+              "price_usd_per_unit": 0.000372
+            },
+            "venues_quoted": 1,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.0,
+              "expected_net_usd": -0.01932320944567546,
+              "tranche": "SKIP"
+            }
+          },
+          "20000.0": {
+            "spread_pct": -99.9996,
+            "best_buy": {
+              "dex": "sushiswap",
+              "pair": "0x6436f5e99Be830D10387299FfdA076e87a06986B",
+              "kind": "v2",
+              "price_usd_per_unit": 23.413712
+            },
+            "best_sell": {
+              "dex": "sushiswap",
+              "pair": "0x6436f5e99Be830D10387299FfdA076e87a06986B",
+              "kind": "v2",
+              "price_usd_per_unit": 9.4e-05
+            },
+            "venues_quoted": 1,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.0,
+              "expected_net_usd": -0.01932320944567546,
+              "tranche": "SKIP"
+            }
+          }
+        },
+        "section": "midcaps"
+      },
+      {
+        "pair": "SAND/USDC.e",
+        "block": 97906420,
+        "venues": [],
+        "skipped": [],
+        "sizes": {
+          "1000.0": {
+            "spread_pct": null,
+            "note": "pas assez de venues cot\u00e9es"
+          },
+          "5000.0": {
+            "spread_pct": null,
+            "note": "pas assez de venues cot\u00e9es"
+          },
+          "20000.0": {
+            "spread_pct": null,
+            "note": "pas assez de venues cot\u00e9es"
+          }
+        },
+        "section": "midcaps"
+      },
+      {
+        "pair": "SAND/USDT",
+        "block": 97906423,
+        "venues": [
+          {
+            "dex": "uniswap",
+            "pair": "0x196625f21bec22Bd6cb1eaF6Ea3E7503154cFAaD",
+            "kind": "v3-uni",
+            "fee_tier": null,
+            "fee_bps": 100,
+            "liq_usd": 312.85
+          },
+          {
+            "dex": "sushiswap",
+            "pair": "0xc84e246855143D820d202a07Bd8A1eD30e25D938",
+            "kind": "v3-uni",
+            "fee_tier": null,
+            "fee_bps": 30,
+            "liq_usd": 40.65
+          }
+        ],
+        "skipped": [],
+        "sizes": {
+          "1000.0": {
+            "spread_pct": -99.7387,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x196625f21bec22Bd6cb1eaF6Ea3E7503154cFAaD",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.132386
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x196625f21bec22Bd6cb1eaF6Ea3E7503154cFAaD",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.000346
+            },
+            "venues_quoted": 2,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.03,
+              "tranche": "SKIP"
+            }
+          },
+          "5000.0": {
+            "spread_pct": -99.9878,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x196625f21bec22Bd6cb1eaF6Ea3E7503154cFAaD",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.571452
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x196625f21bec22Bd6cb1eaF6Ea3E7503154cFAaD",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 7e-05
+            },
+            "venues_quoted": 2,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.03,
+              "tranche": "SKIP"
+            }
+          },
+          "20000.0": {
+            "spread_pct": -99.9992,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x196625f21bec22Bd6cb1eaF6Ea3E7503154cFAaD",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 2.285519
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x196625f21bec22Bd6cb1eaF6Ea3E7503154cFAaD",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 1.7e-05
+            },
+            "venues_quoted": 2,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.03,
+              "tranche": "SKIP"
+            }
+          }
+        },
+        "section": "midcaps"
+      },
+      {
+        "pair": "QUICK/USDC.e",
+        "block": 97906431,
+        "venues": [
+          {
+            "dex": "quickswap",
+            "pair": "0x022df0b3341B3A0157EEA97dD024A93f7496D631",
+            "kind": "algebra",
+            "fee_tier": null,
+            "fee_bps": 79,
+            "liq_usd": 14116.84
+          },
+          {
+            "dex": "quickswap",
+            "pair": "0x747375305B825c49FB97eE0AC09d19Ec9Ef94BD2",
+            "kind": "v2",
+            "fee_tier": null,
+            "fee_bps": 30,
+            "liq_usd": 1406.66
+          }
+        ],
+        "skipped": [],
+        "sizes": {
+          "1000.0": {
+            "spread_pct": -22.635,
+            "best_buy": {
+              "dex": "quickswap",
+              "pair": "0x022df0b3341B3A0157EEA97dD024A93f7496D631",
+              "kind": "algebra",
+              "price_usd_per_unit": 0.003296
+            },
+            "best_sell": {
+              "dex": "quickswap",
+              "pair": "0x022df0b3341B3A0157EEA97dD024A93f7496D631",
+              "kind": "algebra",
+              "price_usd_per_unit": 0.00255
+            },
+            "venues_quoted": 2,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "5000.0": {
+            "spread_pct": -63.3898,
+            "best_buy": {
+              "dex": "quickswap",
+              "pair": "0x022df0b3341B3A0157EEA97dD024A93f7496D631",
+              "kind": "algebra",
+              "price_usd_per_unit": 0.004792
+            },
+            "best_sell": {
+              "dex": "quickswap",
+              "pair": "0x022df0b3341B3A0157EEA97dD024A93f7496D631",
+              "kind": "algebra",
+              "price_usd_per_unit": 0.001754
+            },
+            "venues_quoted": 2,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "20000.0": {
+            "spread_pct": -92.2279,
+            "best_buy": {
+              "dex": "quickswap",
+              "pair": "0x022df0b3341B3A0157EEA97dD024A93f7496D631",
+              "kind": "algebra",
+              "price_usd_per_unit": 0.0104
+            },
+            "best_sell": {
+              "dex": "quickswap",
+              "pair": "0x022df0b3341B3A0157EEA97dD024A93f7496D631",
+              "kind": "algebra",
+              "price_usd_per_unit": 0.000808
+            },
+            "venues_quoted": 2,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          }
+        },
+        "section": "midcaps"
+      },
+      {
+        "pair": "QUICK/USDT",
+        "block": 97906433,
+        "venues": [],
+        "skipped": [],
+        "sizes": {
+          "1000.0": {
+            "spread_pct": null,
+            "note": "pas assez de venues cot\u00e9es"
+          },
+          "5000.0": {
+            "spread_pct": null,
+            "note": "pas assez de venues cot\u00e9es"
+          },
+          "20000.0": {
+            "spread_pct": null,
+            "note": "pas assez de venues cot\u00e9es"
+          }
+        },
+        "section": "midcaps"
+      }
+    ],
+    "watchlist": [
+      {
+        "pair": "axlUSDC/USDC (watchlist)",
+        "block": 97906441,
+        "venues": [
+          {
+            "dex": "uniswap",
+            "pair": "0x28b96d83fE1210f32a77953CB6accf8be6B6E232",
+            "kind": "v3-uni",
+            "fee_tier": null,
+            "fee_bps": 1,
+            "liq_usd": 96351.49
+          },
+          {
+            "dex": "quickswap",
+            "pair": "0x6b7a1606558f586FFA1faD23a1aB84cCB9155B00",
+            "kind": "algebra",
+            "fee_tier": null,
+            "fee_bps": 1,
+            "liq_usd": 17755.24
+          },
+          {
+            "dex": "uniswap",
+            "pair": "0x647fb01A63DE9A551B39C7915693B25E6bceC502",
+            "kind": "v3-uni",
+            "fee_tier": null,
+            "fee_bps": 1,
+            "liq_usd": 15211.23
+          }
+        ],
+        "skipped": [],
+        "sizes": {
+          "1000.0": {
+            "spread_pct": -0.0213,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x28b96d83fE1210f32a77953CB6accf8be6B6E232",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 1.000204
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x647fb01A63DE9A551B39C7915693B25E6bceC502",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.999991
+            },
+            "venues_quoted": 3,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "5000.0": {
+            "spread_pct": -0.0264,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x28b96d83fE1210f32a77953CB6accf8be6B6E232",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 1.000229
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x647fb01A63DE9A551B39C7915693B25E6bceC502",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.999965
+            },
+            "venues_quoted": 3,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          },
+          "20000.0": {
+            "spread_pct": -0.0517,
+            "best_buy": {
+              "dex": "uniswap",
+              "pair": "0x28b96d83fE1210f32a77953CB6accf8be6B6E232",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 1.000386
+            },
+            "best_sell": {
+              "dex": "uniswap",
+              "pair": "0x647fb01A63DE9A551B39C7915693B25E6bceC502",
+              "kind": "v3-uni",
+              "price_usd_per_unit": 0.999869
+            },
+            "venues_quoted": 3,
+            "net": {
+              "action": "SKIP",
+              "optimal_loan_usd": 0.29,
+              "expected_net_usd": -0.02,
+              "tranche": "SKIP"
+            }
+          }
+        },
+        "section": "watchlist"
+      }
+    ]
+  }
+}

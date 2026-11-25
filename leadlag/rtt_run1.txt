@@ -1,0 +1,13 @@
+== Binance REST ==
+api.binance.com ping: {'n': 20, 'median_ms': 624.0, 'p95_ms': 748.3, 'min_ms': 454.6, 'max_ms': 750.4}
+== Base public RPC ==
+mainnet.base.org eth_blockNumber: {'n': 20, 'median_ms': 393.3, 'p95_ms': 501.7, 'min_ms': 319.5, 'max_ms': 542.6}
+== Polygon drpc ==
+polygon.drpc.org eth_blockNumber: {'n': 20, 'median_ms': 370.3, 'p95_ms': 437.2, 'min_ms': 283.9, 'max_ms': 552.0}
+== Binance WS ==
+WS fail: InvalidStatus server rejected WebSocket connection: HTTP 451
+WS fail: InvalidStatus server rejected WebSocket connection: HTTP 451
+WS fail: InvalidStatus server rejected WebSocket connection: HTTP 451
+WS fail: InvalidStatus server rejected WebSocket connection: HTTP 451
+WS fail: InvalidStatus server rejected WebSocket connection: HTTP 451
+stream.binance.com: None

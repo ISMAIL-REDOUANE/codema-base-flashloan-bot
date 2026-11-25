@@ -1,0 +1,210 @@
+{
+  "route": "curve_4swap_corrected",
+  "min_profit_usd": 0.01,
+  "matic_price_usd": 0.0758,
+  "steps": {
+    "fork": {
+      "chain_id": 137,
+      "block_number": 97922458,
+      "note": "fork Polygon mainnet, RPC public drpc.org"
+    },
+    "morpho": {
+      "morpho_has_code": true,
+      "morpho_code_bytes": 15582,
+      "morpho_usdc_balance_usd": 75540.27,
+      "usable_50pct_usdc": 37770.13
+    },
+    "curve_pool": {
+      "underlying_1": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+      "underlying_1_is_usdce": true,
+      "underlying_1_is_usdc_native": false,
+      "fee_pct": 1e-05,
+      "note": "underlying(1) DOIT \u00eatre USDC.e (0x2791\u2026) \u2014 c'est la correction"
+    },
+    "aave_v2_frozen": {
+      "block": 97922458,
+      "frozen": {
+        "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063": true,
+        "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174": true,
+        "0xc2132D05D31c914a87C6611C10748AEb04B58e8F": true
+      },
+      "any_frozen": true,
+      "note": "isFrozen=1 sur DAI/USDC.e/USDT : tout deposit Aave v2 revert"
+    },
+    "quote_live_1000": {
+      "block": 97922458,
+      "loan_usd": 1000.0,
+      "leg0": 999.89263,
+      "leg1": 1000.87521,
+      "leg2_curve_usdce": 1000.9779,
+      "leg3": 1000.883021,
+      "gross_usd": 0.883,
+      "gas_budget_usd": 0.0261,
+      "net_usd": 0.8569,
+      "min_dy_usdce": 1000477411,
+      "verdict": "WIN"
+    },
+    "quote_live_5000": {
+      "block": 97922458,
+      "loan_usd": 5000.0,
+      "leg0": 4999.441614,
+      "leg1": 5004.339635,
+      "leg2_curve_usdce": 5004.837012,
+      "leg3": 5004.341262,
+      "gross_usd": 4.3413,
+      "gas_budget_usd": 0.0261,
+      "net_usd": 4.3151,
+      "min_dy_usdce": 5002334593,
+      "verdict": "WIN"
+    },
+    "quote_live_20000": {
+      "block": 97922458,
+      "loan_usd": 20000.0,
+      "leg0": 19997.443371,
+      "leg1": 20016.812236,
+      "leg2_curve_usdce": 20018.563071,
+      "leg3": 20016.270527,
+      "gross_usd": 16.2705,
+      "gas_budget_usd": 0.0261,
+      "net_usd": 16.2444,
+      "min_dy_usdce": 20008553789,
+      "verdict": "WIN"
+    },
+    "garde_offchain_1000": {
+      "action": "SKIP",
+      "reason": "aave_v2_frozen",
+      "net_usd": 0.8569,
+      "detail": "Aave v2 gel\u00e9 : exchange_underlying revert (VL_RESERVE_FROZEN '3'). Ne pas broadcaster."
+    },
+    "garde_offchain_5000": {
+      "action": "SKIP",
+      "reason": "aave_v2_frozen",
+      "net_usd": 4.3151,
+      "detail": "Aave v2 gel\u00e9 : exchange_underlying revert (VL_RESERVE_FROZEN '3'). Ne pas broadcaster."
+    },
+    "garde_offchain_20000": {
+      "action": "SKIP",
+      "reason": "aave_v2_frozen",
+      "net_usd": 16.2444,
+      "detail": "Aave v2 gel\u00e9 : exchange_underlying revert (VL_RESERVE_FROZEN '3'). Ne pas broadcaster."
+    },
+    "deploy": {
+      "contract": "0x06D6EdD1Cc26279E8f0246e0b9d524AB5e88767D",
+      "block": 97922459,
+      "gas_used": 1286751,
+      "min_profit_onchain_usdc": 10000
+    },
+    "execution_5k_simulation_eth_call": {
+      "revert": true,
+      "detail": "('execution reverted', '0x')",
+      "note": "revert attendu : jambe Curve -> Aave v2 gel\u00e9. web3.py ne remonte que ('execution reverted', '0x') : la raison est dans le sous-appel, lue par debug_traceTransaction ci-apr\u00e8s."
+    },
+    "execution_5k_broadcast_fork": {
+      "tx_status": 0,
+      "tx_hash": "bca0bf0612000e5004a6b7d62f97532cbdf3e43fc7d0fe874e77d412159b8fc3",
+      "block": 97922460,
+      "gas_used": 489126,
+      "gas_price_gwei": 200.59,
+      "cout_revert_usd": 0.007437,
+      "raison_revert_profond": "3",
+      "raison_attendue": "3 = VL_RESERVE_FROZEN (Aave v2 Errors.sol)",
+      "note": "broadcast sur le FORK pour mesurer le co\u00fbt du revert \u2014 en live, le garde off-chain DOIT dropper avant (0 $). La raison '3' ne peut venir que du deposit Aave dans la jambe Curve : Morpho + les 2 jambes V3 ont donc R\u00c9USSI avant."
+    },
+    "garde_loan_trop_gros": {
+      "eth_call_revert": true,
+      "detail": "('execution reverted: transfer reverted', '0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000117472616e73666572207",
+      "tx_hash": "f9c61f6f54414f56cfe95f270e77a037bcc5afcac9d7c0f3738c547f93d2ee63",
+      "raison_revert_profond": "transfer reverted",
+      "tx_status": 0,
+      "gas_used": 53696,
+      "cout_revert_usd": 0.000715,
+      "loan_demande_usd": 100000,
+      "morpho_usdc": 75540.27,
+      "note": "revert attendu chez Morpho (transfert > solde), avant tout swap"
+    },
+    "fenetre_apres_1000": {
+      "block": 97922461,
+      "gross_usd": 0.883,
+      "net_usd": 0.8569,
+      "verdict": "WIN",
+      "note": "l'edge papier survit : aucun trade n'a abouti, le pool Curve n'a pas boug\u00e9"
+    },
+    "fenetre_apres_5000": {
+      "block": 97922461,
+      "gross_usd": 4.3413,
+      "net_usd": 4.3151,
+      "verdict": "WIN",
+      "note": "l'edge papier survit : aucun trade n'a abouti, le pool Curve n'a pas boug\u00e9"
+    },
+    "fenetre_apres_20000": {
+      "block": 97922461,
+      "gross_usd": 16.2705,
+      "net_usd": 16.2444,
+      "verdict": "WIN",
+      "note": "l'edge papier survit : aucun trade n'a abouti, le pool Curve n'a pas boug\u00e9"
+    }
+  },
+  "summary": {
+    "fork_block": 97922458,
+    "verdict": "ROUTE INEX\u00c9CUTABLE \u2014 Aave v2 gel\u00e9 (VL_RESERVE_FROZEN '3'). La quote dit WIN (papier), l'ex\u00e9cution revert. Le contrat et les jambes V3 + Morpho fonctionnent (prouv\u00e9 par la trace : swaps V3 + callbacks OK avant Curve).",
+    "morpho_usdc_balance_usd": 75540.27,
+    "gas_price_gwei": 229.72,
+    "aave_v2_frozen": {
+      "frozen": {
+        "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063": true,
+        "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174": true,
+        "0xc2132D05D31c914a87C6611C10748AEb04B58e8F": true
+      },
+      "any_frozen": true,
+      "block": 97922458
+    },
+    "quotes_papier": {
+      "1000.0": {
+        "net_usd": 0.8569,
+        "verdict": "WIN"
+      },
+      "5000.0": {
+        "net_usd": 4.3151,
+        "verdict": "WIN"
+      },
+      "20000.0": {
+        "net_usd": 16.2444,
+        "verdict": "WIN"
+      }
+    },
+    "execution_5k": {
+      "tx_hash": "bca0bf0612000e5004a6b7d62f97532cbdf3e43fc7d0fe874e77d412159b8fc3",
+      "block": 97922460,
+      "tx_status": 0,
+      "gas_used": 489126,
+      "cout_revert_usd": 0.007437,
+      "raison": "VL_RESERVE_FROZEN ('3') \u2014 prouv\u00e9e par debug_traceTransaction (callTracer) : le revert le plus profond est le deposit USDT d'Aave v2, appel\u00e9 par le am3pool"
+    },
+    "garde_loan_trop_gros": {
+      "tx_hash": "f9c61f6f54414f56cfe95f270e77a037bcc5afcac9d7c0f3738c547f93d2ee63",
+      "raison_revert_profond": "transfer reverted",
+      "tx_status": 0,
+      "gas_used": 53696,
+      "cout_revert_usd": 0.000715
+    },
+    "gas_estime_750k_vs_revert_mesure": {
+      "estime_unites_trade_complet": 750000,
+      "mesure_unites_revert": 489126,
+      "note": "le trade complet n'a jamais abouti : le gas d'un trade r\u00e9ussi reste INCONNU (estimation 750k non mesur\u00e9e)."
+    },
+    "fenetre_apres": {
+      "1000.0": {
+        "net_usd": 0.8569,
+        "verdict": "WIN"
+      },
+      "5000.0": {
+        "net_usd": 4.3151,
+        "verdict": "WIN"
+      },
+      "20000.0": {
+        "net_usd": 16.2444,
+        "verdict": "WIN"
+      }
+    }
+  }
+}
