@@ -1,0 +1,1056 @@
+{
+  "verdict": "NO_CONFIRMED_EXECUTABLE_PROFIT_IN_MEASURED_ROUTES",
+  "rpc": "https://polygon.drpc.org",
+  "snapshots": [
+    {
+      "block": 97961399,
+      "timestamp": 1795647568,
+      "hash": "0x59221049dfa72a74e7bdcec0b49dab7c8e29b550f20af267a7ef570e7db98976",
+      "pools": 113,
+      "pool_kinds": {
+        "algebra": 15,
+        "uni": 58,
+        "quick-v2": 15,
+        "algebra4": 11,
+        "sushi-v2": 14
+      },
+      "cycles_attempted": 280,
+      "cycles_quoted": 280,
+      "quote_errors": 0,
+      "discovery_errors": [],
+      "sizes_usdc": [
+        100,
+        1000,
+        5000
+      ],
+      "gas_price_gwei": 276.999796241,
+      "pol_price_usdc": "0.07600402639291726405265236099178756387841846118172320285973461147028984",
+      "gas_budget_usdc": "0.03157964973650050252223384683549909780301952816700514289811259382090838",
+      "gross_positives": 0,
+      "net_positives": 0,
+      "best": [
+        {
+          "loan": "USDC",
+          "other": "DAI",
+          "size_usdc": 100,
+          "buy": {
+            "a": "USDC",
+            "b": "DAI",
+            "kind": "algebra",
+            "address": "0xbc8f3da0bd42e1f2509cd8671ce7c7e5f7fd39c8",
+            "token0": "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
+            "liquidity": 56899092394661930369,
+            "min_side_usdc": 102765.78671828455
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "DAI",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0xf369277650ad6654f25412ea8bfbd5942733babc",
+            "token0": "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
+            "liquidity": 38701523099602429910,
+            "min_side_usdc": 1871.704884
+          },
+          "amount_raw": "100000000",
+          "bought_raw": "100018787482331130788",
+          "returned_raw": "99998729",
+          "gross_usdc": "-0.001271",
+          "budgeted_net_usdc": "-0.03285064973650050252223384683549909780301952816700514289811259382090838"
+        },
+        {
+          "loan": "USDT",
+          "other": "USDC",
+          "size_usdc": 100,
+          "buy": {
+            "a": "USDC",
+            "b": "USDT",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0x31083a78e11b18e450fd139f9abea98cd53181b7",
+            "token0": "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
+            "liquidity": 2052096604700728,
+            "min_side_usdc": 235467.447512
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDT",
+            "kind": "algebra",
+            "address": "0x0e3eb2c75bd7dd0e12249d96b1321d9570764d77",
+            "token0": "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
+            "liquidity": 17544760946377,
+            "min_side_usdc": 64193.386591
+          },
+          "amount_raw": "100114778",
+          "bought_raw": "99989994",
+          "returned_raw": "100111975",
+          "gross_usdc": "-0.002799786456041627349573446362427186588017835481117279954532841793932594",
+          "budgeted_net_usdc": "-0.03437943619254212987180729319792628439103736364812242285264543561484097"
+        },
+        {
+          "loan": "USDC",
+          "other": "USDT",
+          "size_usdc": 100,
+          "buy": {
+            "a": "USDC",
+            "b": "USDT",
+            "kind": "algebra",
+            "address": "0x0e3eb2c75bd7dd0e12249d96b1321d9570764d77",
+            "token0": "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
+            "liquidity": 17544760946377,
+            "min_side_usdc": 64193.386591
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDT",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0x31083a78e11b18e450fd139f9abea98cd53181b7",
+            "token0": "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
+            "liquidity": 2052096604700728,
+            "min_side_usdc": 235467.447512
+          },
+          "amount_raw": "100000000",
+          "bought_raw": "100121993",
+          "returned_raw": "99997200",
+          "gross_usdc": "-0.0028",
+          "budgeted_net_usdc": "-0.03437964973650050252223384683549909780301952816700514289811259382090838"
+        },
+        {
+          "loan": "USDC.e",
+          "other": "DAI",
+          "size_usdc": 100,
+          "buy": {
+            "a": "USDC.e",
+            "b": "DAI",
+            "kind": "algebra",
+            "address": "0xe7e0eb9f6bcccfe847fdf62a3628319a092f11a2",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 14116132194423811222,
+            "min_side_usdc": 20136.64359466716
+          },
+          "sell": {
+            "a": "USDC.e",
+            "b": "DAI",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0x5645dcb64c059aa11212707fbf4e7f984440a8cf",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 136161708453740417585,
+            "min_side_usdc": 61181.53676874477
+          },
+          "amount_raw": "99990486",
+          "bought_raw": "100009762879747672778",
+          "returned_raw": "99986391",
+          "gross_usdc": "-0.004095389597434800636105575478532408990829938627538503221056446665623698",
+          "budgeted_net_usdc": "-0.03567503933393530315833942231403150679384946679454364611916904048653208"
+        },
+        {
+          "loan": "USDC",
+          "other": "USDC.e",
+          "size_usdc": 100,
+          "buy": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra",
+            "address": "0xeecb5db986c20a8c88d8332e7e252a9671565751",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 5237548800671,
+            "min_side_usdc": 15675.63844605399
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0xd36ec33c8bed5a9f7b6630855f1533455b98a418",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 928323850240698,
+            "min_side_usdc": 56869.246525391456
+          },
+          "amount_raw": "100000000",
+          "bought_raw": "99996101",
+          "returned_raw": "99995602",
+          "gross_usdc": "-0.004398",
+          "budgeted_net_usdc": "-0.03597764973650050252223384683549909780301952816700514289811259382090838"
+        },
+        {
+          "loan": "USDC.e",
+          "other": "USDC",
+          "size_usdc": 100,
+          "buy": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0xd36ec33c8bed5a9f7b6630855f1533455b98a418",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 928323850240698,
+            "min_side_usdc": 56869.246525391456
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra",
+            "address": "0xeecb5db986c20a8c88d8332e7e252a9671565751",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 5237548800671,
+            "min_side_usdc": 15675.63844605399
+          },
+          "amount_raw": "99990486",
+          "bought_raw": "99989987",
+          "returned_raw": "99986088",
+          "gross_usdc": "-0.004398418424790782221634266411376198960114791229283110419097985942713803",
+          "budgeted_net_usdc": "-0.03597806816129128474386811324687529676313431939628825331721057976362218"
+        },
+        {
+          "loan": "USDT",
+          "other": "USDC.e",
+          "size_usdc": 100,
+          "buy": {
+            "a": "USDC.e",
+            "b": "USDT",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0xdac8a8e6dbf8c690ec6815e0ff03491b2770255d",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 1392896242240964,
+            "min_side_usdc": 102024.32346318498
+          },
+          "sell": {
+            "a": "USDC.e",
+            "b": "USDT",
+            "kind": "algebra",
+            "address": "0x7b925e617aefd7fb3a93abe3a701135d7a1ba710",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 8136310517910,
+            "min_side_usdc": 32970.13444122135
+          },
+          "amount_raw": "100114778",
+          "bought_raw": "99987984",
+          "returned_raw": "100109605",
+          "gross_usdc": "-0.005167069331824237702227412783744500970323318923945661507241666286126760",
+          "budgeted_net_usdc": "-0.03674671906832474022446125961924359877334284709095080440535426010703514"
+        },
+        {
+          "loan": "USDC.e",
+          "other": "USDT",
+          "size_usdc": 100,
+          "buy": {
+            "a": "USDC.e",
+            "b": "USDT",
+            "kind": "algebra",
+            "address": "0x7b925e617aefd7fb3a93abe3a701135d7a1ba710",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 8136310517910,
+            "min_side_usdc": 32970.13444122135
+          },
+          "sell": {
+            "a": "USDC.e",
+            "b": "USDT",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0xdac8a8e6dbf8c690ec6815e0ff03491b2770255d",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 1392896242240964,
+            "min_side_usdc": 102024.32346318498
+          },
+          "amount_raw": "99990486",
+          "bought_raw": "100112110",
+          "returned_raw": "99985319",
+          "gross_usdc": "-0.005167491587288306443652627227735520697342684466054077202246314999091001",
+          "budgeted_net_usdc": "-0.03674714132378880896588647406323461850036221263305922010035890881999938"
+        },
+        {
+          "loan": "USDC",
+          "other": "USDC.e",
+          "size_usdc": 100,
+          "buy": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra",
+            "address": "0xeecb5db986c20a8c88d8332e7e252a9671565751",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 5237548800671,
+            "min_side_usdc": 15675.63844605399
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra4",
+            "address": "0xc714155afd3e3049a47674e1c6d1f2dce03a2cd2",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 40387533017609,
+            "min_side_usdc": 18419.856387532
+          },
+          "amount_raw": "100000000",
+          "bought_raw": "99996101",
+          "returned_raw": "99994130",
+          "gross_usdc": "-0.00587",
+          "budgeted_net_usdc": "-0.03744964973650050252223384683549909780301952816700514289811259382090838"
+        },
+        {
+          "loan": "USDC.e",
+          "other": "USDC",
+          "size_usdc": 100,
+          "buy": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra4",
+            "address": "0xc714155afd3e3049a47674e1c6d1f2dce03a2cd2",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 40387533017609,
+            "min_side_usdc": 18419.856387532
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra",
+            "address": "0xeecb5db986c20a8c88d8332e7e252a9671565751",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 5237548800671,
+            "min_side_usdc": 15675.63844605399
+          },
+          "amount_raw": "99990486",
+          "bought_raw": "99988515",
+          "returned_raw": "99984616",
+          "gross_usdc": "-0.005870558470559775270803352395356591154132292977692555288791536490161443",
+          "budgeted_net_usdc": "-0.03745020820706027779303719923085568895715182114469769818690413031106982"
+        },
+        {
+          "loan": "USDC",
+          "other": "USDC.e",
+          "size_usdc": 100,
+          "buy": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra4",
+            "address": "0xc714155afd3e3049a47674e1c6d1f2dce03a2cd2",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 40387533017609,
+            "min_side_usdc": 18419.856387532
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra",
+            "address": "0xeecb5db986c20a8c88d8332e7e252a9671565751",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 5237548800671,
+            "min_side_usdc": 15675.63844605399
+          },
+          "amount_raw": "100000000",
+          "bought_raw": "99991475",
+          "returned_raw": "99991354",
+          "gross_usdc": "-0.008646",
+          "budgeted_net_usdc": "-0.04022564973650050252223384683549909780301952816700514289811259382090838"
+        },
+        {
+          "loan": "USDC.e",
+          "other": "USDC",
+          "size_usdc": 100,
+          "buy": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra",
+            "address": "0xeecb5db986c20a8c88d8332e7e252a9671565751",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 5237548800671,
+            "min_side_usdc": 15675.63844605399
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra4",
+            "address": "0xc714155afd3e3049a47674e1c6d1f2dce03a2cd2",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 40387533017609,
+            "min_side_usdc": 18419.856387532
+          },
+          "amount_raw": "99990486",
+          "bought_raw": "99990365",
+          "returned_raw": "99981840",
+          "gross_usdc": "-0.008646822578613256727660269984710917737415298992356019255007091055184980",
+          "budgeted_net_usdc": "-0.04022647231511375924989411682021001554043482715936116215311968487609336"
+        },
+        {
+          "loan": "USDC",
+          "other": "USDC.e",
+          "size_usdc": 100,
+          "buy": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra4",
+            "address": "0xc714155afd3e3049a47674e1c6d1f2dce03a2cd2",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 40387533017609,
+            "min_side_usdc": 18419.856387532
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0xd36ec33c8bed5a9f7b6630855f1533455b98a418",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 928323850240698,
+            "min_side_usdc": 56869.246525391456
+          },
+          "amount_raw": "100000000",
+          "bought_raw": "99991475",
+          "returned_raw": "99990976",
+          "gross_usdc": "-0.009024",
+          "budgeted_net_usdc": "-0.04060364973650050252223384683549909780301952816700514289811259382090838"
+        },
+        {
+          "loan": "USDC.e",
+          "other": "USDC",
+          "size_usdc": 100,
+          "buy": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0xd36ec33c8bed5a9f7b6630855f1533455b98a418",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 928323850240698,
+            "min_side_usdc": 56869.246525391456
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra4",
+            "address": "0xc714155afd3e3049a47674e1c6d1f2dce03a2cd2",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 40387533017609,
+            "min_side_usdc": 18419.856387532
+          },
+          "amount_raw": "99990486",
+          "bought_raw": "99989987",
+          "returned_raw": "99981462",
+          "gross_usdc": "-0.009024858541453392170993092336575447798107293327205727244643070747396398",
+          "budgeted_net_usdc": "-0.04060450827795389469322693917207454560112682149421087014275566456830478"
+        },
+        {
+          "loan": "USDT",
+          "other": "DAI",
+          "size_usdc": 100,
+          "buy": {
+            "a": "USDT",
+            "b": "DAI",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0x254aa3a898071d6a2da0db11da73b02b4646078f",
+            "token0": "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063",
+            "liquidity": 384013460688978487510,
+            "min_side_usdc": 34788.28004775058
+          },
+          "sell": {
+            "a": "USDT",
+            "b": "DAI",
+            "kind": "algebra",
+            "address": "0xeffa9e5e63ba18160ee26bda56b42f3368719615",
+            "token0": "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063",
+            "liquidity": 3017713043175191507,
+            "min_side_usdc": 2076.898100331835
+          },
+          "amount_raw": "100114778",
+          "bought_raw": "99996355007958289760",
+          "returned_raw": "100102927",
+          "gross_usdc": "-0.01183741323244713725287010804178543997666763049829499990765918947552450",
+          "budgeted_net_usdc": "-0.04341706296894763977510395487728453777968715866530014280577178329643288"
+        }
+      ],
+      "positives": [],
+      "aave_frozen": {
+        "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063": true,
+        "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174": true,
+        "0xc2132D05D31c914a87C6611C10748AEb04B58e8F": true
+      },
+      "curve": [
+        {
+          "size_usdc": 100,
+          "paper_gross_usdc": "0.097065",
+          "paper_net_usdc": "0.06548535026349949747776615316450090219698047183299485710188740617909162",
+          "blocked_by_aave_frozen": true
+        },
+        {
+          "size_usdc": 1000,
+          "paper_gross_usdc": "0.967358",
+          "paper_net_usdc": "0.9357783502634994974777661531645009021969804718329948571018874061790916",
+          "blocked_by_aave_frozen": true
+        },
+        {
+          "size_usdc": 5000,
+          "paper_gross_usdc": "4.720063",
+          "paper_net_usdc": "4.688483350263499497477766153164500902196980471832994857101887406179092",
+          "blocked_by_aave_frozen": true
+        },
+        {
+          "size_usdc": 20000,
+          "paper_gross_usdc": "15.91152",
+          "paper_net_usdc": "15.87994035026349949747776615316450090219698047183299485710188740617909",
+          "blocked_by_aave_frozen": true
+        }
+      ],
+      "coverage": "Six tokens, Uni V3 four tiers, QuickSwap V2 + Algebra V3/V4, Sushi V2; pinned independent exact chained calls. No atomic proof for positives; gas is conservative 2x750k budget. No intra-block coverage."
+    },
+    {
+      "block": 97961424,
+      "timestamp": 1795647606,
+      "hash": "0xd35841e222cc8a70b4479e05bb988dc4d7c1a1c9241200648041efcbc71b6f80",
+      "pools": 113,
+      "pool_kinds": {
+        "algebra4": 11,
+        "quick-v2": 15,
+        "uni": 58,
+        "algebra": 15,
+        "sushi-v2": 14
+      },
+      "cycles_attempted": 642,
+      "cycles_quoted": 642,
+      "quote_errors": 0,
+      "discovery_errors": [],
+      "sizes_usdc": [
+        10,
+        100,
+        1000,
+        5000
+      ],
+      "gas_price_gwei": 284.517476214,
+      "pol_price_usdc": "0.0760040326976143201431651637010059448502567976384998697755565674152761",
+      "gas_budget_usdc": "0.03243671334781734087881816330696156268270830132085554710426351978228096",
+      "gross_positives": 0,
+      "net_positives": 0,
+      "best": [
+        {
+          "loan": "USDC",
+          "other": "DAI",
+          "size_usdc": 10,
+          "buy": {
+            "a": "USDC",
+            "b": "DAI",
+            "kind": "algebra",
+            "address": "0xbc8f3da0bd42e1f2509cd8671ce7c7e5f7fd39c8",
+            "token0": "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
+            "liquidity": 56899092394661930369,
+            "min_side_usdc": 103455.11929475618
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "DAI",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0xf369277650ad6654f25412ea8bfbd5942733babc",
+            "token0": "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
+            "liquidity": 27286535252779445388,
+            "min_side_usdc": 1335.937
+          },
+          "amount_raw": "10000000",
+          "bought_raw": "10002138337024346133",
+          "returned_raw": "9999772",
+          "gross_usdc": "-0.000228",
+          "budgeted_net_usdc": "-0.03266471334781734087881816330696156268270830132085554710426351978228096"
+        },
+        {
+          "loan": "USDC",
+          "other": "USDC.e",
+          "size_usdc": 10,
+          "buy": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra",
+            "address": "0xeecb5db986c20a8c88d8332e7e252a9671565751",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 5237548800671,
+            "min_side_usdc": 15675.63844605399
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0xd36ec33c8bed5a9f7b6630855f1533455b98a418",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 928323850240698,
+            "min_side_usdc": 56869.246525391456
+          },
+          "amount_raw": "10000000",
+          "bought_raw": "9999781",
+          "returned_raw": "9999732",
+          "gross_usdc": "-0.000268",
+          "budgeted_net_usdc": "-0.03270471334781734087881816330696156268270830132085554710426351978228096"
+        },
+        {
+          "loan": "USDC.e",
+          "other": "USDC",
+          "size_usdc": 10,
+          "buy": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0xd36ec33c8bed5a9f7b6630855f1533455b98a418",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 928323850240698,
+            "min_side_usdc": 56869.246525391456
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra",
+            "address": "0xeecb5db986c20a8c88d8332e7e252a9671565751",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 5237548800671,
+            "min_side_usdc": 15675.63844605399
+          },
+          "amount_raw": "9999048",
+          "bought_raw": "9998999",
+          "returned_raw": "9998780",
+          "gross_usdc": "-0.0002680254974633764518867629373007779266281864596288934952974670833668257",
+          "budgeted_net_usdc": "-0.03270473884528071733070492624426234060933648778048444059956098686564779"
+        },
+        {
+          "loan": "USDT",
+          "other": "USDC",
+          "size_usdc": 10,
+          "buy": {
+            "a": "USDC",
+            "b": "USDT",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0x31083a78e11b18e450fd139f9abea98cd53181b7",
+            "token0": "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
+            "liquidity": 2052096604700728,
+            "min_side_usdc": 225002.670338
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDT",
+            "kind": "algebra",
+            "address": "0x0e3eb2c75bd7dd0e12249d96b1321d9570764d77",
+            "token0": "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
+            "liquidity": 17544760946377,
+            "min_side_usdc": 64193.386591
+          },
+          "amount_raw": "10011579",
+          "bought_raw": "9998998",
+          "returned_raw": "10011247",
+          "gross_usdc": "-0.0003316159891628321402785104996325923331893807184923771680639577757910557",
+          "budgeted_net_usdc": "-0.03276832933698017301909667380659415501589768203934792427232747755807202"
+        },
+        {
+          "loan": "USDC",
+          "other": "USDT",
+          "size_usdc": 10,
+          "buy": {
+            "a": "USDC",
+            "b": "USDT",
+            "kind": "algebra",
+            "address": "0x0e3eb2c75bd7dd0e12249d96b1321d9570764d77",
+            "token0": "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
+            "liquidity": 17544760946377,
+            "min_side_usdc": 64193.386591
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDT",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0x31083a78e11b18e450fd139f9abea98cd53181b7",
+            "token0": "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
+            "liquidity": 2052096604700728,
+            "min_side_usdc": 225002.670338
+          },
+          "amount_raw": "10000000",
+          "bought_raw": "10012250",
+          "returned_raw": "9999668",
+          "gross_usdc": "-0.000332",
+          "budgeted_net_usdc": "-0.03276871334781734087881816330696156268270830132085554710426351978228096"
+        },
+        {
+          "loan": "USDC",
+          "other": "USDC.e",
+          "size_usdc": 10,
+          "buy": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra",
+            "address": "0xeecb5db986c20a8c88d8332e7e252a9671565751",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 5237548800671,
+            "min_side_usdc": 15675.63844605399
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra4",
+            "address": "0xc714155afd3e3049a47674e1c6d1f2dce03a2cd2",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 40387533017609,
+            "min_side_usdc": 18419.856387532
+          },
+          "amount_raw": "10000000",
+          "bought_raw": "9999781",
+          "returned_raw": "9999606",
+          "gross_usdc": "-0.000394",
+          "budgeted_net_usdc": "-0.03283071334781734087881816330696156268270830132085554710426351978228096"
+        },
+        {
+          "loan": "USDC.e",
+          "other": "USDC",
+          "size_usdc": 10,
+          "buy": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra4",
+            "address": "0xc714155afd3e3049a47674e1c6d1f2dce03a2cd2",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 40387533017609,
+            "min_side_usdc": 18419.856387532
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra",
+            "address": "0xeecb5db986c20a8c88d8332e7e252a9671565751",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 5237548800671,
+            "min_side_usdc": 15675.63844605399
+          },
+          "amount_raw": "9999048",
+          "bought_raw": "9998873",
+          "returned_raw": "9998654",
+          "gross_usdc": "-0.0003940374850767549329977037212556212801921845712454628251761269807706317",
+          "budgeted_net_usdc": "-0.03283075083289409581181586702821718396290048589210100992943964676305159"
+        },
+        {
+          "loan": "USDC.e",
+          "other": "USDT",
+          "size_usdc": 10,
+          "buy": {
+            "a": "USDC.e",
+            "b": "USDT",
+            "kind": "algebra",
+            "address": "0x7b925e617aefd7fb3a93abe3a701135d7a1ba710",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 8136310517910,
+            "min_side_usdc": 32970.13444122135
+          },
+          "sell": {
+            "a": "USDC.e",
+            "b": "USDT",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0xdac8a8e6dbf8c690ec6815e0ff03491b2770255d",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 1392896242240964,
+            "min_side_usdc": 93278.1528945241
+          },
+          "amount_raw": "9999048",
+          "bought_raw": "10011321",
+          "returned_raw": "9998516",
+          "gross_usdc": "-0.0005320506143675980313573055322537830483813253601588482817098973445938479",
+          "budgeted_net_usdc": "-0.03296876396218493891017546883921534573108962668101439538597341712687481"
+        },
+        {
+          "loan": "USDT",
+          "other": "USDC.e",
+          "size_usdc": 10,
+          "buy": {
+            "a": "USDC.e",
+            "b": "USDT",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0xdac8a8e6dbf8c690ec6815e0ff03491b2770255d",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 1392896242240964,
+            "min_side_usdc": 93278.1528945241
+          },
+          "sell": {
+            "a": "USDC.e",
+            "b": "USDT",
+            "kind": "algebra",
+            "address": "0x7b925e617aefd7fb3a93abe3a701135d7a1ba710",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 8136310517910,
+            "min_side_usdc": 32970.13444122135
+          },
+          "amount_raw": "10011579",
+          "bought_raw": "9998773",
+          "returned_raw": "10011045",
+          "gross_usdc": "-0.0005333823440149167557491705024210973069973774207076186980305826875675413",
+          "budgeted_net_usdc": "-0.03297009569183225763456733380938265998970567874156316580229410246984850"
+        },
+        {
+          "loan": "USDC.e",
+          "other": "DAI",
+          "size_usdc": 10,
+          "buy": {
+            "a": "USDC.e",
+            "b": "DAI",
+            "kind": "algebra",
+            "address": "0xe7e0eb9f6bcccfe847fdf62a3628319a092f11a2",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 14116132194423811222,
+            "min_side_usdc": 20135.85556611796
+          },
+          "sell": {
+            "a": "USDC.e",
+            "b": "DAI",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0x5645dcb64c059aa11212707fbf4e7f984440a8cf",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 136161708453740417585,
+            "min_side_usdc": 59049.2648991482
+          },
+          "amount_raw": "9999048",
+          "bought_raw": "10001039450856373355",
+          "returned_raw": "9998395",
+          "gross_usdc": "-0.0006530621262820329219479708882739103958515140229017442254822612143228998",
+          "budgeted_net_usdc": "-0.03308977547409937380076613419523547307855981534375729132974578099660386"
+        },
+        {
+          "loan": "USDC",
+          "other": "USDC.e",
+          "size_usdc": 10,
+          "buy": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra4",
+            "address": "0xc714155afd3e3049a47674e1c6d1f2dce03a2cd2",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 40387533017609,
+            "min_side_usdc": 18419.856387532
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra",
+            "address": "0xeecb5db986c20a8c88d8332e7e252a9671565751",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 5237548800671,
+            "min_side_usdc": 15675.63844605399
+          },
+          "amount_raw": "10000000",
+          "bought_raw": "9999169",
+          "returned_raw": "9999328",
+          "gross_usdc": "-0.000672",
+          "budgeted_net_usdc": "-0.03310871334781734087881816330696156268270830132085554710426351978228096"
+        },
+        {
+          "loan": "USDC.e",
+          "other": "USDC",
+          "size_usdc": 10,
+          "buy": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra",
+            "address": "0xeecb5db986c20a8c88d8332e7e252a9671565751",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 5237548800671,
+            "min_side_usdc": 15675.63844605399
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra4",
+            "address": "0xc714155afd3e3049a47674e1c6d1f2dce03a2cd2",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 40387533017609,
+            "min_side_usdc": 18419.856387532
+          },
+          "amount_raw": "9999048",
+          "bought_raw": "9999207",
+          "returned_raw": "9998376",
+          "gross_usdc": "-0.0006720639339380185659250175144258312190079899286217030926861861194869658",
+          "budgeted_net_usdc": "-0.03310877728175535944474318082138739390171629124947725019694970590176793"
+        },
+        {
+          "loan": "USDC",
+          "other": "USDC.e",
+          "size_usdc": 10,
+          "buy": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra4",
+            "address": "0xc714155afd3e3049a47674e1c6d1f2dce03a2cd2",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 40387533017609,
+            "min_side_usdc": 18419.856387532
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0xd36ec33c8bed5a9f7b6630855f1533455b98a418",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 928323850240698,
+            "min_side_usdc": 56869.246525391456
+          },
+          "amount_raw": "10000000",
+          "bought_raw": "9999169",
+          "returned_raw": "9999120",
+          "gross_usdc": "-0.00088",
+          "budgeted_net_usdc": "-0.03331671334781734087881816330696156268270830132085554710426351978228096"
+        },
+        {
+          "loan": "USDC.e",
+          "other": "USDC",
+          "size_usdc": 10,
+          "buy": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0xd36ec33c8bed5a9f7b6630855f1533455b98a418",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 928323850240698,
+            "min_side_usdc": 56869.246525391456
+          },
+          "sell": {
+            "a": "USDC",
+            "b": "USDC.e",
+            "kind": "algebra4",
+            "address": "0xc714155afd3e3049a47674e1c6d1f2dce03a2cd2",
+            "token0": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+            "liquidity": 40387533017609,
+            "min_side_usdc": 18419.856387532
+          },
+          "amount_raw": "9999048",
+          "bought_raw": "9998999",
+          "returned_raw": "9998168",
+          "gross_usdc": "-0.0008800837230140719315684753165100170725104630017665159547081008707567410",
+          "budgeted_net_usdc": "-0.03331679707083141281038663862347157975521876432262206305897162065303770"
+        },
+        {
+          "loan": "USDT",
+          "other": "DAI",
+          "size_usdc": 10,
+          "buy": {
+            "a": "USDT",
+            "b": "DAI",
+            "kind": "uni",
+            "fee": 100,
+            "address": "0x254aa3a898071d6a2da0db11da73b02b4646078f",
+            "token0": "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063",
+            "liquidity": 384013460688978487510,
+            "min_side_usdc": 34786.918641231845
+          },
+          "sell": {
+            "a": "USDT",
+            "b": "DAI",
+            "kind": "algebra",
+            "address": "0xeffa9e5e63ba18160ee26bda56b42f3368719615",
+            "token0": "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063",
+            "liquidity": 3017713043175191507,
+            "min_side_usdc": 2076.816822884124
+          },
+          "amount_raw": "10011579",
+          "bought_raw": "9999738136853254749",
+          "returned_raw": "10010694",
+          "gross_usdc": "-0.0008839763566539350727303668439001331773271142646558849208933814204068803",
+          "budgeted_net_usdc": "-0.03332068970447127595154853015086169586003541558551143202515690120268784"
+        }
+      ],
+      "positives": [],
+      "aave_frozen": {
+        "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063": true,
+        "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174": true,
+        "0xc2132D05D31c914a87C6611C10748AEb04B58e8F": true
+      },
+      "curve": [
+        {
+          "size_usdc": 100,
+          "paper_gross_usdc": "0.098323",
+          "paper_net_usdc": "0.06588628665218265912118183669303843731729169867914445289573648021771904",
+          "blocked_by_aave_frozen": true
+        },
+        {
+          "size_usdc": 1000,
+          "paper_gross_usdc": "0.979935",
+          "paper_net_usdc": "0.9474982866521826591211818366930384373172916986791444528957364802177190",
+          "blocked_by_aave_frozen": true
+        },
+        {
+          "size_usdc": 5000,
+          "paper_gross_usdc": "4.782945",
+          "paper_net_usdc": "4.750508286652182659121181836693038437317291698679144452895736480217719",
+          "blocked_by_aave_frozen": true
+        },
+        {
+          "size_usdc": 20000,
+          "paper_gross_usdc": "16.162999",
+          "paper_net_usdc": "16.13056228665218265912118183669303843731729169867914445289573648021772",
+          "blocked_by_aave_frozen": true
+        }
+      ],
+      "coverage": "Six tokens, Uni V3 four tiers, QuickSwap V2 + Algebra V3/V4, Sushi V2; pinned independent exact chained calls. No atomic proof for positives; gas is conservative 2x750k budget. No intra-block coverage."
+    }
+  ],
+  "successful_chained_cycle_measurements": 922,
+  "curve_local_fork": {
+    "block": 97961175,
+    "network": "Polygon local fork only",
+    "loan_usdc": 5000,
+    "route": "Morpho USDC -> Uni USDC.e -> Uni USDT -> Curve USDC.e -> Uni USDC -> repayment",
+    "status": "REVERT",
+    "error": "eth_call: execution reverted",
+    "failed_calls": [
+      {
+        "to": "0x000000000000000000000000000000c0deaa0001",
+        "error": "execution reverted",
+        "revertReason": null,
+        "output": null
+      },
+      {
+        "to": "0x1bf0c2541f820e775182832f06c0b7fc27a25f67",
+        "error": "execution reverted",
+        "revertReason": null,
+        "output": null
+      },
+      {
+        "to": "0x000000000000000000000000000000c0deaa0001",
+        "error": "execution reverted",
+        "revertReason": null,
+        "output": null
+      },
+      {
+        "to": "0x445fe580ef8d70ff569ab36e80c647af338db351",
+        "error": "execution reverted",
+        "revertReason": null,
+        "output": null
+      },
+      {
+        "to": "0x8dff5e27ea6b7ac08ebfdf9eb090f32ee9a30fcf",
+        "error": "execution reverted",
+        "revertReason": "3",
+        "output": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000013300000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "to": "0x1685d81212580dd4cda287616c2f6f4794927e18",
+        "error": "execution reverted",
+        "revertReason": "3",
+        "output": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000013300000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "to": "0x020e452b463568f55bac6dc5afc8f0b62ea5f0f3",
+        "error": "execution reverted",
+        "revertReason": "3",
+        "output": "0x08c379a0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000013300000000000000000000000000000000000000000000000000000000000000"
+      }
+    ]
+  },
+  "method_notes": [
+    "Quotes obtained via official venue quoters and V2 routers through Multicall3, pinned to each reported block.",
+    "Buy outputs are used as sell inputs. Same pool excluded for two-leg cycles.",
+    "Position <= 50% Morpho balance and <= 10% each pool minimum token-side value.",
+    "Gas is a conservative 2 x 750000 unit budget, using sampled gas price and on-chain WPOL/USDC valuation; it is not measured execution gas for each two-leg route.",
+    "All measured two-leg cycles lost money before gas, so the negative conclusion does not depend on the gas budget.",
+    "Curve paper quotes do not reproduce updates from reusing a pool; regardless, frozen Aave v2 blocks the actual cycle, confirmed in a local EVM trace.",
+    "Discovery covers six tokens and listed venues only, not all Polygon markets or intra-block states. No mainnet transaction was submitted.",
+    "Large JSON-RPC batches failed in preliminary attempts; only the two completed Multicall scans are counted."
+  ]
+}
