@@ -1,0 +1,68 @@
+{
+ "route": "buy 0xeC3c3755b9DED4a2960ef50C9b48C1694CE274C2 -> sell 0x42d4a22CaD0F5a49681a5715cE994Af73A43B76b",
+ "block": 62077712,
+ "size_usd": 100.0,
+ "synthetic": true,
+ "mid_buy_quote_per_token": 0.02801048458346008,
+ "mid_sell_quote_per_token": 0.028018127282369566,
+ "mid_gap_pct": 0.027285136344978866,
+ "fee_buy_bps_onchain": 85,
+ "fee_sell_bps_onchain": 300,
+ "fee_buy_source": "pool_fee()",
+ "fee_sell_source": "pool_fee()",
+ "factory_buy": "0x9cb220581b91b0c83223012fe69688b92ad07a76",
+ "factory_sell": "0xf8f2eb4940cfe7d13603dddd87f123820fc061ef",
+ "liq_buy": 1334844988768086570,
+ "liq_sell": 4781344194272999,
+ "tick_buy": -266024,
+ "tick_sell": -266021,
+ "token_bought": 0.06083097290099269,
+ "usd_out": 99.98612298465255,
+ "gross_usd": 0.027285136344978866,
+ "fee_buy_usd": 0.008499955957335,
+ "impact_buy_usd": 7.459241660989306e-06,
+ "fee_sell_usd": 0.030005477132852537,
+ "impact_sell_usd": 0.002128647723076748,
+ "gas_usd": 0.0044,
+ "net_usd": -0.017756403709946408,
+ "net_direct_usd": -0.018277015347446787,
+ "identity_err_usd": 0.0005206116375003796,
+ "threshold_pct": 0.0429,
+ "leg1_identity_err_raw": 5.822265625,
+ "leg2_identity_err_raw": -1.638511548662791e-11,
+ "crossed_tick_buy": false,
+ "crossed_tick_sell": false,
+ "crosscheck_v3_quote_python": {
+  "buy_diff_pct": 0.0,
+  "sell_diff_pct": 0.0
+ },
+ "quoter_guards": {
+  "buy": {
+   "quoter": null,
+   "out_raw": null
+  },
+  "sell": {
+   "quoter": "aero_mixed_quoter_v3 (GaugesV3)",
+   "out_raw": 170382
+  }
+ },
+ "leg2_actual_raw": 170382.23570584768,
+ "tvl_ok": {
+  "buy": true,
+  "sell": true
+ },
+ "tvl_buy_usd": 4779934.12,
+ "tvl_sell_usd": 442583.75
+}
+
+--- LECTURE ---
+bloc 62077712 | taille $100 | gap mid 0.0273%
+brut +0.0273 $ | fee achat 0.0085 $ | impact achat 0.0000 $ | fee vente 0.0300 $ | impact vente 0.0021 $ | gas 0.0044 $
+NET -0.0178 $ (direct -0.0183 $, écart identité +5.21e-04 $) | threshold 0.0429%
+référence scan : net -0.0183 $, threshold 0.0429%
+crossed_tick achat=False vente=False | crosscheck v3_quote_python: {'buy_diff_pct': 0.0, 'sell_diff_pct': 0.0}
+factories: achat 0x9cb220581b91b0c83223012fe69688b92ad07a76 | vente 0xf8f2eb4940cfe7d13603dddd87f123820fc061ef
+quoter guards: {'buy': {'quoter': None, 'out_raw': None}, 'sell': {'quoter': 'aero_mixed_quoter_v3 (GaugesV3)', 'out_raw': 170382}}
+garde quoter jambe vente : quoter 170382 raw vs analytique 170382 raw -> écart -0.0001% (seuil 2%)
+TVL ok (10x taille): {'buy': True, 'sell': True}
+fee sources: achat pool_fee() | vente pool_fee()

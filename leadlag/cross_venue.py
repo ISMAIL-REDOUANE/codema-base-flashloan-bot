@@ -221,15 +221,30 @@ _DECIMALS_CACHE = {}
 
 
 def token_decimals(addr):
+    """Décimales d'un token, lues on-chain (decimals()).
+    CORRECTION 2026-11-25 (route verification) : l'ancienne version
+    retombait SILENCIEUSEMENT sur 18 en cas d'échec RPC et METTAIT EN
+    CACHE ce 18 — un decimals() USDC raté (429) faisait croire que USDC
+    a 18 décimales, ce qui faussait TOUT le calcul (impact ~100% du
+    montant, net ~ -$100 sur WETH/USDC et cbBTC/USDC). Désormais :
+    retries, puis échec BRUYANT (jamais de valeur par défaut)."""
+    import time as _time
     a = addr.lower()
     if a in _DECIMALS_CACHE:
         return _DECIMALS_CACHE[a]
-    try:
-        d = int.from_bytes(bytes.fromhex(eth_call(addr, "0x" + SEL_DECIMALS, "latest")[2:]), "big")
-    except Exception:
-        d = 18
-    _DECIMALS_CACHE[a] = d
-    return d
+    last = None
+    for attempt in range(3):
+        try:
+            d = int.from_bytes(bytes.fromhex(eth_call(addr, "0x" + SEL_DECIMALS, "latest")[2:]), "big")
+            if 0 <= d <= 18:
+                _DECIMALS_CACHE[a] = d
+                return d
+            last = RuntimeError(f"decimals() = {d} hors plage pour {addr}")
+        except Exception as e:  # noqa: BLE001 — 429/timeout réseau
+            last = e
+        _time.sleep(1 + attempt)
+    raise RuntimeError(f"token_decimals({addr}) impossible après 3 essais "
+                       f"(pas de valeur par défaut) : {type(last).__name__}: {str(last)[:100]}")
 
 
 def price_from_sqrt(sqrt_x96, dec_token, dec_quote, token_is_token0):

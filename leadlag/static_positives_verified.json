@@ -1,0 +1,244 @@
+[
+ {
+  "block": 61989637,
+  "replay_net_usd": 0.0157,
+  "verified_net_usd": 0.017731199953859085,
+  "pair": "pancakeswap:0x72AB388E..->uniswap:0xb4CB8009..",
+  "gap_pct": 0.04359937758224852,
+  "fees_bps": [
+   100,
+   100
+  ],
+  "route_status": "FULLY_QUOTER_VERIFIED",
+  "quoter": {
+   "buy": [
+    "quoter_verified",
+    -5.206285428061311e-10
+   ],
+   "sell": [
+    "quoter_verified",
+    -7.83265757505011e-07
+   ]
+  }
+ },
+ {
+  "block": 61918462,
+  "replay_net_usd": 0.0132,
+  "verified_net_usd": 0.01522634021541448,
+  "pair": "pancakeswap:0xB775272E..->pancakeswap:0x72AB388E..",
+  "gap_pct": 0.08485010978800389,
+  "fees_bps": [
+   500,
+   100
+  ],
+  "route_status": "FULLY_QUOTER_VERIFIED",
+  "quoter": {
+   "buy": [
+    "quoter_verified",
+    -9.688227738926033e-11
+   ],
+   "sell": [
+    "quoter_verified",
+    -1.4681580940805492e-07
+   ]
+  }
+ },
+ {
+  "block": 61905037,
+  "replay_net_usd": 0.0113,
+  "verified_net_usd": 0.013328935078544062,
+  "pair": "uniswap:0xd0b53D92..->pancakeswap:0x72AB388E..",
+  "gap_pct": 0.07745548486295384,
+  "fees_bps": [
+   500,
+   100
+  ],
+  "route_status": "FULLY_QUOTER_VERIFIED",
+  "quoter": {
+   "buy": [
+    "quoter_verified",
+    1.5825268229602658e-09
+   ],
+   "sell": [
+    "quoter_verified",
+    -8.842181505535145e-08
+   ]
+  }
+ },
+ {
+  "block": 61901012,
+  "replay_net_usd": 0.0079,
+  "verified_net_usd": 0.009926588575883284,
+  "pair": "uniswap:0xb4CB8009..->pancakeswap:0x72AB388E..",
+  "gap_pct": 0.03662059609559343,
+  "fees_bps": [
+   100,
+   100
+  ],
+  "route_status": "FULLY_QUOTER_VERIFIED",
+  "quoter": {
+   "buy": [
+    "quoter_verified",
+    -7.56166781791626e-11
+   ],
+   "sell": [
+    "quoter_verified",
+    -2.8887274185844905e-07
+   ]
+  }
+ },
+ {
+  "block": 62048587,
+  "replay_net_usd": 0.0079,
+  "verified_net_usd": 0.009900292425953017,
+  "pair": "pancakeswap:0x72AB388E..->uniswap:0x88A43bbD..",
+  "gap_pct": 0.34559717133564316,
+  "fees_bps": [
+   100,
+   3000
+  ],
+  "route_status": "FULLY_QUOTER_VERIFIED",
+  "quoter": {
+   "buy": [
+    "quoter_verified",
+    -2.4060132971744726e-10
+   ],
+   "sell": [
+    "quoter_verified",
+    -3.970403178562226e-07
+   ]
+  }
+ },
+ {
+  "block": 61910687,
+  "replay_net_usd": 0.0046,
+  "verified_net_usd": 0.006642511957678076,
+  "pair": "uniswap:0xb4CB8009..->uniswap:0xd0b53D92..",
+  "gap_pct": 0.07256676185465327,
+  "fees_bps": [
+   100,
+   500
+  ],
+  "route_status": "FULLY_QUOTER_VERIFIED",
+  "quoter": {
+   "buy": [
+    "quoter_verified",
+    -1.0501420752991582e-10
+   ],
+   "sell": [
+    "quoter_verified",
+    -5.072542652044003e-07
+   ]
+  }
+ },
+ {
+  "block": 62018437,
+  "replay_net_usd": 0.0039,
+  "verified_net_usd": 0.005912374221730992,
+  "pair": "uniswap:0xb4CB8009..->pancakeswap:0x72AB388E..",
+  "gap_pct": 0.03312342835402049,
+  "fees_bps": [
+   100,
+   100
+  ],
+  "route_status": "FULLY_QUOTER_VERIFIED",
+  "quoter": {
+   "buy": [
+    "quoter_verified",
+    5.115425774314412e-10
+   ],
+   "sell": [
+    "quoter_verified",
+    -9.176629522851e-07
+   ]
+  }
+ },
+ {
+  "block": 62047162,
+  "replay_net_usd": 0.0033,
+  "verified_net_usd": 0.005350361937081627,
+  "pair": "pancakeswap:0x72AB388E..->uniswap:0xb4CB8009..",
+  "gap_pct": 0.03243745950882726,
+  "fees_bps": [
+   100,
+   100
+  ],
+  "route_status": "FULLY_QUOTER_VERIFIED",
+  "quoter": {
+   "buy": [
+    "quoter_verified",
+    7.463615266493974e-10
+   ],
+   "sell": [
+    "quoter_verified",
+    -6.29640634616752e-07
+   ]
+  }
+ },
+ {
+  "block": 61837137,
+  "replay_net_usd": 0.0013,
+  "verified_net_usd": 0.00335014503324684,
+  "pair": "uniswap:0xd0b53D92..->uniswap:0xb4CB8009..",
+  "gap_pct": 0.06831578850359232,
+  "fees_bps": [
+   500,
+   100
+  ],
+  "route_status": "FULLY_QUOTER_VERIFIED",
+  "quoter": {
+   "buy": [
+    "quoter_verified",
+    -1.4918771948994496e-09
+   ],
+   "sell": [
+    "quoter_verified",
+    -5.803070694427391e-07
+   ]
+  }
+ },
+ {
+  "block": 62075362,
+  "replay_net_usd": 0.0012,
+  "verified_net_usd": 0.003277174273756792,
+  "pair": "pancakeswap:0x72AB388E..->uniswap:0xb4CB8009..",
+  "gap_pct": 0.028964728982061594,
+  "fees_bps": [
+   100,
+   100
+  ],
+  "route_status": "FULLY_QUOTER_VERIFIED",
+  "quoter": {
+   "buy": [
+    "quoter_verified",
+    6.07381668804026e-11
+   ],
+   "sell": [
+    "quoter_verified",
+    -6.396064609915421e-07
+   ]
+  }
+ },
+ {
+  "block": 62074812,
+  "replay_net_usd": 0.0001,
+  "verified_net_usd": 0.0021412761071046716,
+  "pair": "uniswap:0xb4CB8009..->pancakeswap:0x72AB388E..",
+  "gap_pct": 0.027832470696664835,
+  "fees_bps": [
+   100,
+   100
+  ],
+  "route_status": "FULLY_QUOTER_VERIFIED",
+  "quoter": {
+   "buy": [
+    "quoter_verified",
+    1.4713582749587562e-10
+   ],
+   "sell": [
+    "quoter_verified",
+    -6.070720511027321e-07
+   ]
+  }
+ }
+]
