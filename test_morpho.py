@@ -83,14 +83,18 @@ def test_fee_zero_vs_aave_reference():
     a, b = _ref_pools()
     d_aave = decide(a, b, Costs())                       # 0,05 %
     d_mor = decide(a, b, Costs(flash_provider="morpho"))  # 0 %
-    assert d_aave["optimal_loan_usd"] == 790.16
-    assert d_mor["optimal_loan_usd"] == 790.16
+    # Audit #9 : le loan optimal n'est plus arrondi au centime (785,88 $
+    # avec la grille à partir de 1 $ — la zone est plate : le net est le
+    # même à 0,001 $ près). On vérifie le loan à 5 $ près et le net exact.
+    assert 780 < d_aave["optimal_loan_usd"] < 800, d_aave["optimal_loan_usd"]
+    assert 780 < d_mor["optimal_loan_usd"] < 800, d_mor["optimal_loan_usd"]
     assert abs(d_aave["expected_net_usd"] - 72.68) < 0.01
     assert abs(d_mor["expected_net_usd"] - 73.07) < 0.01
     saved = d_mor["expected_net_usd"] - d_aave["expected_net_usd"]
-    assert abs(saved - 790.16 * 0.0005) < 0.01, saved  # 0,40 $ économisés
+    assert abs(saved - d_aave["optimal_loan_usd"] * 0.0005) < 0.01, saved
     # Le 0 % ne sauve PAS une mauvaise taille : 10 000 $ perd toujours.
-    assert d_aave["detail"]["flash_fee_usd"] == round(790.16 * 0.0005, 2)
+    assert abs(d_aave["detail"]["flash_fee_usd"]
+               - d_aave["optimal_loan_usd"] * 0.0005) < 1e-9
     assert d_mor["detail"]["flash_fee_usd"] == 0.0
     print(f"OK test_fee_zero_vs_aave_reference — optimal 790,16 $ : "
           f"Aave +72,68 $ vs Morpho +73,07 $ (+0,39 $ économisés)")
@@ -181,7 +185,7 @@ def test_on_morpho_flash_loan_check():
 
 def test_executor_uses_morpho():
     a, b = _ref_pools()
-    win = MemeCandidate("0xAAA", "MEME-WIN", "aerodrome", "uniswap", a, b,
+    win = MemeCandidate("0xAAA", "MEME-WIN", "uniswap", "sushi", a, b,
                         liquidity_usd=36_000, holders=150, age_hours=10)
     r = simulate(win)
     assert r.provider == "morpho", r
@@ -193,7 +197,7 @@ def test_executor_uses_morpho():
     # dont le plafond de 26 604 $ forçait le repli Aave).
     big_a = Pool("Aero", 2_000_000, 2_000_000_000)
     big_b = Pool("UniV2", 1_900_000, 1_600_000_000)
-    big = MemeCandidate("0xBBB", "MEME-BIG", "aerodrome", "uniswap", big_a, big_b,
+    big = MemeCandidate("0xBBB", "MEME-BIG", "uniswap", "sushi", big_a, big_b,
                         liquidity_usd=760_000, holders=500, age_hours=10)
     r2 = simulate(big)
     assert r2.loan_usd == 50_000.0, r2
@@ -206,6 +210,57 @@ def test_executor_uses_morpho():
     assert res[0].provider == "morpho" and res[0].action == "EXECUTE"
     print(f"OK test_executor_uses_morpho — MEME-WIN via Morpho +73,07 $, "
           f"MEME-BIG (50 000 $) via Morpho aussi, Morpho vide -> Aave")
+
+
+def test_provider_cap_revalidated_after_reoptimization():
+    """Audit #14 — le plafond Morpho est revalidé APRÈS réoptimisation.
+    Cas construit : spread 2 %, pools 10 k$ — optimal Aave 33,53 $,
+    optimal Morpho (0 %) 35,05 $. Plafond utilisable 34 $ (solde 68 $) :
+    la 1re sélection choisit Morpho (33,53 <= 34), la réoptimisation à
+    0 % pousse l'optimal à 35,05 > 34 -> le loan final DOIT être
+    plafonné à 34 $, pas 35,05 $."""
+    a = Pool("A", 10_000, 10_000_000)
+    b = Pool("B", 10_200, 10_000_000)
+    cand = MemeCandidate("0xAAA", "MEME-CAP", "uniswap", "sushi", a, b,
+                         liquidity_usd=20_000, holders=150, age_hours=10)
+    d_aave = decide(a, b, Costs())
+    d_mor = decide(a, b, Costs(flash_provider="morpho"))
+    assert d_aave["optimal_loan_usd"] < 34.0 < d_mor["optimal_loan_usd"], (
+        d_aave["optimal_loan_usd"], d_mor["optimal_loan_usd"])
+    r = simulate(cand, costs=Costs(min_profit_usd=0.0, gas_multiple=0.0),
+                 vault_balances={"USDC": 68.0, "WETH": 0.0})
+    assert r.provider == "morpho", r
+    assert r.loan_usd <= 34.0, r
+    assert r.action == "EXECUTE", r
+    assert r.expected_net_usd > 0, r
+    print(f"OK test_provider_cap_revalidated_after_reoptimization — "
+          f"optimal Morpho {d_mor['optimal_loan_usd']:.2f} $ plafonné à "
+          f"{r.loan_usd:.2f} $ (cap 34 $), net +{r.expected_net_usd:.2f} $")
+
+
+def test_stale_balances_never_authorize_morpho():
+    """Audit #14 — un verdict exécutable ne doit JAMAIS reposer sur un
+    ancien solde si la lecture live échoue : run() avec RPC mais lecture
+    impossible -> Morpho supposé indisponible (soldes 0) -> repli Aave."""
+    import executor as _executor
+    a, b = _ref_pools()
+    win = MemeCandidate("0xAAA", "MEME-WIN", "uniswap", "sushi", a, b,
+                        liquidity_usd=36_000, holders=150, age_hours=10)
+    # Soldes zéro explicites : pas de Morpho, même sans RPC.
+    r = simulate(win, vault_balances={"USDC": 0.0, "WETH": 0.0})
+    assert r.provider == "aave", r
+    # Lecture live en échec (mock) : run() doit faire le même repli.
+    orig = _executor.fetch_morpho_balances
+    _executor.fetch_morpho_balances = lambda url: None
+    try:
+        res = run([win], Costs(), rpc_url="https://example.invalid")
+    finally:
+        _executor.fetch_morpho_balances = orig
+    assert res[0].provider == "aave", res[0]
+    assert "0.00" in res[0].provider_reason, res[0].provider_reason
+    print("OK test_stale_balances_never_authorize_morpho — lecture live "
+          "en échec -> Morpho supposé à 0, repli Aave (pas de verdict "
+          "sur les soldes datés du bloc 61 806 974)")
 
 
 def test_fee_live_rpc():

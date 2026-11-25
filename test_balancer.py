@@ -78,14 +78,18 @@ def test_fee_zero_vs_aave_reference():
     a, b = _ref_pools()
     d_aave = decide(a, b, Costs())                       # 0,05 %
     d_bal = decide(a, b, Costs(flash_provider="balancer"))  # 0 %
-    assert d_aave["optimal_loan_usd"] == 790.16
-    assert d_bal["optimal_loan_usd"] == 790.16
+    # Audit #9 : le loan optimal n'est plus arrondi au centime (785,88 $
+    # avec la grille à partir de 1 $ — la zone est plate : le net est le
+    # même à 0,001 $ près). On vérifie le loan à 5 $ près et le net exact.
+    assert 780 < d_aave["optimal_loan_usd"] < 800, d_aave["optimal_loan_usd"]
+    assert 780 < d_bal["optimal_loan_usd"] < 800, d_bal["optimal_loan_usd"]
     assert abs(d_aave["expected_net_usd"] - 72.68) < 0.01
     assert abs(d_bal["expected_net_usd"] - 73.07) < 0.01
     saved = d_bal["expected_net_usd"] - d_aave["expected_net_usd"]
-    assert abs(saved - 790.16 * 0.0005) < 0.01, saved  # 0,40 $ économisés
+    assert abs(saved - d_aave["optimal_loan_usd"] * 0.0005) < 0.01, saved
     # Le 0 % ne sauve PAS une mauvaise taille : 10 000 $ perd toujours.
-    assert d_aave["detail"]["flash_fee_usd"] == round(790.16 * 0.0005, 2)
+    assert abs(d_aave["detail"]["flash_fee_usd"]
+               - d_aave["optimal_loan_usd"] * 0.0005) < 1e-9
     assert d_bal["detail"]["flash_fee_usd"] == 0.0
     print(f"OK test_fee_zero_vs_aave_reference — optimal 790,16 $ : "
           f"Aave +72,68 $ vs Balancer +73,07 $ (+0,39 $ économisés)")
@@ -179,7 +183,7 @@ def test_executor_uses_balancer():
     # ~164 M$ >> 50 000 $). Le module balancer_flash.py lui-même est
     # toujours testé par les autres tests de ce fichier (référence).
     a, b = _ref_pools()
-    win = MemeCandidate("0xAAA", "MEME-WIN", "aerodrome", "uniswap", a, b,
+    win = MemeCandidate("0xAAA", "MEME-WIN", "uniswap", "sushi", a, b,
                         liquidity_usd=36_000, holders=150, age_hours=10)
     r = simulate(win)
     assert r.provider == "morpho", r
@@ -190,7 +194,7 @@ def test_executor_uses_balancer():
     # le plafond Vault (26 604 $) -> Aave ; sous Morpho il reste Morpho.
     big_a = Pool("Aero", 2_000_000, 2_000_000_000)
     big_b = Pool("UniV2", 1_900_000, 1_600_000_000)
-    big = MemeCandidate("0xBBB", "MEME-BIG", "aerodrome", "uniswap", big_a, big_b,
+    big = MemeCandidate("0xBBB", "MEME-BIG", "uniswap", "sushi", big_a, big_b,
                         liquidity_usd=760_000, holders=500, age_hours=10)
     r2 = simulate(big)
     # L'optimal est plafonné par max_loan_usd (50 000 $) : il dépassait le

@@ -179,10 +179,12 @@ class TestEvaluatePair(unittest.TestCase):
             "venues": [
                 {**fake_v2_venue(
                     "0x3333333333333333333333333333333333333333", a),
-                 "res_a": res_buy[0], "res_b": res_buy[1]},
+                 "res_a": res_buy[0], "res_b": res_buy[1],
+                 "_addr_a": a},
                 {**fake_v2_venue(
                     "0x4444444444444444444444444444444444444444", a),
-                 "res_a": res_sell[0], "res_b": res_sell[1]},
+                 "res_a": res_sell[0], "res_b": res_sell[1],
+                 "_addr_a": a},
             ]}
 
     def test_synthetic_positive_executes(self):
@@ -396,7 +398,121 @@ class TestReconnectFailClosed(unittest.TestCase):
             self.assertGreaterEqual(listener.rpc_errors, 2)
 
 
-class TestNoBroadcastStatic(unittest.TestCase):
+class TestVerifySignalExact(unittest.TestCase):
+    """Audit #10 — la vérification doit chaîner les quotes exactes :
+    out_a (achat) devient l'entrée de la vente, le net dépend de la
+    quote de vente, et le verdict découle de ce net."""
+
+    def _pair(self, res_buy, res_sell):
+        a = "0x1111111111111111111111111111111111111111"
+        return {
+            "label": "AAA/BBB", "section": "test", "token_a": "AAA",
+            "token_b": "BBB",
+            "venues": [
+                {**fake_v2_venue(
+                    "0x3333333333333333333333333333333333333333", a),
+                 "res_a": res_buy[0], "res_b": res_buy[1],
+                 "_addr_a": a},
+                {**fake_v2_venue(
+                    "0x4444444444444444444444444444444444444444", a),
+                 "res_a": res_sell[0], "res_b": res_sell[1],
+                 "_addr_a": a},
+            ]}
+
+    def _meas(self, pair, size=1000.0, optimal=None):
+        # Mesure réelle (approximative) servant d'entrée à la vérification.
+        prices = {"AAA": 1.0, "BBB": 1.0, "WMATIC": 0.0758}
+        res = rl.evaluate_pair(pair, 279.0, 0.0758, prices,
+                               make_resolved(), 123)
+        meas = dict(res["sizes"][str(float(size))])
+        meas["gas_gwei"] = 279.0
+        if optimal is not None:
+            meas["net"] = dict(meas.get("net") or {})
+            meas["net"]["optimal_loan_usd"] = optimal
+        return meas
+
+    def test_audit_counterexample_sell_collapses(self):
+        # Contre-exemple de l'audit : achat 1 000 $ -> ~987 jetons,
+        # vente -> ~0,91 $ seulement. L'ancien code gardait +0,47 $
+        # EXECUTE car le net venait de polygon_decide (réserves), jamais
+        # de la quote de vente. Le nouveau doit dire SKIP, net ~ -999 $.
+        # (Mesure construite à la main : evaluate_pair ne retiendrait
+        # jamais ce vendeur comme meilleur prix — le test vise la
+        # logique de verify, pas le chemin de détection.)
+        pair = self._pair((100000.0, 100000.0), (100.0, 1.0))
+        buy_addr = pair["venues"][0]["pair"]
+        sell_addr = pair["venues"][1]["pair"]
+        meas = {"best_buy": {"pair": buy_addr},
+                "best_sell": {"pair": sell_addr},
+                "net": {"optimal_loan_usd": 1000.0},
+                "gas_gwei": 279.0}
+        ver = rl.verify_signal_exact(None, pair, 1000.0, meas,
+                                     {"AAA": 1.0, "BBB": 1.0,
+                                      "WMATIC": 0.0758},
+                                     make_resolved(), 123)
+        self.assertEqual(ver["method"], "exact-quote")
+        self.assertEqual(ver["action"], "SKIP")
+        self.assertLess(ver["expected_net_usd"], -900.0)
+        # Le net dépend bien de la quote de vente : retour ~0,91 $.
+        self.assertLess(ver["usdc_back_usd"], 1.0)
+
+    def test_positive_case_executes_with_chained_quotes(self):
+        # Achat à 1,00 $/A, vente à 1,05 $/A, pools profonds : le cycle
+        # exact chaîné gagne ~+23 $ -> EXECUTE.
+        pair = self._pair((100000.0, 100000.0), (100000.0, 105000.0))
+        meas = self._meas(pair)
+        ver = rl.verify_signal_exact(None, pair, 1000.0, meas,
+                                     {"AAA": 1.0, "BBB": 1.0,
+                                      "WMATIC": 0.0758},
+                                     make_resolved(), 123)
+        self.assertEqual(ver["action"], "EXECUTE")
+        self.assertGreater(ver["expected_net_usd"], 0.01)
+        self.assertGreater(ver["usdc_back_usd"], 1000.0)
+        self.assertEqual(ver["flash_fee_usd"], 0.0)
+        self.assertGreater(ver["gas_total_usd"], 0.0)
+
+    def test_thin_buy_pool_not_overstated(self):
+        # Achat dans un pool fin : out_a (~499) << montant spot (1 000).
+        # L'ancien spread vendait 1 000 jetons qu'on n'avait pas ; le
+        # nouveau vend out_a -> le cycle perd ~495 $ -> SKIP.
+        pair = self._pair((1000.0, 1000.0), (100000.0, 102000.0))
+        meas = self._meas(pair)
+        ver = rl.verify_signal_exact(None, pair, 1000.0, meas,
+                                     {"AAA": 1.0, "BBB": 1.0,
+                                      "WMATIC": 0.0758},
+                                     make_resolved(), 123)
+        self.assertEqual(ver["action"], "SKIP")
+        self.assertLess(ver["expected_net_usd"], 0.0)
+        self.assertLess(ver["usdc_back_usd"], 1000.0)
+
+    def test_optimal_size_revalidated(self):
+        # Taille optimale approximative très différente de la taille
+        # testée -> re-quote exacte à cette taille, meilleur net gardé
+        # (ici 5 000 $ perd par impact : on garde 1 000 $).
+        pair = self._pair((100000.0, 100000.0), (100000.0, 105000.0))
+        meas = self._meas(pair, optimal=5000.0)
+        ver = rl.verify_signal_exact(None, pair, 1000.0, meas,
+                                     {"AAA": 1.0, "BBB": 1.0,
+                                      "WMATIC": 0.0758},
+                                     make_resolved(), 123)
+        self.assertTrue(ver["size_revalidated"])
+        self.assertEqual(ver["size_tested_usd"], 1000.0)
+        self.assertEqual(ver["size_optimal_approx_usd"], 5000.0)
+        self.assertEqual(ver["optimal_loan_usd"], 1000.0)
+        self.assertGreater(ver["expected_net_usd"], 4.0)
+
+    def test_missing_venues_returns_none(self):
+        pair = self._pair((100000.0, 100000.0), (100000.0, 105000.0))
+        meas = {"best_buy": {"pair": "0xdeadbeef"},
+                "best_sell": {"pair": "0xdeadbeef"}, "net": {}}
+        ver = rl.verify_signal_exact(None, pair, 1000.0, meas,
+                                     {"AAA": 1.0, "BBB": 1.0,
+                                      "WMATIC": 0.0758},
+                                     make_resolved(), 123)
+        self.assertIsNone(ver)
+
+
+class TestModuleHasNoBroadcastSurface(unittest.TestCase):
     def test_module_has_no_broadcast_surface(self):
         src = (HERE / "realtime_listener.py").read_text()
         for forbidden in ("send_transaction", "build_transaction",

@@ -1,8 +1,21 @@
-# Python 3.11+ — le CŒUR du bot (math, gas, scanner, preflight, breaker, EV)
-# n'a besoin d'AUCUNE dépendance externe (stdlib only, urllib).
-# Optionnel :
-#   web3>=7.0       — tests fork (fork_test.py / fork_simulation.py, déjà dans .venv/)
-#   websockets      — flux temps réel WebSocket (websocket_listener.py, déjà dans .venv/)
-#   pyyaml>=6.0     — lecture de config.yaml (non requis : le bot lit les seuils en dur par défaut)
-# pytest est optionnel : les tests tournent aussi avec `python3 test_math_engine.py`
-# et `python3 test_v2.py`.
+# requirements.txt — dépendances RÉELLES du repo (audit #13).
+# Vérifié le 2026-11-25 : versions installées dans .venv (pip list).
+# Le CŒUR du bot (math_engine, gas, scanner, preflight, circuit_breaker,
+# sponsor, zero_cost, self_funded) reste stdlib only (urllib) — aucune
+# dépendance externe pour simuler.
+#
+# Tests fork / on-chain (fork_test*.py, test_fork_preflight.py,
+# morpho_flash.py, polygon/*) :
+web3>=8.0
+eth-abi>=6.0
+eth-utils>=6.0
+# Flux temps réel WebSocket (websocket_listener.py, polygon/realtime_listener.py) :
+websockets>=17.0
+#
+# NON requis (ne pas installer) :
+#   pyyaml — AUCUN fichier ne l'importe : les loaders de config.yaml
+#   utilisent un parseur simple stdlib (regex). Ne pas l'ajouter.
+#   pytest — optionnel : les tests racine tournent avec
+#   `python3 test_x.py`, les tests polygon avec `python3 -m unittest`.
+#   foundry (forge/anvil) — binaire système (~/.foundry/bin), pas pip :
+#   `curl -L https://foundry.paradigm.xyz | bash && foundryup`.

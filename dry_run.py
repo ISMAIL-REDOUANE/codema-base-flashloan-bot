@@ -40,11 +40,11 @@ if __name__ == "__main__":
     # Le garde lit le mode depuis config.yaml (`funding.payer == "ismail"`
     # -> "self_funded") ; on le force ici pour être explicite.
     zero_cost.mode = "self_funded"
-    win = MemeCandidate("0xAAA", "MEME-WIN", "aerodrome", "uniswap",
+    win = MemeCandidate("0xAAA", "MEME-WIN", "uniswap", "sushi",
                         Pool("Aero", 20_000, 20_000_000),
                         Pool("UniV2", 18_000, 15_000_000),
                         liquidity_usd=36_000, holders=150, age_hours=10)
-    lose = MemeCandidate("0xBBB", "MEME-LOSE", "aerodrome", "uniswap",
+    lose = MemeCandidate("0xBBB", "MEME-LOSE", "uniswap", "sushi",
                          Pool("Aero", 50_000, 50_000_000),
                          Pool("UniV2", 50_000, 49_000_000),
                          liquidity_usd=100_000, holders=200, age_hours=5)

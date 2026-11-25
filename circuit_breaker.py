@@ -56,6 +56,7 @@ class CircuitBreaker:
     consecutive_reverts: int = 0
     paused_until: float = 0.0
     token_trades_last_hour: Dict[str, List[float]] = field(default_factory=dict)
+    seen_tx_hashes: List[str] = field(default_factory=list)  # audit #15 : déduplication
     simulated_only_note: str = ""
 
     def __post_init__(self):
@@ -79,7 +80,8 @@ class CircuitBreaker:
                 "consecutive_reverts": self.consecutive_reverts,
                 "paused_until": self.paused_until,
                 "kill_switch": self.kill_switch,
-                "token_trades_last_hour": self.token_trades_last_hour}
+                "token_trades_last_hour": self.token_trades_last_hour,
+                "seen_tx_hashes": self.seen_tx_hashes[-500:]}
         Path(self.state_path).write_text(json.dumps(data, indent=2))
 
     def load(self):
@@ -94,6 +96,7 @@ class CircuitBreaker:
         self.paused_until = data.get("paused_until", 0.0)
         self.kill_switch = data.get("kill_switch", False)
         self.token_trades_last_hour = data.get("token_trades_last_hour", {})
+        self.seen_tx_hashes = data.get("seen_tx_hashes", [])
 
     # ------------------------------------------------------------------ décisions
     def can_trade(self, token_address: str = "") -> tuple[bool, str]:
@@ -118,30 +121,75 @@ class CircuitBreaker:
                                f"(max {self.max_trades_per_token_per_hour})")
         return True, "OK"
 
-    def record_real_trade(self, net_usd: float, token_address: str = "") -> None:
-        """Enregistre un trade RÉEL (on-chain / fork). Seul le réel compte :
-        un net simulé ne déclenche jamais le breaker (il n'a rien coûté)."""
+    def record_receipt(self, status: str, gas_usd: float = 0.0,
+                       token_address: str = "", tx_hash: str = "",
+                       net_usd: Optional[float] = None) -> str:
+        """Enregistrement UNIQUE d'un reçu de transaction (audit #15).
+        status : "success" | "revert" | "simulated".
+        Un seul appel met à jour ENSEMBLE les compteurs de pertes, le
+        nombre de trades, les reverts consécutifs ET la pause — l'ancien
+        code avait deux chemins incohérents : record_real_trade comptait
+        un trade perdant comme revert SANS déclencher la pause, et
+        record_revert ne comptait ni le gas ni le trade. Ici :
+        - success : net_usd RÉEL (déjà net du gas) compté dans net_today
+          + trades_today ; reverts remis à 0, sauf si net < 0 (perte
+          anormale pour un trade atomique -> +1 revert, AVEC pause).
+        - revert : perte = -gas_usd (net_usd ignoré si fourni), trades
+          +1, reverts +1, pause à 3 d'affilée. Le gas du revert est
+          compté comme perte — avant il était perdu (0 $ compté).
+        - simulated : rien n'est compté (0 $ réellement perdu).
+        Déduplication : un même tx_hash ne compte jamais deux fois
+        (retour "duplicate"). Retourne "recorded" | "duplicate" |
+        "simulated"."""
         self._reset_if_new_day()
-        self.net_today_usd += net_usd
-        self.trades_today += 1
-        if net_usd < 0:
-            # Perte plus grande que le gas seul = anomalie -> on compte
-            # comme un revert (le contrat atomique ne devrait pas perdre plus).
+        if status == "simulated":
+            return "simulated"
+        if status not in ("success", "revert"):
+            raise ValueError(f"statut de reçu inconnu : {status}")
+        if tx_hash:
+            key = tx_hash.lower()
+            if key in self.seen_tx_hashes:
+                return "duplicate"
+            self.seen_tx_hashes.append(key)
+            self.seen_tx_hashes = self.seen_tx_hashes[-500:]
+        if status == "revert":
+            loss = gas_usd if gas_usd > 0 else 0.0
+            self.net_today_usd -= loss
+            self.trades_today += 1
             self.consecutive_reverts += 1
         else:
-            self.consecutive_reverts = 0
+            net = 0.0 if net_usd is None else net_usd
+            self.net_today_usd += net
+            self.trades_today += 1
+            if net < 0:
+                self.consecutive_reverts += 1
+            else:
+                self.consecutive_reverts = 0
         if token_address:
             key = token_address.lower()
             self.token_trades_last_hour.setdefault(key, []).append(time.time())
-        self.save()
-
-    def record_revert(self) -> None:
-        """Un revert on-chain : +1 au compteur. À 3 d'affilée -> pause 1 h."""
-        self._reset_if_new_day()
-        self.consecutive_reverts += 1
         if self.consecutive_reverts >= self.max_consecutive_reverts:
             self.paused_until = time.time() + self.revert_pause_seconds
         self.save()
+        return "recorded"
+
+    def record_real_trade(self, net_usd: float, token_address: str = "",
+                          tx_hash: str = "") -> None:
+        """Enregistre un trade RÉEL (on-chain / fork). Fine enveloppe de
+        record_receipt (audit #15) : le net est déjà net du gas, donc
+        gas_usd=0 ici — le net compté est le net réel, la pause se
+        déclenche désormais aussi sur 3 trades perdants d'affilée."""
+        self.record_receipt("success", gas_usd=0.0,
+                            token_address=token_address, tx_hash=tx_hash,
+                            net_usd=net_usd)
+
+    def record_revert(self, gas_usd: float = 0.0, token_address: str = "",
+                      tx_hash: str = "") -> None:
+        """Un revert on-chain : +1 au compteur, pause à 3 d'affilée.
+        Fine enveloppe de record_receipt (audit #15) : le gas du revert
+        est désormais compté comme perte, et le trade est compté."""
+        self.record_receipt("revert", gas_usd=gas_usd,
+                            token_address=token_address, tx_hash=tx_hash)
 
     def record_simulated(self, net_usd: float) -> str:
         """Journalise un net SIMULÉ (dry-run) : informatif seulement, le

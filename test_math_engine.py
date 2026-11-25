@@ -106,6 +106,44 @@ def test_gas_cap_skips_on_spike():
     print("OK test_gas_cap_skips_on_spike — 254 gwei SKIP, 1,5 gwei EXECUTE")
 
 
+def test_optimal_loan_subcent_precision():
+    """Audit #9 : le moteur arrondissait le profit optimal au centime
+    AVANT decide() — un net de +0,0001 $ devenait 0,00 $ et le trade
+    était rejeté (min_profit=0 sur Polygon). Cas : spread 0,05 %,
+    fees 0,01 %/jambe, gas 0,001 $ -> net optimal +0,000126 $.
+    decide() doit dire EXECUTE avec le net NON arrondi."""
+    a = Pool("A", 100_000, 100_000_000, fee_bps=1)
+    b = Pool("B", 100_000, 99_950_000, fee_bps=1)
+    c = Costs(gas_usd=0.001, flash_provider="morpho", min_profit_usd=0.0,
+              gas_multiple=0.0)
+    opt = find_optimal_loan(a, b, c)
+    assert 0 < opt["net_usd"] < 0.005, opt  # sub-cent, mais > 0
+    assert opt["net_usd"] != round(opt["net_usd"], 2), \
+        "le net ne doit plus être arrondi au centime avant decide()"
+    d = decide(a, b, c)
+    assert d["action"] == "EXECUTE", d
+    assert d["expected_net_usd"] == opt["net_usd"], d
+    print(f"OK test_optimal_loan_subcent_precision — net optimal "
+          f"{opt['net_usd']:.6f} $ (sub-cent) -> EXECUTE, non arrondi")
+
+
+def test_find_optimal_loan_small_sizes():
+    """Audit #11 : la grille commençait à 10 $ et éliminait les tailles
+    < 10 $. Petites pools (cap 4,50 $) : l'optimal (~3-4 $) est désormais
+    trouvé au lieu de 'liquidité trop faible'."""
+    a = Pool("A", 50, 50_000)
+    b = Pool("B", 45, 37_500)  # spread 20 %, cap = 10 % × 45 = 4,50 $
+    c = Costs(gas_usd=0.001, flash_provider="morpho", min_profit_usd=0.0,
+              gas_multiple=0.0)
+    opt = find_optimal_loan(a, b, c)
+    assert opt["optimal_loan_usd"] > 0, opt
+    assert 1.0 <= opt["optimal_loan_usd"] <= 4.50, opt
+    assert opt["net_usd"] > 0, opt
+    print(f"OK test_find_optimal_loan_small_sizes — optimal "
+          f"{opt['optimal_loan_usd']:.2f} $ (cap 4,50 $), net "
+          f"{opt['net_usd']:.4f} $")
+
+
 def test_kelly_honest():
     """v2 recherche §4.2 : sans trades mesurés -> Kelly = 0 (on ne mise pas
     sur un edge non mesuré). < 30 trades -> cap 0,10x. Borne de Wilson :
@@ -129,4 +167,6 @@ if __name__ == "__main__":
     test_gas_cost()
     test_gas_cap_skips_on_spike()
     test_kelly_honest()
+    test_optimal_loan_subcent_precision()
+    test_find_optimal_loan_small_sizes()
     print("\nTOUS LES TESTS PASSENT.")

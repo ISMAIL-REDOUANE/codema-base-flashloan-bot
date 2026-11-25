@@ -45,6 +45,7 @@ sponsor voie les chiffres avant de mettre 1 $.
 from __future__ import annotations
 
 import json
+import os
 import re
 from dataclasses import dataclass, field
 from datetime import date
@@ -57,8 +58,18 @@ DEFAULT_DAILY_CAP_USD = 20.0
 DEFAULT_LOW_PREFUND_ALERT_USD = 5.0
 
 
+def _round_usd(x: float) -> float:
+    """Arrondi au micro-dollar (6 décimales) — précision comptable interne
+    (audit #9). Un gas de 0,0044 $ survit : 100 charges = 0,44 $, pas 0 $.
+    L'arrondi au centime n'a lieu qu'à l'AFFICHAGE (format :.2f) ou pour
+    les partages de paiement (split_profit, en cents)."""
+    v = round(float(x) + 1e-12, 6)
+    return 0.0 if v == 0 else v
+
+
 def _round2(x: float) -> float:
-    """Arrondi au centime, avec -0.0 ramené à 0.0."""
+    """Arrondi au centime — AFFICHAGE et partages de paiement UNIQUEMENT.
+    Ne JAMAIS l'utiliser pour accumuler des coûts (audit #9)."""
     v = round(float(x) + 1e-9, 2)
     return 0.0 if v == 0 else v
 
@@ -140,7 +151,7 @@ class SponsorLedger:
 
     def prefund_remaining(self) -> float:
         """Ce qui reste du prefund après le gas dépensé (jamais négatif affiché)."""
-        return _round2(self.prefund_usd - self.gas_spent_total_usd)
+        return _round_usd(self.prefund_usd - self.gas_spent_total_usd)
 
     def prefund_low(self) -> bool:
         """True quand le prefund restant est sous le seuil d'alerte (< 5 $)."""
@@ -206,25 +217,25 @@ class SponsorLedger:
         ok, reason, _, _ = self.check_trade(net_usd)
         if not ok:
             return {"symbol": symbol, "action": action, "blocked": True,
-                    "reason": reason, "net_usd": _round2(net_usd),
+                    "reason": reason, "net_usd": _round_usd(net_usd),
                     "sponsor_share_usd": sponsor, "ismail_share_usd": ismail,
-                    "gas_usd": _round2(gas_usd), "provider": provider,
+                    "gas_usd": _round_usd(gas_usd), "provider": provider,
                     "funding_mode": self.funding_mode,
                     "ismail_paid_usd": 0.0,
                     "prefund_remaining_usd": self.prefund_remaining(),
-                    "sponsor_paid_today_usd": _round2(self.sponsor_paid_today_usd)}
-        self.gas_spent_total_usd = _round2(self.gas_spent_total_usd + gas_usd)
-        self.sponsor_paid_today_usd = _round2(self.sponsor_paid_today_usd + sponsor)
+                    "sponsor_paid_today_usd": _round_usd(self.sponsor_paid_today_usd)}
+        self.gas_spent_total_usd = _round_usd(self.gas_spent_total_usd + gas_usd)
+        self.sponsor_paid_today_usd = _round_usd(self.sponsor_paid_today_usd + sponsor)
         self.trades_today += 1
         entry = {"date": self.day, "symbol": symbol, "action": action,
-                 "net_usd": _round2(net_usd), "sponsor_share_usd": sponsor,
-                 "ismail_share_usd": ismail, "gas_usd": _round2(gas_usd),
+                 "net_usd": _round_usd(net_usd), "sponsor_share_usd": sponsor,
+                 "ismail_share_usd": ismail, "gas_usd": _round_usd(gas_usd),
                  "provider": provider, "blocked": False,
                  "simulated": simulated,  # True en dry-run : 0 $ réel, jamais dû
                  "funding_mode": self.funding_mode,  # v3.4 : qui paie le gas
                  "ismail_paid_usd": 0.0,  # v3.2 : le gas vient du prefund sponsor, jamais d'Ismail
                  "prefund_remaining_usd": self.prefund_remaining(),
-                 "sponsor_paid_today_usd": _round2(self.sponsor_paid_today_usd)}
+                 "sponsor_paid_today_usd": _round_usd(self.sponsor_paid_today_usd)}
         if extra:
             entry.update(extra)
         if self.trades_path:
@@ -235,7 +246,7 @@ class SponsorLedger:
 
     def top_up(self, amount_usd: float) -> float:
         """Recharge du prefund (le sponsor remet de l'ETH). Retourne le reste."""
-        self.prefund_usd = _round2(self.prefund_usd + amount_usd)
+        self.prefund_usd = _round_usd(self.prefund_usd + amount_usd)
         self.save()
         return self.prefund_remaining()
 
@@ -246,10 +257,10 @@ class SponsorLedger:
                 "funding_mode": self.funding_mode,
                 "prefund_usd": self.prefund_usd,
                 "prefund_remaining_usd": self.prefund_remaining(),
-                "gas_spent_total_usd": _round2(self.gas_spent_total_usd),
+                "gas_spent_total_usd": _round_usd(self.gas_spent_total_usd),
                 "sponsor_share_pct": self.sponsor_share_pct,
                 "sponsor_wallet": self.sponsor_wallet or "(à remplir)",
-                "sponsor_paid_today_usd": _round2(self.sponsor_paid_today_usd),
+                "sponsor_paid_today_usd": _round_usd(self.sponsor_paid_today_usd),
                 "daily_cap_usd": self.daily_cap_usd,
                 "trades_today": self.trades_today,
                 "low_prefund_alert": self.prefund_alert(),
@@ -257,7 +268,11 @@ class SponsorLedger:
                 "can_trade": ok, "reason": reason}
 
 
-def load_from_config(path: str = "config.yaml") -> "SponsorLedger":
+def load_from_config(path: Optional[str] = None) -> "SponsorLedger":
+    """Lit la section de config.yaml (audit #13 : chemin par
+    argument, sinon variable d'environnement CODEMA_CONFIG,
+    sinon "config.yaml")."""
+    path = path or os.environ.get("CODEMA_CONFIG") or "config.yaml"
     """Lit la section `sponsorship:` de config.yaml (parseur simple, sans
     dépendance YAML — le fichier n'utilise que `clé: valeur` plat)."""
     text = Path(path).read_text()

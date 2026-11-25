@@ -41,21 +41,28 @@ def _self_funded_trade(**over):
 
 
 def _win_candidate():
-    return MemeCandidate("0xAAA", "MEME-WIN", "aerodrome", "uniswap",
+    return MemeCandidate("0xAAA", "MEME-WIN", "uniswap", "sushi",
                          Pool("Aero", 20_000, 20_000_000),
                          Pool("UniV2", 18_000, 15_000_000),
                          liquidity_usd=36_000, holders=150, age_hours=10)
 
 
 def _lose_candidate():
-    return MemeCandidate("0xBBB", "MEME-LOSE", "aerodrome", "uniswap",
+    return MemeCandidate("0xBBB", "MEME-LOSE", "uniswap", "sushi",
                          Pool("Aero", 50_000, 50_000_000),
                          Pool("UniV2", 50_000, 49_000_000),
                          liquidity_usd=100_000, holders=200, age_hours=5)
 
 
+def _config_path() -> str:
+    """Config pour les tests (audit #13) : config.yaml si présent, sinon
+    config.yaml.example — un checkout propre sans config.yaml passe."""
+    from pathlib import Path as _P
+    return "config.yaml" if _P("config.yaml").exists() else "config.yaml.example"
+
+
 def test_load_funding_from_config():
-    f = load_funding("config.yaml")
+    f = load_funding(_config_path())
     assert f.payer == "ismail", f.payer
     assert f.float_usd == 20.0, f.float_usd
     assert f.sponsor_share_pct == 0.0, f.sponsor_share_pct
@@ -70,7 +77,7 @@ def test_guard_mode_switch_from_config():
     # config.yaml `funding.payer == "ismail"` -> le garde démarre en
     # mode self_funded. La section `zero_cost:` reste inchangée
     # (gas_payer "sponsor" = mode $0 historique, conservé).
-    g = load_zero_cost("config.yaml")
+    g = load_zero_cost(_config_path())
     assert g.mode == "self_funded", g.mode
     assert g.gas_payer == "sponsor", g.gas_payer
     assert g.allowed_flash_providers == ("morpho",)
@@ -237,18 +244,24 @@ def test_executor_self_funded_end_to_end():
         assert win.action == "EXECUTE", (win.action, win.reasons)
         assert win.provider == "morpho", win.provider
         assert lose.action == "SKIP", lose.action
-        # Comptabilité : gas SIMULÉ déduit (0,0675 $ -> 0,07 $), profit 100 %.
-        assert funding.ismail_paid_usd == 0.07, funding.ismail_paid_usd
-        assert funding.profits_usd == 73.07, funding.profits_usd
-        assert funding.float_remaining_usd == 19.93, funding.float_remaining_usd
+        # Comptabilité : gas SIMULÉ déduit (0,0675 $ EXACT, audit #9 —
+        # l'ancien arrondi au centime écrivait 0,07 $), profit 100 %.
+        assert funding.ismail_paid_usd == 0.0675, funding.ismail_paid_usd
+        # Audit #9 : le profit enregistré est le net EXACT décidé
+        # (73,069686... $, pas 73,07 $ arrondi — l'arrondi n'a lieu qu'à
+        # l'affichage). La comptabilité tient le micro-dollar (6 déc.),
+        # d'où la comparaison à 1e-6 près.
+        assert abs(funding.profits_usd - win.expected_net_usd) < 1e-6, funding.profits_usd
+        assert abs(funding.profits_usd - 73.07) < 0.01
+        assert funding.float_remaining_usd == 19.9325, funding.float_remaining_usd
         lines = open(path).read().strip().split("\n")
         assert len(lines) == 1, f"1 seul EXECUTE logué, vu {len(lines)}"
         entry = json.loads(lines[0])
         assert entry["funding_mode"] == "self_funded"
         assert entry["sponsor_share_usd"] == 0.0
         assert entry["ismail_share_usd"] == 73.07
-        assert entry["ismail_paid_usd"] == 0.07
-        assert entry["float_remaining_usd"] == 19.93
+        assert entry["ismail_paid_usd"] == 0.0675
+        assert entry["float_remaining_usd"] == 19.9325
         assert entry["simulated"] is True
 
 
@@ -270,7 +283,7 @@ def test_executor_self_funded_without_guard():
     f1 = _fresh_float()
     results = run([_win_candidate()], Costs(), funding=f1)
     assert results[0].action == "EXECUTE"
-    assert f1.ismail_paid_usd == 0.07
+    assert f1.ismail_paid_usd == 0.0675  # audit #9 : gas exact, pas 0,07 $
     f2 = _fresh_float(float_usd=0.10)
     results = run([_win_candidate()], Costs(), funding=f2)
     assert results[0].action == "SKIP"
@@ -309,9 +322,24 @@ def test_worst_case_cost():
     f = _fresh_float()
     # Par défaut : pire cas = gas + budget revert (= gas) = 2 × gas.
     assert f.worst_case_cost(0.07) == 0.14
-    # 0,0066 $ arrondi au centime = 0,01 $ de gas + 0,01 $ de revert = 0,02 $.
-    assert f.worst_case_cost(0.0066) == 0.02
+    # Audit #9 : 0,0066 $ + 0,0066 $ = 0,0132 $ — PAS 0,02 $ (l'ancien
+    # arrondi au centime gonflait le pire cas de 50 %).
+    assert f.worst_case_cost(0.0066) == 0.0132
     assert f.worst_case_cost(0.07, revert_budget_usd=0.20) == 0.27
+
+
+def test_gas_subcent_accumulates():
+    # Audit #9 — contre-exemple : 100 × charge_gas(0,0044 $) = 0,44 $,
+    # pas 0,00 $ (l'ancien _round2 ramenait chaque 0,0044 $ à 0,00 $).
+    f = _fresh_float()
+    for _ in range(100):
+        assert f.charge_gas(0.0044) is True
+    assert f.ismail_paid_usd == 0.44, f.ismail_paid_usd
+    assert f.float_remaining_usd == 19.56, f.float_remaining_usd
+    # Le pire cas garde aussi la précision sub-cent.
+    assert f.worst_case_cost(0.0044) == 0.0088
+    print("OK test_gas_subcent_accumulates — 100 × 0,0044 $ = 0,44 $ "
+          "(pas 0,00 $)")
 
 
 if __name__ == "__main__":

@@ -19,6 +19,13 @@ def _fresh():
     return SponsorLedger(state_path=None, trades_path=None)
 
 
+def _config_path() -> str:
+    """Config pour les tests (audit #13) : config.yaml si présent, sinon
+    config.yaml.example — un checkout propre sans config.yaml passe."""
+    from pathlib import Path as _P
+    return "config.yaml" if _P("config.yaml").exists() else "config.yaml.example"
+
+
 def test_split_100():
     s = _fresh()
     sponsor, ismail = s.split_profit(100.0)
@@ -105,7 +112,7 @@ def test_record_trade_writes_jsonl():
         e = s.record_trade("MEME-WIN", 73.07, 0.0066, "balancer")
         assert e["sponsor_share_usd"] == 18.27
         assert e["ismail_share_usd"] == 54.80
-        assert e["prefund_remaining_usd"] == 19.99, e
+        assert e["prefund_remaining_usd"] == 19.9934, e  # audit #9 : 20 - 0,0066 exact
         lines = open(path).read().strip().splitlines()
         assert len(lines) == 1
         row = json.loads(lines[0])
@@ -119,7 +126,7 @@ def test_load_from_config():
     # v3.4 : la section sponsorship: est INACTIVE (Ismail autofinance,
     # part sponsor 0 %) — les valeurs ci-dessous reflètent la config
     # actuelle, pas l'ancien deal sponsor.
-    s = load_from_config("config.yaml")
+    s = load_from_config(_config_path())
     assert s.enabled is False, "v3.4 : sponsorship INACTIVE"
     assert s.prefund_usd == 20.0, s.prefund_usd
     assert s.sponsor_share_pct == 0.0, s.sponsor_share_pct
@@ -136,11 +143,11 @@ def test_executor_logs_split():
     s = _fresh()
     s.trades_path = None
     costs = Costs()
-    win = MemeCandidate("0xAAA", "MEME-WIN", "aerodrome", "uniswap",
+    win = MemeCandidate("0xAAA", "MEME-WIN", "uniswap", "sushi",
                         Pool("Aero", 20_000, 20_000_000),
                         Pool("UniV2", 18_000, 15_000_000),
                         liquidity_usd=36_000, holders=150, age_hours=10)
-    lose = MemeCandidate("0xBBB", "MEME-LOSE", "aerodrome", "uniswap",
+    lose = MemeCandidate("0xBBB", "MEME-LOSE", "uniswap", "sushi",
                          Pool("Aero", 50_000, 50_000_000),
                          Pool("UniV2", 50_000, 49_000_000),
                          liquidity_usd=100_000, holders=200, age_hours=5)
@@ -167,7 +174,7 @@ def test_executor_sponsor_cap_blocks_execute():
     for i in range(5):
         s.record_trade(f"T{i}", 16.0, 0.01, "balancer")
     costs = Costs()
-    win = MemeCandidate("0xAAA", "MEME-WIN", "aerodrome", "uniswap",
+    win = MemeCandidate("0xAAA", "MEME-WIN", "uniswap", "sushi",
                         Pool("Aero", 20_000, 20_000_000),
                         Pool("UniV2", 18_000, 15_000_000),
                         liquidity_usd=36_000, holders=150, age_hours=10)

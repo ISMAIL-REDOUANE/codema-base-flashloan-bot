@@ -43,6 +43,7 @@ Le float n'est donc pas la contrainte : ce sont les opportunités.
 from __future__ import annotations
 
 import json
+import os
 import re
 from dataclasses import dataclass, field
 from datetime import date
@@ -55,8 +56,18 @@ DEFAULT_MIN_PROFIT_USD = 3.0
 DEFAULT_LOW_FLOAT_ALERT_USD = 5.0
 
 
+def _round_usd(x: float) -> float:
+    """Arrondi au micro-dollar (6 décimales) — précision comptable interne
+    (audit #9). Un gas de 0,0044 $ survit : 100 charges = 0,44 $, pas 0 $.
+    L'arrondi au centime n'a lieu qu'à l'AFFICHAGE (format :.2f) ou pour
+    les partages de paiement (split_profit, en cents)."""
+    v = round(float(x) + 1e-12, 6)
+    return 0.0 if v == 0 else v
+
+
 def _round2(x: float) -> float:
-    """Arrondi au centime, avec -0.0 ramené à 0.0."""
+    """Arrondi au centime — AFFICHAGE et partages de paiement UNIQUEMENT.
+    Ne JAMAIS l'utiliser pour accumuler des coûts (audit #9)."""
     v = round(float(x) + 1e-9, 2)
     return 0.0 if v == 0 else v
 
@@ -92,8 +103,8 @@ class FloatLedger:
             return
         data = {"day": self.day, "payer": self.payer,
                 "float_usd": self.float_usd,
-                "ismail_paid_usd": _round2(self.ismail_paid_usd),
-                "profits_usd": _round2(self.profits_usd),
+                "ismail_paid_usd": _round_usd(self.ismail_paid_usd),
+                "profits_usd": _round_usd(self.profits_usd),
                 "trades_executed": self.trades_executed,
                 "trades_blocked": self.trades_blocked,
                 "tripped": self.tripped, "trip_reason": self.trip_reason,
@@ -122,7 +133,7 @@ class FloatLedger:
     def float_remaining_usd(self) -> float:
         """Ce qui reste du float après le gas dépensé. Les profits ne le
         rechargent PAS (USDC ≠ ETH gas — conversion manuelle d'Ismail)."""
-        return _round2(self.float_usd - self.ismail_paid_usd)
+        return _round_usd(self.float_usd - self.ismail_paid_usd)
 
     def float_low(self) -> bool:
         """True quand le float restant est sous le seuil d'alerte (< 5 $)."""
@@ -139,9 +150,9 @@ class FloatLedger:
                         revert_budget_usd: Optional[float] = None) -> float:
         """Pire cas pour UN trade : gas du trade + budget revert (un revert
         coûte environ le même gas que le trade, donc par défaut : 2 × gas)."""
-        gas = _round2(gas_usd)
-        revert = gas if revert_budget_usd is None else _round2(revert_budget_usd)
-        return _round2(gas + revert)
+        gas = _round_usd(gas_usd)
+        revert = gas if revert_budget_usd is None else _round_usd(revert_budget_usd)
+        return _round_usd(gas + revert)
 
     # ------------------------------------------------------------------ partage
     def split_profit(self, net_usd: float) -> Tuple[float, float]:
@@ -171,7 +182,7 @@ class FloatLedger:
         if worst > remaining:
             self.trades_blocked += 1
             return False, (f"SELF_FUNDED: pire cas {worst:.2f} $ (gas "
-                           f"{_round2(gas_usd):.2f} $ + budget revert) > float "
+                           f"{_round_usd(gas_usd):.2f} $ + budget revert) > float "
                            f"restant {remaining:.2f} $ — trade bloqué, Ismail "
                            f"ne trade pas à découvert")
         return True, "OK"
@@ -184,10 +195,10 @@ class FloatLedger:
     def charge_gas(self, gas_usd: float) -> bool:
         """Déduit le gas du float. Retourne False et DÉCLENCHE le kill
         switch si le float tombe à 0 (ou moins) : on arrête tout."""
-        gas = _round2(gas_usd)
+        gas = _round_usd(gas_usd)
         if gas <= 0:
             return True
-        self.ismail_paid_usd = _round2(self.ismail_paid_usd + gas)
+        self.ismail_paid_usd = _round_usd(self.ismail_paid_usd + gas)
         self.save()
         if self.float_remaining_usd <= 0:
             self._trip(f"float épuisé après {gas:.2f} $ de gas "
@@ -213,26 +224,26 @@ class FloatLedger:
         ok, reason = self.can_afford(gas_usd)
         if not ok:
             return {"symbol": symbol, "action": action, "blocked": True,
-                    "reason": reason, "net_usd": _round2(net_usd),
+                    "reason": reason, "net_usd": _round_usd(net_usd),
                     "sponsor_share_usd": sponsor, "ismail_share_usd": ismail,
-                    "gas_usd": _round2(gas_usd), "provider": provider,
+                    "gas_usd": _round_usd(gas_usd), "provider": provider,
                     "funding_mode": "self_funded",
-                    "ismail_paid_usd": _round2(self.ismail_paid_usd),
+                    "ismail_paid_usd": _round_usd(self.ismail_paid_usd),
                     "float_remaining_usd": self.float_remaining_usd,
-                    "profits_usd": _round2(self.profits_usd)}
+                    "profits_usd": _round_usd(self.profits_usd)}
         self.charge_gas(gas_usd)
         if net_usd > 0:
-            self.profits_usd = _round2(self.profits_usd + net_usd)
+            self.profits_usd = _round_usd(self.profits_usd + net_usd)
         self.trades_executed += 1
         entry = {"date": self.day, "symbol": symbol, "action": action,
-                 "net_usd": _round2(net_usd), "sponsor_share_usd": sponsor,
-                 "ismail_share_usd": ismail, "gas_usd": _round2(gas_usd),
+                 "net_usd": _round_usd(net_usd), "sponsor_share_usd": sponsor,
+                 "ismail_share_usd": ismail, "gas_usd": _round_usd(gas_usd),
                  "provider": provider, "blocked": False,
                  "simulated": simulated,  # True en dry-run : 0 $ réel, jamais dû
                  "funding_mode": "self_funded",
-                 "ismail_paid_usd": _round2(self.ismail_paid_usd),
+                 "ismail_paid_usd": _round_usd(self.ismail_paid_usd),
                  "float_remaining_usd": self.float_remaining_usd,
-                 "profits_usd": _round2(self.profits_usd)}
+                 "profits_usd": _round_usd(self.profits_usd)}
         if extra:
             entry.update(extra)
         if self.trades_path:
@@ -244,7 +255,7 @@ class FloatLedger:
     def top_up(self, amount_usd: float) -> float:
         """Recharge du float (Ismail remet de l'ETH). Remet le kill
         switch à zéro si le float redevient positif. Retourne le reste."""
-        self.float_usd = _round2(self.float_usd + amount_usd)
+        self.float_usd = _round_usd(self.float_usd + amount_usd)
         if self.float_remaining_usd > 0 and self.tripped:
             self.tripped = False
             self.trip_reason = ""
@@ -270,8 +281,8 @@ class FloatLedger:
         return {"payer": self.payer, "funding_mode": "self_funded",
                 "float_usd": self.float_usd,
                 "float_remaining_usd": remaining,
-                "ismail_paid_usd": _round2(self.ismail_paid_usd),
-                "profits_usd": _round2(self.profits_usd),
+                "ismail_paid_usd": _round_usd(self.ismail_paid_usd),
+                "profits_usd": _round_usd(self.profits_usd),
                 "sponsor_share_pct": self.sponsor_share_pct,
                 "min_profit_usd": self.min_profit_usd,
                 "trades_executed": self.trades_executed,
@@ -281,7 +292,11 @@ class FloatLedger:
                 "can_trade": ok, "reason": reason}
 
 
-def load_from_config(path: str = "config.yaml") -> "FloatLedger":
+def load_from_config(path: Optional[str] = None) -> "FloatLedger":
+    """Lit la section de config.yaml (audit #13 : chemin par
+    argument, sinon variable d'environnement CODEMA_CONFIG,
+    sinon "config.yaml")."""
+    path = path or os.environ.get("CODEMA_CONFIG") or "config.yaml"
     """Lit la section `funding:` de config.yaml (parseur simple, sans
     dépendance YAML — comme sponsor.load_from_config)."""
     text = Path(path).read_text()

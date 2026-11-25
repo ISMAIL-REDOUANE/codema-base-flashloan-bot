@@ -52,7 +52,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import big_pools as bp  # noqa: E402
 from math_engine import Pool, amm_out  # noqa: E402
-from polygon_guard import polygon_decide, tranche  # noqa: E402
+from polygon_guard import (ONCHAIN_MIN_PROFIT_USD, polygon_costs,
+                         polygon_decide, tranche)  # noqa: E402
 
 try:
     import pro_scan as ps  # noqa: E402
@@ -643,12 +644,58 @@ def _exact_quote(w3, venue: dict, token_in_addr: str, token_out_addr: str,
     raise ValueError(f"pas de quote exacte pour kind={kind}")
 
 
+def _exact_cycle_net(w3, buy_v: dict, sell_v: dict, addr_a: str,
+                     addr_b: str, dec_a: int, dec_b: int, size_usd: float,
+                     price_b: float, gas_gwei: float, matic_price: float,
+                     resolved: dict) -> dict:
+    """Un aller-retour EXACT chaîné (audit #10) : l'achat B -> A est
+    quoté on-chain, puis sa sortie EXACTE out_a devient l'entrée de la
+    vente A -> B (jamais un montant recalculé depuis un prix spot).
+    Le net = retour en $ - mise - frais flash exacts (Morpho 0 %) - gas
+    exact (trade + budget revert, polygon_costs). Tout en $ (pas de %).
+    """
+    amt_in_b = int((size_usd / price_b) * 10**dec_b)
+    out_a = _exact_quote(w3, buy_v, addr_b, addr_a, amt_in_b, resolved)[0]
+    if out_a <= 0:
+        raise ValueError("quote achat nulle")
+    out_b = _exact_quote(w3, sell_v, addr_a, addr_b, out_a, resolved)[0]
+    if out_b <= 0:
+        raise ValueError("quote vente nulle")
+    usdc_back = (out_b / 10**dec_b) * price_b
+    total_gas = polygon_costs(gas_gwei, matic_price).gas_usd
+    buy_price = size_usd / (out_a / 10**dec_a)
+    sell_price = usdc_back / (out_a / 10**dec_a)
+    return {"size_usd": size_usd,
+            "out_a_raw": out_a, "out_b_raw": out_b,
+            "usdc_back": usdc_back,
+            "gross_usd": usdc_back - size_usd,
+            "flash_fee_usd": 0.0,  # Morpho 0 % — le seul provider autorisé
+            "gas_total_usd": total_gas,
+            "net_usd": usdc_back - size_usd - total_gas,
+            "spread_pct": 100 * (sell_price / buy_price - 1)}
+
+
 def verify_signal_exact(w3, pair: dict, size_usd: float, meas: dict,
                         prices_usd: dict, resolved: dict,
                         block: int) -> dict | None:
-    """Re-verification d'un signal par quote EXACTE (QuoterV2 pour
-    V3-Uni, getAmountsOut pour V2 avec router). Retourne None si la
-    verification n'est pas possible (Algebra / V4 : pas de quoter)."""
+    """Re-vérification d'un signal par quotes EXACTES chaînées (audit
+    #10 — CORRIGÉ).
+
+    AVANT (bug confirmé par l'audit) : l'entrée de vente était recalculée
+    depuis un prix spot (res_b/res_a) au lieu de out_a, et le net venait
+    de polygon_decide sur réserves approximatives — le net ne dépendait
+    PAS de la quote de vente (contre-exemple : vente à 1 $ -> toujours
+    +0,47 $ EXECUTE).
+
+    APRÈS : les deux jambes sont chaînées (out_a = entrée de vente),
+    le retour est converti en $ depuis out_b, les coûts exacts sont
+    soustraits, et le verdict découle de ce net à la taille testée.
+    Si la taille optimale approximative (polygon_decide) diffère de
+    > 10 % de la taille testée, on re-quote exactement à cette taille et
+    on garde le meilleur des deux nets. Retourne None si la vérification
+    n'est pas possible (Algebra / V4 : pas de quoter exact ; venues
+    introuvables).
+    """
     token_a, token_b = pair["token_a"], pair["token_b"]
     addr_a = resolved[token_a]["address"]
     addr_b = resolved[token_b]["address"]
@@ -664,33 +711,46 @@ def verify_signal_exact(w3, pair: dict, size_usd: float, meas: dict,
     if buy_v["kind"] in ("algebra", "v4") \
             or sell_v["kind"] in ("algebra", "v4"):
         return None  # pas de quoter exact : verification impossible
+    gas_gwei = meas.get("gas_gwei", DEFAULT_GAS_GWEI)
+    matic_price = prices_usd.get("WMATIC", DEFAULT_MATIC_PRICE)
     try:
-        amt_in_b = int((size_usd / price_b) * 10**dec_b)
-        out_a = _exact_quote(w3, buy_v, addr_b, addr_a, amt_in_b,
-                             resolved)[0]
-        price_a_per_b = buy_v["res_b"] / buy_v["res_a"]
-        amt_in_a = int((size_usd / (price_a_per_b * price_b)) * 10**dec_a)
-        out_b = _exact_quote(w3, sell_v, addr_a, addr_b, amt_in_a,
-                             resolved)[0]
-        buy_price = size_usd / (out_a / 10**dec_a)
-        sell_price = ((out_b / 10**dec_b) * price_b) / (amt_in_a
-                                                          / 10**dec_a)
-        spread = 100 * (sell_price / buy_price - 1)
-        pools = {}
-        for venue, role in ((buy_v, "buy"), (sell_v, "sell")):
-            pools[role] = Pool(f"{venue['dex']}-{venue['kind']}",
-                               venue["res_b"] * price_b, venue["res_a"],
-                               venue["fee_bps"])
-        d = polygon_decide(pools["buy"], pools["sell"],
-                           meas.get("gas_gwei", DEFAULT_GAS_GWEI),
-                           prices_usd.get("WMATIC", DEFAULT_MATIC_PRICE))
+        best = _exact_cycle_net(w3, buy_v, sell_v, addr_a, addr_b, dec_a,
+                                dec_b, size_usd, price_b, gas_gwei,
+                                matic_price, resolved)
+        # Revalidation de la taille optimale (audit #10) : si
+        # polygon_decide suggère une autre taille, on la re-quote
+        # exactement et on garde le meilleur net des deux.
+        optimal = (meas.get("net") or {}).get("optimal_loan_usd")
+        size_revalidated = False
+        if optimal and optimal > 0 \
+                and abs(optimal - size_usd) > 0.10 * size_usd:
+            alt = _exact_cycle_net(w3, buy_v, sell_v, addr_a, addr_b,
+                                   dec_a, dec_b, optimal, price_b,
+                                   gas_gwei, matic_price, resolved)
+            size_revalidated = True
+            if alt["net_usd"] > best["net_usd"]:
+                best = alt
+        net = best["net_usd"]
+        # Le contrat on-chain exige minProfit = 0,01 $ : un net dans
+        # ]0 ; 0,01] reverrait à l'exécution — il n'est pas EXECUTE.
+        action = "EXECUTE" if net > ONCHAIN_MIN_PROFIT_USD else "SKIP"
         return {"method": "exact-quote",
-                "spread_pct": round(spread, 4),
-                "expected_net_usd": d["expected_net_usd"],
-                "action": d["action"],
-                "optimal_loan_usd": d["optimal_loan_usd"]}
-    except Exception as e:  # noqa: BLE001
-        return {"method": "exact-quote", "error": str(e)[:120]}
+                "spread_pct": round(best["spread_pct"], 4),
+                "expected_net_usd": net,
+                "action": action,
+                "optimal_loan_usd": best["size_usd"],
+                "size_tested_usd": size_usd,
+                "size_optimal_approx_usd": optimal,
+                "size_revalidated": size_revalidated,
+                "usdc_back_usd": best["usdc_back"],
+                "gross_usd": best["gross_usd"],
+                "flash_fee_usd": best["flash_fee_usd"],
+                "gas_total_usd": best["gas_total_usd"],
+                "onchain_min_profit_usd": ONCHAIN_MIN_PROFIT_USD,
+                "above_onchain_floor": net > ONCHAIN_MIN_PROFIT_USD}
+    except Exception:  # noqa: BLE001
+        return {"method": "exact-quote",
+                "error": "verification echouee"}
 
 
 # ------------------------------------------------------------- rotation (repli)

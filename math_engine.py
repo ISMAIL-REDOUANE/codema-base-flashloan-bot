@@ -71,6 +71,17 @@ DEFAULT_GAS_UNITS = _GAS_UNITS   # 450 000 — voir gas.py
 DEFAULT_GAS_PRICE_GWEI = _GAS_GWEI  # 0.05 — hypothèse config.yaml
 DEFAULT_ETH_PRICE_USD = _ETH_USD
 DEFAULT_MIN_PROFIT_USD = 3.0     # confirmé par Ismail 2026-11-24 : min 3 $
+# Audit #11 — POLITIQUES DE SEUIL (centralisées ici, pas dispersées) :
+#   - Base    : min_profit = 3 $ (DEFAULT_MIN_PROFIT_USD, confirmé Ismail)
+#               + net > gas × 3 (Costs.gas_multiple).
+#   - Polygon : min_profit = 0 $, gas_multiple = 0 (polygon_guard.py :
+#               net > 0 $ après gas + budget revert ; le min 3 $ y est
+#               ABANDONNÉ par décision d'Ismail 2026-11-24).
+# Ce sont deux politiques DISTINCTES et voulues — pas une règle unique.
+# Les scanners récents (leadlag/) évaluent net > 0 : c'est la politique
+# Polygon, pas celle de Base.
+POLICIES = {"base": {"min_profit_usd": 3.0, "gas_multiple": 3.0},
+            "polygon": {"min_profit_usd": 0.0, "gas_multiple": 0.0}}
 
 
 @dataclass
@@ -208,18 +219,21 @@ def find_optimal_loan(pool_buy: Pool, pool_sell: Pool,
     costs = costs or Costs()
     cap_liq = max_pct_liquidity * min(pool_buy.reserve_usdc, pool_sell.reserve_usdc)
     hi = min(max_loan_usd, cap_liq)
-    if hi <= 10:
+    if hi <= 1:
         return {"optimal_loan_usd": 0.0, "net_usd": -costs.gas_usd,
                 "gross_usd": 0.0, "cap_usd": hi, "note": "liquidité trop faible"}
 
-    # Passe 1 : grille géométrique 10 $ -> hi (60 points)
+    # Passe 1 : grille géométrique 1 $ -> hi (60 points). Audit #11 :
+    # la grille commençait à 10 $ et éliminait les tailles < 10 $ — les
+    # petites tailles ($1–$10) sont désormais explorées (le gas, lui,
+    # reste compté : une petite taille ne passe que si son net > 0).
     best_loan, best_net, best_detail = 0.0, float("-inf"), {}
     candidates: List[float] = []
-    lo = 10.0
+    lo = 1.0
     ratio = (hi / lo) ** (1 / 59)
     v = lo
     for _ in range(60):
-        candidates.append(v)
+        candidates.append(min(v, hi))  # jamais au-dessus du plafond (erreur float)
         v *= ratio
     # Passe 2 : raffinement autour du meilleur (+/- 30 %, 40 points)
     for loan in candidates:
@@ -234,12 +248,19 @@ def find_optimal_loan(pool_buy: Pool, pool_sell: Pool,
             d = net_profit(loan, pool_buy, pool_sell, costs)
             if d["net_usd"] > best_net:
                 best_net, best_loan, best_detail = d["net_usd"], loan, d
-    return {"optimal_loan_usd": round(best_loan, 2), "net_usd": round(best_net, 2),
-            "gross_usd": round(best_detail.get("gross_usd", 0.0), 2),
-            "usdc_back": round(best_detail.get("usdc_back", 0.0), 2),
-            "cap_usd": round(hi, 2),
-            "flash_fee_usd": round(best_detail.get("flash_fee_usd", 0.0), 2),
-            "dex_fees_usd": round(best_detail.get("dex_fees_usd", 0.0), 2),
+    # Audit #9 — AUCUN arrondi ici : decide() utilise ces valeurs pour
+    # trancher ; un net de +0,003 $ arrondi à 0,00 $ serait rejeté à tort
+    # (min_profit=0 sur Polygon). L'arrondi n'a lieu qu'à l'affichage
+    # (evaluate_sizes, prints). Les valeurs sont en pleine précision float.
+    # Le loan est plafonné à hi (la grille peut dépasser hi d'un epsilon
+    # float : 50 000,00000000015 $ ne doit jamais sortir d'ici).
+    best_loan = min(best_loan, hi)
+    return {"optimal_loan_usd": best_loan, "net_usd": best_net,
+            "gross_usd": best_detail.get("gross_usd", 0.0),
+            "usdc_back": best_detail.get("usdc_back", 0.0),
+            "cap_usd": hi,
+            "flash_fee_usd": best_detail.get("flash_fee_usd", 0.0),
+            "dex_fees_usd": best_detail.get("dex_fees_usd", 0.0),
             "gas_usd": costs.gas_usd}
 
 

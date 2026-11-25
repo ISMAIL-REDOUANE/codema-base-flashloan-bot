@@ -38,8 +38,15 @@ from scanner import MemeCandidate
 # Balancer MORT (BIP-928, wind-down 30 oct 2026) : ne plus l'utiliser.
 from morpho_flash import (MORPHO_FLASH_FEE, costs_for_provider,
                           fetch_morpho_balances, select_provider)
+# Audit #7 — route typée : seuls les kinds exécutables par les contrats
+# disponibles passent (V2 par défaut ; V3-Uni seulement si l'adaptateur
+# MorphoFlashLoanArbitrageV3 est autorisé explicitement).
+from route import (CBBTC, USDC as ROUTE_USDC, WETH as ROUTE_WETH,
+                   build_route_from_candidate, route_executable_by_contract)
 
 USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+WETH = "0x4200000000000000000000000000000000000006"
+CBBTC_ADDR = CBBTC
 ROUTER_BY_DEX = {
     "aerodrome": "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
     "uniswap": "0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24",
@@ -66,7 +73,14 @@ def simulate_evm(candidate: MemeCandidate, loan_usd: float, rpc_url: str,
         return None
     loan_raw = int(loan_usd * 1e6)  # USDC : 6 décimales
     # Aerodrome n'a PAS getAmountsOut V2 (fork §7.1) : cotation Route-based.
-    from preflight import AERODROME_ROUTER
+    from preflight import AERODROME_ROUTER, get_block_number
+    # Audit #6 : les deux quotes sont épinglées sur UN SEUL bloc (lu une
+    # fois ici) — plus de « latest » qui peut changer entre les jambes.
+    block = get_block_number(rpc_url, timeout)
+    # Audit #12 : les données de la transaction exacte (executeArbitrage)
+    # pour mesurer le frais L1 sur l'oracle.
+    from gas import execute_arbitrage_calldata
+    tx_data = execute_arbitrage_calldata(loan_raw)
     return preflight_roundtrip(
         rpc_url, loan_raw, USDC, candidate.token_address, USDC,
         router_buy, router_sell,
@@ -77,7 +91,8 @@ def simulate_evm(candidate: MemeCandidate, loan_usd: float, rpc_url: str,
         token_out_decimals=6,
         router_buy_is_aero=(router_buy.lower() == AERODROME_ROUTER.lower()),
         router_sell_is_aero=(router_sell.lower() == AERODROME_ROUTER.lower()),
-        timeout=timeout)
+        timeout=timeout, block_number=block, tx_data=tx_data,
+        eth_price_source="config.yaml (3000 $/ETH, hypothèse — voir gas.py)")
 
 
 @dataclass
@@ -98,7 +113,9 @@ class SimulationResult:
 def simulate(candidate: MemeCandidate, costs: Optional[Costs] = None,
              max_loan_usd: float = 50_000.0,
              max_pct_liquidity: float = 0.10,
-             vault_balances: Optional[Dict] = None) -> SimulationResult:
+             vault_balances: Optional[Dict] = None,
+             loan_token: str = USDC, loan_token_symbol: str = "USDC",
+             adapters: tuple = ("v2",)) -> SimulationResult:
     """Simulation off-chain PURE (que du calcul, aucun appel réseau en v1).
     En prod : remplacer par un eth_call sur un fork (Anvil/Tenderly) qui
     exécute executeOperation() à blanc — même logique, même verdict.
@@ -108,19 +125,71 @@ def simulate(candidate: MemeCandidate, costs: Optional[Costs] = None,
     RE-décide avec le taux 0 % (l'optimal bouge très légèrement).
     vault_balances=None -> soldes MESURÉS bloc 61 806 974 (datés, dit
     clairement dans morpho_flash.py) ; avec un RPC, passer les soldes
-    live lus par fetch_morpho_balances()."""
+    live lus par fetch_morpho_balances().
+    Audit #7 — EXÉCUTABILITÉ : la route typée (route.py) est vérifiée
+    AVANT tout verdict EXECUTE. Une jambe Aerodrome Classic, Slipstream,
+    V3 ou V4 (sans adaptateur autorisé) -> SKIP avec la raison explicite ;
+    on ne prétend plus qu'une route CL est exécutable. adapters=("v2",)
+    par défaut ; passer ("v2", "v3-uni") quand l'adaptateur V3 est
+    déployé et câblé. Audit #7 — PRÊT cbBTC : loan_token_symbol autre
+    que USDC/WETH exige des soldes vérifiés pour ce token (vault_balances
+    doit le contenir) — sinon SKIP explicite, jamais supposé disponible.
+    Audit #14 — REVALIDATION DU PLAFOND : après la RE-décision, on
+    vérifie que la nouvelle taille optimale tient encore dans le plafond
+    du provider choisi ; sinon on plafonne le loan au plafond et on
+    re-décide une dernière fois (la taille ne dépasse jamais le plafond
+    du provider dans le verdict final)."""
     costs = costs or Costs()
+    # 0) Route typée : exécutable par les contrats disponibles ?
+    route = build_route_from_candidate(candidate, loan_token=loan_token,
+                                       loan_token_symbol=loan_token_symbol)
+    ok_route, route_reason = route_executable_by_contract(route, adapters)
+    if not ok_route:
+        return SimulationResult(
+            action="SKIP", token=candidate.token_address,
+            symbol=candidate.symbol, loan_usd=0.0, expected_net_usd=0.0,
+            gas_usd=costs.gas_usd, gas_paid_usd=0.0,
+            reasons=[f"route non exécutable : {route_reason}"],
+            spread_pct=candidate.spread(), provider="n/a",
+            provider_reason="aucun contrat disponible pour cette route")
+    # 0b) Prêt dans un token sans soldes vérifiés -> refus explicite.
+    if loan_token_symbol.upper() not in ("USDC", "WETH"):
+        known = (vault_balances or {}).get(loan_token_symbol.upper())
+        if known is None:
+            return SimulationResult(
+                action="SKIP", token=candidate.token_address,
+                symbol=candidate.symbol, loan_usd=0.0, expected_net_usd=0.0,
+                gas_usd=costs.gas_usd, gas_paid_usd=0.0,
+                reasons=[f"prêt {loan_token_symbol} non intégré : soldes "
+                         "Morpho non vérifiés pour ce token (ni live ni "
+                         "mesurés) — fournir vault_balances pour ce token"],
+                spread_pct=candidate.spread(), provider="n/a",
+                provider_reason="soldes du token emprunté non vérifiés")
     # 1) taille candidate avec le taux du caller (défaut Aave 0,05 %).
     d0 = decide(candidate.pool_a, candidate.pool_b, costs,
                 max_loan_usd, max_pct_liquidity)
     # 2) choix du provider pour cette taille, puis RE-décision avec le
-    #    taux du provider choisi (0 % Balancer ou 0,05 % Aave) — l'optimal
+    #    taux du provider choisi (0 % Morpho ou 0,05 % Aave) — l'optimal
     #    bouge légèrement avec le taux, donc on ne réutilise jamais d0
     #    tel quel quand le provider change.
-    sel = select_provider(d0["optimal_loan_usd"], "USDC", vault_balances)
+    sel = select_provider(d0["optimal_loan_usd"], loan_token_symbol,
+                          vault_balances)
     costs = costs_for_provider(sel.provider, costs)
     d = decide(candidate.pool_a, candidate.pool_b, costs,
                max_loan_usd, max_pct_liquidity)
+    # 3) Audit #14 — revalidation du plafond APRÈS réoptimisation : la
+    #    nouvelle taille optimale peut dépasser le plafond Morpho (le
+    #    taux 0 % autorise des loans plus gros). Si oui, on plafonne le
+    #    loan au plafond utilisable et on re-décide (decide() respecte
+    #    max_loan_usd, donc la taille finale tient dans le plafond).
+    if sel.provider == "morpho" and d["optimal_loan_usd"] > sel.usable_usd:
+        d = decide(candidate.pool_a, candidate.pool_b, costs,
+                   min(max_loan_usd, sel.usable_usd), max_pct_liquidity)
+        sel = select_provider(d["optimal_loan_usd"], loan_token_symbol,
+                              vault_balances)
+        costs = costs_for_provider(sel.provider, costs)
+        d = decide(candidate.pool_a, candidate.pool_b, costs,
+                   min(max_loan_usd, sel.usable_usd), max_pct_liquidity)
     return SimulationResult(
         action=d["action"], token=candidate.token_address,
         symbol=candidate.symbol, loan_usd=d["optimal_loan_usd"],
@@ -172,8 +241,16 @@ def run(opportunities: List[MemeCandidate], costs: Optional[Costs] = None,
     if rpc_url and vault_balances is None:
         vault_balances = fetch_morpho_balances(rpc_url)
         if vault_balances is None:
-            print("[v3.3] soldes Morpho illisibles (RPC) -> soldes mesurés "
-                  "bloc 61 806 974 utilisés pour le choix du provider")
+            # Audit #14 : la lecture live a ÉCHOUÉ alors qu'un RPC a été
+            # demandé — on n'accepte AUCUN verdict exécutable fondé sur
+            # les soldes datés (bloc 61 806 974). Morpho est supposé
+            # indisponible (soldes 0) -> repli Aave par select_provider.
+            # Les soldes datés ne servent plus que quand AUCUN RPC n'est
+            # demandé (simulate() direct, hors run live).
+            print("[v3.3] soldes Morpho illisibles (RPC) -> Morpho supposé "
+                  "indisponible (soldes 0) : repli Aave ; AUCUN verdict "
+                  "exécutable sur les soldes mesurés bloc 61 806 974")
+            vault_balances = {"USDC": 0.0, "WETH": 0.0}
     results: List[SimulationResult] = []
     for opp in opportunities:
         r = simulate(opp, costs, vault_balances=vault_balances, **kw)
@@ -304,14 +381,16 @@ def run(opportunities: List[MemeCandidate], costs: Optional[Costs] = None,
 if __name__ == "__main__":
     from scanner import MemeCandidate
     costs = Costs()  # v2 : gas unifié (0,0675 $), min profit 3 $
-    # 1) Gagnant : spread 20 %, petites pools
-    win = MemeCandidate("0xAAA", "MEME-WIN", "aerodrome", "uniswap",
-                        Pool("Aero", 20_000, 20_000_000),
-                        Pool("UniV2", 18_000, 15_000_000),
+    # 1) Gagnant : spread 20 %, petites pools — jambes V2 UNIQUEMENT
+    # (audit #7 : "aerodrome" n'est PAS exécutable par le contrat V2,
+    # son router n'a pas l'interface swapExactTokensForTokens).
+    win = MemeCandidate("0xAAA", "MEME-WIN", "uniswap", "sushi",
+                        Pool("UniV2", 20_000, 20_000_000),
+                        Pool("SushiV2", 18_000, 15_000_000),
                         liquidity_usd=36_000, holders=150, age_hours=10)
     # 2) Perdant : spread 2 % seulement
-    lose = MemeCandidate("0xBBB", "MEME-LOSE", "aerodrome", "uniswap",
-                         Pool("Aero", 50_000, 50_000_000),
-                         Pool("UniV2", 50_000, 49_000_000),
+    lose = MemeCandidate("0xBBB", "MEME-LOSE", "uniswap", "sushi",
+                         Pool("UniV2", 50_000, 50_000_000),
+                         Pool("SushiV2", 50_000, 49_000_000),
                          liquidity_usd=100_000, holders=200, age_hours=5)
     run([win, lose], costs)

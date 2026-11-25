@@ -59,6 +59,7 @@ manuelle, et le bot reste en simulation (dry_run).
 from __future__ import annotations
 
 import json
+import os
 import re
 from dataclasses import dataclass, field
 from datetime import date
@@ -76,7 +77,18 @@ ALLOWED_PROVIDERS_DEFAULT = ("morpho",)
 CDP_CREDITS_APPROVED = False
 
 
+def _round_usd(x: float) -> float:
+    """Arrondi au micro-dollar (6 décimales) — précision comptable interne
+    (audit #9). Un gas de 0,0044 $ survit : 100 charges = 0,44 $, pas 0 $.
+    L'arrondi au centime n'a lieu qu'à l'AFFICHAGE (format :.2f) ou pour
+    les partages de paiement (en cents)."""
+    v = round(float(x) + 1e-12, 6)
+    return 0.0 if v == 0 else v
+
+
 def _round2(x: float) -> float:
+    """Arrondi au centime — AFFICHAGE UNIQUEMENT. Ne JAMAIS l'utiliser
+    pour accumuler des coûts (audit #9)."""
     v = round(float(x) + 1e-9, 2)
     return 0.0 if v == 0 else v
 
@@ -111,10 +123,10 @@ class ZeroCostGuard:
         """Enregistre une charge à Ismail. Retourne False et DÉCLENCHE le
         kill switch dès que amount > 0 (même 0,01 $) : on arrête tout
         avant de comprendre. amount == 0 : rien ne se passe (cas normal)."""
-        amount = _round2(amount_usd)
+        amount = _round_usd(amount_usd)
         if amount <= 0:
             return True
-        self.ismail_paid_usd = _round2(self.ismail_paid_usd + amount)
+        self.ismail_paid_usd = _round_usd(self.ismail_paid_usd + amount)
         self.tripped = True
         self.trip_reason = (f"CHARGE ISMAIL DÉTECTÉE : {amount:.2f} $ "
                             f"({why or 'raison inconnue'}) — kill switch, "
@@ -144,7 +156,7 @@ class ZeroCostGuard:
             return False, f"ZERO_COST: kill switch — {self.trip_reason}"
         provider = (trade.get("provider") or "").lower()
         # Prime du trade (calculée si absente du dict : loan × taux).
-        flash_fee_usd = _round2(trade.get("flash_fee_usd",
+        flash_fee_usd = _round_usd(trade.get("flash_fee_usd",
                                           trade.get("loan_usd", 0.0)
                                           * trade.get("flash_fee_rate", 0.0)))
         net_usd = trade.get("expected_net_usd", 0.0)
@@ -175,7 +187,7 @@ class ZeroCostGuard:
             return self._check_self_funded(trade, net_usd)
         # Gas : qui paie ? Jamais Ismail. Sponsor = prefund ; CDP = crédits
         # (bloqués tant que la demande n'est pas approuvée).
-        gas_usd = _round2(trade.get("gas_usd", 0.0))
+        gas_usd = _round_usd(trade.get("gas_usd", 0.0))
         gas_payer = (trade.get("gas_payer") or self.gas_payer).lower()
         if gas_payer == "ismail":
             self.trades_blocked += 1
@@ -197,7 +209,7 @@ class ZeroCostGuard:
             self.trades_blocked += 1
             return False, f"ZERO_COST: payeur de gas inconnu '{gas_payer}'"
         # Toute autre ligne de coût à la charge d'Ismail.
-        ismail_cost = _round2(trade.get("ismail_cost_usd", 0.0))
+        ismail_cost = _round_usd(trade.get("ismail_cost_usd", 0.0))
         if ismail_cost > self.ismail_pays_usd_max:
             self.trades_blocked += 1
             return False, (f"ZERO_COST: Ismail paierait {ismail_cost:.2f} $ "
@@ -210,7 +222,7 @@ class ZeroCostGuard:
         couvre le pire cas (gas + budget revert), (3) le net simulé reste
         >= min_profit $ APRÈS gas + prime. Le flash loan reste Morpho 0 %
         (vérifié par l'appelant, avant cette branche)."""
-        gas_usd = _round2(trade.get("gas_usd", 0.0))
+        gas_usd = _round_usd(trade.get("gas_usd", 0.0))
         gas_payer = (trade.get("gas_payer") or self.gas_payer).lower()
         if gas_payer != "ismail":
             self.trades_blocked += 1
@@ -225,13 +237,13 @@ class ZeroCostGuard:
         revert_budget = trade.get("revert_budget_usd")
         if revert_budget is None:
             revert_budget = gas_usd  # un revert coûte ~ le même gas que le trade
-        worst = _round2(gas_usd + _round2(revert_budget))
-        if worst > _round2(float_remaining):
+        worst = _round_usd(gas_usd + _round_usd(revert_budget))
+        if worst > _round_usd(float_remaining):
             self.trades_blocked += 1
             return False, (f"SELF_FUNDED: pire cas {worst:.2f} $ (gas "
                            f"{gas_usd:.2f} $ + budget revert "
-                           f"{_round2(revert_budget):.2f} $) > float restant "
-                           f"{_round2(float_remaining):.2f} $ — trade bloqué, "
+                           f"{_round_usd(revert_budget):.2f} $) > float restant "
+                           f"{_round_usd(float_remaining):.2f} $ — trade bloqué, "
                            f"Ismail ne trade pas à découvert")
         min_profit = trade.get("min_profit_usd", 3.0)
         if net_usd <= min_profit:
@@ -240,13 +252,13 @@ class ZeroCostGuard:
                            f"{min_profit:.2f} $ APRÈS gas + prime — trade bloqué")
         # Coût hors-gas à la charge d'Ismail : toujours interdit (le float
         # ne couvre QUE le gas, pas d'autres frais surprises).
-        ismail_cost = _round2(trade.get("ismail_cost_usd", 0.0))
+        ismail_cost = _round_usd(trade.get("ismail_cost_usd", 0.0))
         if ismail_cost > 0:
             self.trades_blocked += 1
             return False, (f"SELF_FUNDED: coût hors-gas {ismail_cost:.2f} $ à "
                            f"la charge d'Ismail — le float ne couvre que le gas")
         return True, (f"OK self-funded — gas {gas_usd:.2f} $ sur le float "
-                      f"d'Ismail (restant {_round2(float_remaining):.2f} $), "
+                      f"d'Ismail (restant {_round_usd(float_remaining):.2f} $), "
                       f"net {net_usd:.2f} $ après gas, Ismail garde 100 %")
 
     # ------------------------------------------------------------------ ledger
@@ -257,10 +269,10 @@ class ZeroCostGuard:
         rien payé. Utilisé quand aucun sponsor n'est branché (sinon c'est
         sponsor.record_trade qui écrit la ligne, avec extra)."""
         entry = {"date": date.today().isoformat(), "symbol": symbol,
-                 "action": "EXECUTE", "net_usd": _round2(net_usd),
-                 "gas_usd": _round2(gas_usd), "provider": provider,
+                 "action": "EXECUTE", "net_usd": _round_usd(net_usd),
+                 "gas_usd": _round_usd(gas_usd), "provider": provider,
                  "blocked": False, "simulated": simulated,
-                 "zero_cost": True, "ismail_paid_usd": _round2(self.ismail_paid_usd)}
+                 "zero_cost": True, "ismail_paid_usd": _round_usd(self.ismail_paid_usd)}
         if self.trades_path:
             with open(self.trades_path, "a") as f:
                 f.write(json.dumps(entry) + "\n")
@@ -270,7 +282,7 @@ class ZeroCostGuard:
         return {"enabled": self.enabled,
                 "mode": self.mode,
                 "ismail_pays_usd_max": self.ismail_pays_usd_max,
-                "ismail_paid_usd": _round2(self.ismail_paid_usd),
+                "ismail_paid_usd": _round_usd(self.ismail_paid_usd),
                 "allowed_flash_providers": list(self.allowed_flash_providers),
                 "rpc": self.rpc, "gas_payer": self.gas_payer,
                 "cdp_credits_approved": self.cdp_credits_approved,
@@ -293,7 +305,7 @@ def trade_from_result(result, gas_payer: str = "sponsor",
     fee_rate = FLASH_FEE_BY_PROVIDER.get((result.provider or "").lower(), 0.0)
     return {"provider": result.provider,
             "flash_fee_rate": fee_rate,
-            "flash_fee_usd": _round2(result.loan_usd * fee_rate),
+            "flash_fee_usd": _round_usd(result.loan_usd * fee_rate),
             "loan_usd": result.loan_usd,
             "expected_net_usd": result.expected_net_usd,
             "gas_usd": result.gas_usd,
@@ -306,7 +318,11 @@ def trade_from_result(result, gas_payer: str = "sponsor",
             "cdp_credits_approved": cdp_credits_approved}
 
 
-def load_from_config(path: str = "config.yaml") -> "ZeroCostGuard":
+def load_from_config(path: Optional[str] = None) -> "ZeroCostGuard":
+    """Lit la section de config.yaml (audit #13 : chemin par
+    argument, sinon variable d'environnement CODEMA_CONFIG,
+    sinon "config.yaml")."""
+    path = path or os.environ.get("CODEMA_CONFIG") or "config.yaml"
     """Lit la section `zero_cost:` de config.yaml (parseur simple, sans
     dépendance YAML — comme sponsor.load_from_config).
     v3.4 : lit AUSSI la section `funding:` — si `funding.payer ==

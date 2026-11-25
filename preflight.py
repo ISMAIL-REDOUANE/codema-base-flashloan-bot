@@ -41,6 +41,11 @@ AERODROME_FACTORY = "0x420DD381b31aEf6683db6B902084cB0FFECe40Da"
 
 MAX_BLOCK_AGE = 2          # fraîcheur : quote de plus de 2 blocs = rejetée
 PUBLIC_BASE_RPC = "https://mainnet.base.org"
+# Surcoût gas forfaitaire au-delà des 2 swaps (audit #6) : flash Morpho +
+# callback onMorphoFlashLoan + 2 approve + remboursement. Valeur
+# documentée comme ESTIMATION (pas une mesure) ; la mesure réelle vient
+# du fork (fork_preflight.py) — à mettre à jour si elle diverge.
+FORK_TX_OVERHEAD_GAS = 150_000
 
 
 @dataclass
@@ -52,6 +57,7 @@ class PreflightResult:
     net_usd: float = 0.0
     gas_units_est: int = 0
     gas_cost_usd: float = 0.0
+    l1_fee_usd: float = 0.0        # audit #12 : frais L1 mesuré (0 si non mesuré)
     block_number: Optional[int] = None
     quote_source: str = ""       # ex. "getAmountsOut UniV2 + Aerodrome (on-chain)"
     reasons: List[str] = field(default_factory=list)
@@ -96,18 +102,25 @@ def decode_amounts_out(raw: bytes) -> List[int]:
     return [int.from_bytes(raw[64 + 32 * i:96 + 32 * i], "big") for i in range(n)]
 
 
-def eth_call(rpc_url: str, to: str, data: bytes, timeout: int = 15) -> bytes:
+def eth_call(rpc_url: str, to: str, data: bytes, block="latest",
+             timeout: int = 15) -> bytes:
+    """eth_call à un bloc FIXÉ (audit #6) : block = numéro de bloc (int)
+    ou "latest". Deux quotes à deux blocs différents ne décrivent pas
+    le même état — on épingle tout le preflight sur un seul bloc."""
+    block_param = hex(block) if isinstance(block, int) else block
     raw_hex = _rpc(rpc_url, "eth_call",
-                   [{"to": to, "data": "0x" + data.hex()}, "latest"], timeout)
+                   [{"to": to, "data": "0x" + data.hex()}, block_param],
+                   timeout)
     return bytes.fromhex(raw_hex[2:])
 
 
 def get_amounts_out(rpc_url: str, router: str, amount_in: int,
-                    path: List[str], timeout: int = 15) -> List[int]:
+                    path: List[str], timeout: int = 15,
+                    block="latest") -> List[int]:
     """Quote on-chain d'un swap via le router (lecture seule, 0 gas)."""
     return decode_amounts_out(eth_call(rpc_url, router,
                                        encode_get_amounts_out(amount_in, path),
-                                       timeout))
+                                       block, timeout))
 
 
 def encode_get_amounts_out_route(amount_in: int,
@@ -123,10 +136,12 @@ def encode_get_amounts_out_route(amount_in: int,
 
 
 def get_amounts_out_route(rpc_url: str, router: str, amount_in: int,
-                          routes: List[tuple], timeout: int = 15) -> List[int]:
+                          routes: List[tuple], timeout: int = 15,
+                          block="latest") -> List[int]:
     """Quote on-chain Aerodrome (Route-based, lecture seule, 0 gas)."""
     return decode_amounts_out(eth_call(
-        rpc_url, router, encode_get_amounts_out_route(amount_in, routes), timeout))
+        rpc_url, router, encode_get_amounts_out_route(amount_in, routes),
+        block, timeout))
 
 
 def aero_route(token_in: str, token_out: str, stable: bool = False) -> List[tuple]:
@@ -134,16 +149,18 @@ def aero_route(token_in: str, token_out: str, stable: bool = False) -> List[tupl
     return [(token_in, token_out, stable, AERODROME_FACTORY)]
 
 
-def get_reserves(rpc_url: str, pair: str, timeout: int = 15) -> tuple[int, int, int]:
+def get_reserves(rpc_url: str, pair: str, timeout: int = 15,
+                 block="latest") -> tuple[int, int, int]:
     """getReserves() d'une paire V2 : (reserve0, reserve1, timestamp)."""
-    raw = eth_call(rpc_url, pair, SELECTOR_GET_RESERVES, timeout)
+    raw = eth_call(rpc_url, pair, SELECTOR_GET_RESERVES, block, timeout)
     return (int.from_bytes(raw[0:32], "big"),
             int.from_bytes(raw[32:64], "big"),
             int.from_bytes(raw[64:96], "big"))
 
 
 def estimate_gas_swap(rpc_url: str, router: str, from_addr: str,
-                      amount_in: int, path: List[str], timeout: int = 15) -> Optional[int]:
+                      amount_in: int, path: List[str], timeout: int = 15,
+                      block="latest") -> Optional[int]:
     """eth_estimateGas d'un swapExactTokensForTokens (sélecteur 0x38ed1739).
     Retourne None si l'estimation échoue (= le swap reverterait)."""
     # swapExactTokensForTokens(uint256,uint256,address[],address,uint256)
@@ -155,9 +172,11 @@ def estimate_gas_swap(rpc_url: str, router: str, from_addr: str,
     for a in path:
         data += _addr_b32(a)
     try:
-        res = _rpc(rpc_url, "eth_estimateGas",
-                   [{"from": from_addr, "to": router, "data": "0x" + data.hex()}],
-                   timeout)
+        params = [{"from": from_addr, "to": router,
+                   "data": "0x" + data.hex()}]
+        if isinstance(block, int):
+            params.append(hex(block))
+        res = _rpc(rpc_url, "eth_estimateGas", params, timeout)
         return int(res, 16)
     except Exception:
         return None
@@ -180,29 +199,52 @@ def preflight_roundtrip(rpc_url: str, loan_raw: int, token_in: str, token_mid: s
                         loan_usd: float = 0.0, token_out_decimals: int = 6,
                         router_buy_is_aero: bool = False,
                         router_sell_is_aero: bool = False,
-                        timeout: int = 15) -> PreflightResult:
+                        timeout: int = 15,
+                        block_number: Optional[int] = None,
+                        tx_data: Optional[bytes] = None,
+                        eth_price_source: str = "config") -> PreflightResult:
     """Simule le round-trip complet avec les VRAIS routers on-chain :
     token_in --router_buy--> token_mid --router_sell--> token_out.
     Les jambes Aerodrome utilisent la cotation Route-based (le router
     Aerodrome n'a PAS getAmountsOut V2 — FORK_TEST_RESULTS.md §7.1).
     loan_usd : valeur en $ du loan (pour exprimer le net en $).
     Si token_out est l'USDC (6 décimales), amount_out_raw / 1e6 = USDC récupérés.
-    Ne broadcast RIEN : que des eth_call."""
-    block = get_block_number(rpc_url, timeout)
+    Ne broadcast RIEN : que des eth_call / eth_estimateGas.
+
+    Audit #6 — CORRIGÉ :
+    * les deux quotes sont épinglées sur UN SEUL bloc (block_number, ou
+      le bloc courant lu une fois) — plus de « latest » qui peut changer
+      entre les deux jambes ;
+    * le gas reste forfaitaire ICI, avec la raison écrite : estimer un
+      swap par jambe avec eth_estimateGas depuis un EOA est impossible
+      pour ce flux (les jetons n'existent qu'au milieu de la transaction,
+      après le flash loan — l'estimation reverterait sur solde nul). Le
+      gas de CETTE transaction exacte est mesuré sur fork par
+      fork_preflight.py (contrat déployé sur fork, appelant = le contrat,
+      bloc fixé, eth_estimateGas + envoi simulé). Voir ce module.
+    * le net est rendu en pleine précision (audit #9 : pas d'arrondi
+      au centime dans une décision).
+    """
+    block = block_number if block_number is not None \
+        else get_block_number(rpc_url, timeout)
     try:
         if router_buy_is_aero:
             amounts_buy = get_amounts_out_route(
-                rpc_url, router_buy, loan_raw, aero_route(token_in, token_mid), timeout)
+                rpc_url, router_buy, loan_raw, aero_route(token_in, token_mid),
+                timeout, block if block is not None else "latest")
         else:
             amounts_buy = get_amounts_out(rpc_url, router_buy, loan_raw,
-                                          [token_in, token_mid], timeout)
+                                          [token_in, token_mid], timeout,
+                                          block if block is not None else "latest")
         mid_bought = amounts_buy[-1]
         if router_sell_is_aero:
             amounts_sell = get_amounts_out_route(
-                rpc_url, router_sell, mid_bought, aero_route(token_mid, token_out), timeout)
+                rpc_url, router_sell, mid_bought, aero_route(token_mid, token_out),
+                timeout, block if block is not None else "latest")
         else:
             amounts_sell = get_amounts_out(rpc_url, router_sell, mid_bought,
-                                           [token_mid, token_out], timeout)
+                                           [token_mid, token_out], timeout,
+                                           block if block is not None else "latest")
         out_raw = amounts_sell[-1]
     except Exception as e:
         return PreflightResult(status="UNAVAILABLE", amount_in_raw=loan_raw,
@@ -211,23 +253,49 @@ def preflight_roundtrip(rpc_url: str, loan_raw: int, token_in: str, token_mid: s
                                error=f"preflight indisponible : {type(e).__name__}: {e}",
                                reasons=["preflight indisponible -> SKIP (on n'envoie rien "
                                         "sans simulation EVM)"])
+    # Gas : forfaitaire ici (voir docstring — l'estimation de la
+    # transaction exacte se fait sur fork, fork_preflight.py).
+    gas_note = (f"gas forfaitaire {gas_units} unités (estimation par jambe "
+                "impossible hors fork : les jetons n'existent qu'après le "
+                "flash loan — voir fork_preflight.py pour le gas exact)")
     out_usd = out_raw / (10 ** token_out_decimals)
     gross = out_usd - loan_usd
     flash_fee = loan_usd * flash_fee_rate
     gas_cost = gas_units * gas_price_gwei * 1e-9 * eth_price_usd
+    # Frais L1 (audit #12) : si les données de la transaction exacte sont
+    # fournies, on ajoute le data fee mesuré sur l'oracle. Sans tx_data,
+    # le L1 n'est pas compté — la raison le dit (pas de chiffre inventé).
+    l1_fee_usd = 0.0
+    l1_note = "frais L1 non mesuré (tx_data non fourni)"
+    if tx_data is not None:
+        try:
+            from gas import estimate_full_tx_cost_usd, EthPrice
+            full = estimate_full_tx_cost_usd(
+                rpc_url, tx_data, gas_units, gas_price_gwei,
+                EthPrice(usd=eth_price_usd, source=eth_price_source),
+                block if block is not None else "latest", timeout)
+            l1_fee_usd = full["l1_fee_usd"]
+            l1_note = (f"frais L1 mesuré (oracle) : {l1_fee_usd:.6f} $ "
+                       f"(prix ETH : {eth_price_source})")
+        except Exception as e:  # noqa: BLE001
+            l1_note = f"frais L1 illisible ({type(e).__name__}) — non compté"
+    gas_cost += l1_fee_usd
     net = gross - flash_fee - gas_cost
-    reasons: List[str] = []
+    reasons: List[str] = [gas_note, l1_note]
+    negative: List[str] = []
     if net <= 0:
-        reasons.append(f"net on-chain négatif ({net:.2f} $)")
+        negative.append(f"net on-chain négatif ({net:.2f} $)")
     if net <= min_profit_usd:
-        reasons.append(f"net on-chain {net:.2f} $ <= min {min_profit_usd:.2f} $")
+        negative.append(f"net on-chain {net:.2f} $ <= min {min_profit_usd:.2f} $")
     if net <= gas_cost * gas_multiple:
-        reasons.append(f"net {net:.2f} $ <= gas x {gas_multiple} ({gas_cost * gas_multiple:.2f} $)")
-    status = "WIN" if not reasons else "LOSE"
+        negative.append(f"net {net:.2f} $ <= gas x {gas_multiple} ({gas_cost * gas_multiple:.2f} $)")
+    reasons += negative
+    status = "WIN" if not negative else "LOSE"
     return PreflightResult(status=status, amount_in_raw=loan_raw,
-                           amount_out_raw=out_raw, gross_usd=round(gross, 2),
-                           net_usd=round(net, 2), gas_units_est=gas_units,
-                           gas_cost_usd=round(gas_cost, 4), block_number=block,
+                           amount_out_raw=out_raw, gross_usd=gross,
+                           net_usd=net, gas_units_est=gas_units,
+                           gas_cost_usd=gas_cost, l1_fee_usd=l1_fee_usd,
+                           block_number=block,
                            quote_source="getAmountsOut UniV2/Aerodrome (on-chain)",
                            reasons=reasons)
 

@@ -35,6 +35,27 @@ DEFAULT_ETH_PRICE_USD = 3000.0     # hypothèse config.yaml — remplacer par or
 GAS_PRICE_MAX_GWEI = 2.0           # PLAFOND : au-dessus, on ne broadcast rien
 PUBLIC_BASE_RPC = "https://mainnet.base.org"   # public, sans clé — tests/fork seulement
 
+# ------------------------------------------------------------------ frais L1 (audit #12)
+# Base est un L2 OP Stack : chaque transaction paie EN PLUS du gas L2
+# le coût de publication de ses données sur L1 (data fee), calculé par
+# le précompilé GasPriceOracle (adresse fixe sur tous les OP Stack).
+GAS_PRICE_ORACLE = "0x420000000000000000000000000000000000000F"
+# Sélecteurs vérifiés par keccak le 2026-11-25 :
+SELECTOR_GET_L1_FEE = bytes.fromhex("49948e0e")  # getL1Fee(bytes)
+SELECTOR_EXECUTE_ARBITRAGE = bytes.fromhex("f7c7724f")  # executeArbitrage(uint256)
+COINGECKO_SIMPLE_PRICE = ("https://api.coingecko.com/api/v3/simple/price"
+                          "?ids=ethereum&vs_currencies=usd")
+
+
+@dataclass
+class EthPrice:
+    """Prix ETH avec sa provenance DATÉE (audit #12) : un prix sans
+    source ni date est un chiffre inventé — il ne doit jamais entrer
+    dans un calcul de coût."""
+    usd: float
+    source: str                    # ex. "coingecko 2026-11-25T12:00:00Z"
+    fetched_at: str = ""           # ISO 8601 UTC
+
 
 @dataclass
 class GasReading:
@@ -44,11 +65,18 @@ class GasReading:
     eth_price_usd: float
     source: str                    # "rpc_live" | "config_default" | "fallback"
     block_number: Optional[int] = None
+    l1_fee_usd: float = 0.0        # audit #12 : frais L1 (0 si non mesuré)
+    l1_source: str = ""            # "oracle_live" | "" (non mesuré)
 
     @property
     def gas_cost_usd(self) -> float:
         return gas_cost_usd_from_gwei(self.gas_units, self.gas_price_gwei,
                                       self.eth_price_usd)
+
+    @property
+    def total_cost_usd(self) -> float:
+        """Coût COMPLET de la transaction : exécution L2 + frais L1."""
+        return self.gas_cost_usd + self.l1_fee_usd
 
     @property
     def over_cap(self) -> bool:
@@ -70,6 +98,73 @@ def gas_cost_usd(gas_units: int = DEFAULT_GAS_UNITS,
     """Coût gas par défaut, UNIFIÉ avec config.yaml :
     450 000 × 0,05 gwei × 3 000 $ = 0,0675 $ (et non 1,20 $ comme en v1)."""
     return gas_cost_usd_from_gwei(gas_units, gas_price_gwei, eth_price_usd)
+
+
+def execute_arbitrage_calldata(amount_raw: int) -> bytes:
+    """Calldata de executeArbitrage(amount) du contrat Morpho/V3
+    (sélecteur 0xf7c7724f vérifié par keccak). Sert à mesurer le frais
+    L1 de CETTE transaction exacte (sa taille = ses données publiées)."""
+    return SELECTOR_EXECUTE_ARBITRAGE + int(amount_raw).to_bytes(32, "big")
+
+
+def get_l1_fee_wei(rpc_url: str, tx_data: bytes,
+                   block="latest", timeout: int = 10) -> int:
+    """Frais L1 (en wei) pour publier tx_data, lu sur le GasPriceOracle
+    (getL1Fee). Lève une exception si l'oracle ne répond pas."""
+    block_param = hex(block) if isinstance(block, int) else block
+    calldata = SELECTOR_GET_L1_FEE + (32).to_bytes(32, "big") \
+        + len(tx_data).to_bytes(32, "big") + tx_data
+    # Padding à 32 octets (ABI bytes dynamique).
+    if len(tx_data) % 32:
+        calldata += b"\x00" * (32 - len(tx_data) % 32)
+    payload = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "eth_call",
+                          "params": [{"to": GAS_PRICE_ORACLE,
+                                      "data": "0x" + calldata.hex()},
+                                     block_param]}).encode()
+    req = urllib.request.Request(rpc_url, data=payload,
+                                 headers={"Content-Type": "application/json",
+                                          "User-Agent": "codema-flashloan-bot-v2"})
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        out = json.loads(resp.read().decode())
+    if "error" in out:
+        raise RuntimeError(f"GasPriceOracle error: {out['error']}")
+    return int(out["result"], 16)
+
+
+def fetch_eth_price_usd(timeout: int = 10) -> EthPrice:
+    """Prix ETH/USD via CoinGecko (public, sans clé), avec l'heure de
+    récupération. Lève une exception si l'API ne répond pas — l'appelant
+    doit alors utiliser un prix daté explicite, pas un défaut silencieux."""
+    from datetime import datetime, timezone
+    req = urllib.request.Request(COINGECKO_SIMPLE_PRICE,
+                                 headers={"User-Agent": "codema-flashloan-bot-v2"})
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        data = json.loads(resp.read().decode())
+    price = float(data["ethereum"]["usd"])
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    return EthPrice(usd=price, source=f"coingecko {now}", fetched_at=now)
+
+
+def estimate_full_tx_cost_usd(rpc_url: str, tx_data: bytes,
+                              gas_units: int, gas_price_gwei: float,
+                              eth_price: EthPrice,
+                              block="latest", timeout: int = 10) -> dict:
+    """Coût COMPLET de la transaction exacte (audit #12) :
+    exécution L2 (units × gwei × prix ETH) + frais L1 (oracle, sur les
+    données EXACTES de la tx). Le prix ETH doit être daté (EthPrice) :
+    un prix sans source est refusé. Retourne le détail avec sources."""
+    if not eth_price.source:
+        raise ValueError("prix ETH sans source — refusé (audit #12)")
+    l2_usd = gas_cost_usd_from_gwei(gas_units, gas_price_gwei, eth_price.usd)
+    l1_wei = get_l1_fee_wei(rpc_url, tx_data, block, timeout)
+    l1_usd = l1_wei / 1e18 * eth_price.usd
+    return {"l2_cost_usd": l2_usd, "l1_fee_usd": l1_usd,
+            "total_cost_usd": l2_usd + l1_usd,
+            "l1_fee_wei": l1_wei, "gas_units": gas_units,
+            "gas_price_gwei": gas_price_gwei,
+            "eth_price_usd": eth_price.usd,
+            "eth_price_source": eth_price.source,
+            "l1_source": "oracle_live"}
 
 
 def fetch_live_gas_price_gwei(rpc_url: str = PUBLIC_BASE_RPC,

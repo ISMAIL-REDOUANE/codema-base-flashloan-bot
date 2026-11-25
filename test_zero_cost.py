@@ -31,17 +31,24 @@ def _morpho_trade(**over):
 
 
 def _win_candidate():
-    return MemeCandidate("0xAAA", "MEME-WIN", "aerodrome", "uniswap",
+    return MemeCandidate("0xAAA", "MEME-WIN", "uniswap", "sushi",
                          Pool("Aero", 20_000, 20_000_000),
                          Pool("UniV2", 18_000, 15_000_000),
                          liquidity_usd=36_000, holders=150, age_hours=10)
 
 
 def _lose_candidate():
-    return MemeCandidate("0xBBB", "MEME-LOSE", "aerodrome", "uniswap",
+    return MemeCandidate("0xBBB", "MEME-LOSE", "uniswap", "sushi",
                          Pool("Aero", 50_000, 50_000_000),
                          Pool("UniV2", 50_000, 49_000_000),
                          liquidity_usd=100_000, holders=200, age_hours=5)
+
+
+def _config_path() -> str:
+    """Config pour les tests (audit #13) : config.yaml si présent, sinon
+    config.yaml.example — un checkout propre sans config.yaml passe."""
+    from pathlib import Path as _P
+    return "config.yaml" if _P("config.yaml").exists() else "config.yaml.example"
 
 
 def test_morpho_allowed():
@@ -123,7 +130,7 @@ def test_disabled_guard_inactive():
 
 
 def test_load_from_config():
-    g = load_from_config("config.yaml")
+    g = load_from_config(_config_path())
     assert g.enabled is True
     assert g.ismail_pays_usd_max == 0.0
     assert g.allowed_flash_providers == ("morpho",)

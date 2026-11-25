@@ -14,8 +14,18 @@ DEUX VOIES (dans cet ordre de préférence) :
      0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a
      Sélecteur vérifié (keccak + test live 2026-11-24) :
      quoteExactInput = 0xcdca1753 — 100 USDC -> 0,0595 WETH (fee 500).
-     quoteExactInputSingle (0xf7729d43) REVERT sur Base (vérifié : formes
-     tuple + args, fees 500/3000, pools existants) — NE PAS L'UTILISER.
+     quoteExactInputSingle (0xf7729d43) : voir l'encodage ci-dessous —
+     l'ancien helper encodait les champs dans le MAUVAIS ORDRE (audit #8 :
+     fee et amountIn intervertis), donc la « preuve » de revert de
+     2026-11-24 venait d'un calldata invalide, PAS du quoter.
+     L'encodage est corrigé ici (ordre ABI officiel) et RE-TESTÉ live
+     2026-11-25 (bloc ~62 093 375) : avec le calldata CORRECT, la fonction
+     REVERT TOUJOURS sur Base (3 variantes : limit 0 / MAX-1, fees 500 /
+     3000, sens USDC->WETH et WETH->USDC — toutes revert, alors que
+     quoteExactInput sur la même pool répond 100 USDC -> 0,06099 WETH).
+     Conclusion honnête : l'ancienne preuve était invalide, mais la
+     conclusion (« inutilisable sur Base ») se trouve CONFIRMÉE par le
+     test corrigé. On passe par quoteExactInput avec un path à 1 hop.
   2. PYTHON (approximation, un seul tick) : formule V3 à liquidité
      concentrée dans le tick courant — L et √P constants. Valable tant que
      le swap ne traverse pas de tick initialisé ; sinon on le signale
@@ -40,13 +50,20 @@ from typing import Optional
 QUOTER_V2 = "0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a"
 # Sélecteurs keccak vérifiés (web3) le 2026-11-24 :
 #   quoteExactInput(bytes,uint256) = 0xcdca1753  -> FONCTIONNE sur Base (vérifié live)
-#   quoteExactInputSingle(...)    = 0xf7729d43  -> REVERT sur Base (vérifié live :
-#     formes tuple + args séparés, fees 500 et 3000, pools existants confirmés
-#     via factory.getPool — revert sans data à chaque fois). NE PAS UTILISER
-#     quoteExactInputSingle sur Base tant que ce comportement n'est pas expliqué ;
-#     on passe par quoteExactInput avec un path à 1 hop (même prix, même quoter).
+#   quoteExactInputSingle(...)    = 0xf7729d43  -> l'ancien helper
+#     l'encodait avec (tokenIn, tokenOut, fee, amountIn, sqrtPriceLimitX96)
+#     alors que l'ABI officielle IQuoterV2 ExactInputSingleParams est
+#     (tokenIn, tokenOut, amountIn, fee, sqrtPriceLimitX96) — le calldata
+#     était donc INVALIDE (audit #8 : amountIn recevait 500 et fee
+#     recevait 100 000 000 > uint24.max). Le « REVERT sur Base » venait
+#     de là, pas du quoter. L'encodage est corrigé ci-dessous (ordre
+#     officiel) et RE-TESTÉ live 2026-11-25 : avec le calldata CORRECT
+#     la fonction REVERT TOUJOURS sur Base (3 variantes testées) alors
+#     que quoteExactInput répond sur la même pool — la conclusion
+#     « inutilisable sur Base » est donc CONFIRMÉE, cette fois avec une
+#     preuve valide. On utilise quoteExactInput (path à 1 hop).
 SELECTOR_QUOTE_INPUT = bytes.fromhex("cdca1753")
-SELECTOR_QUOTE_SINGLE = bytes.fromhex("f7729d43")  # documenté, inutilisable sur Base
+SELECTOR_QUOTE_SINGLE = bytes.fromhex("f7729d43")
 Q96 = 2 ** 96
 
 
@@ -73,12 +90,52 @@ def _uint_b32(value: int) -> bytes:
 
 def encode_quote_single(token_in: str, token_out: str, fee_bps: int,
                         amount_in: int, sqrt_price_limit_x96: int = 0) -> bytes:
-    """Calldata de quoteExactInputSingle(address,address,uint24,uint256,uint160).
-    CONSERVÉ POUR DOCUMENTATION : cette fonction REVERT sur Base (vérifié
-    2026-11-24). Ne pas l'utiliser pour coter — utiliser encode_quote_path()."""
+    """Calldata de quoteExactInputSingle(ExactInputSingleParams).
+    Ordre ABI OFFICIEL (IQuoterV2, Uniswap swap-router-contracts) :
+      (tokenIn, tokenOut, amountIn, fee, sqrtPriceLimitX96)
+    Audit #8 — l'ancienne version encodait (tokenIn, tokenOut, fee,
+    amountIn, sqrtPriceLimitX96) : amountIn recevait 500 et fee recevait
+    100 000 000 (> uint24.max = 16 777 215) -> calldata invalide, d'où
+    les reverts constatés. Corrigé ici ; decode_quote_single() vérifie
+    les champs décodés (test test_v3_quote_single_encoding)."""
+    if not (0 <= fee_bps <= 0xFFFFFF):
+        raise ValueError(f"fee {fee_bps} hors uint24 (max 16 777 215)")
+    if amount_in < 0:
+        raise ValueError(f"amountIn négatif : {amount_in}")
     return (SELECTOR_QUOTE_SINGLE + _addr_b32(token_in) + _addr_b32(token_out)
-            + _uint_b32(fee_bps) + _uint_b32(amount_in)
+            + _uint_b32(amount_in) + _uint_b32(fee_bps)
             + _uint_b32(sqrt_price_limit_x96))
+
+
+def decode_quote_single(calldata: bytes) -> dict:
+    """Décode un calldata quoteExactInputSingle et vérifie chaque champ
+    (audit #8 : le test ne vérifiait que la longueur, pas les valeurs).
+    Retourne le dict des 5 champs + le sélecteur. Lève ValueError si
+    le sélecteur ou la longueur sont faux."""
+    if len(calldata) != 4 + 5 * 32:
+        raise ValueError(f"calldata quoteExactInputSingle : {len(calldata)} "
+                         f"octets, attendus {4 + 5 * 32}")
+    if calldata[:4] != SELECTOR_QUOTE_SINGLE:
+        raise ValueError(f"sélecteur {calldata[:4].hex()} != "
+                         f"{SELECTOR_QUOTE_SINGLE.hex()}")
+    words = [int.from_bytes(calldata[4 + 32 * i:36 + 32 * i], "big")
+             for i in range(5)]
+    token_in = "0x" + words[0].to_bytes(20, "big").hex()
+    token_out = "0x" + words[1].to_bytes(20, "big").hex()
+    return {"selector": calldata[:4].hex(), "token_in": token_in,
+            "token_out": token_out, "amount_in": words[2], "fee": words[3],
+            "sqrt_price_limit_x96": words[4]}
+
+
+def decode_quote_single_result(raw: bytes) -> dict:
+    """Décode le retour de quoteExactInputSingle :
+    (amountOut, sqrtPriceX96After, ticksCrossed, gasEstimate)."""
+    if len(raw) < 128:
+        raise ValueError(f"retour quoteExactInputSingle trop court : {len(raw)} octets")
+    return {"amount_out": int.from_bytes(raw[0:32], "big"),
+            "sqrt_price_x96_after": int.from_bytes(raw[32:64], "big"),
+            "ticks_crossed": int.from_bytes(raw[64:96], "big"),
+            "gas_estimate": int.from_bytes(raw[96:128], "big")}
 
 
 def encode_quote_path(token_in: str, fee_bps: int, token_out: str,
@@ -141,6 +198,29 @@ def quote_v3_onchain(token_in: str, token_out: str, fee_bps: int,
         return V3Quote(amount_in=amount_in_wei, amount_out=0.0,
                        source="unavailable", fee_bps=fee_bps,
                        error=f"quoter on-chain indisponible : {type(e).__name__}: {e}")
+
+
+def quote_single_onchain(token_in: str, token_out: str, fee_bps: int,
+                         amount_in_wei: int, rpc_url: str,
+                         timeout: int = 15) -> V3Quote:
+    """Quote EXACTE via QuoterV2.quoteExactInputSingle (eth_call, 0 gas),
+    avec l'encodage CORRIGÉ (audit #8). Retourne amount_out brut.
+    Si le quoter revert, la V3Quote porte source="unavailable" avec
+    l'erreur — on ne prétend pas qu'elle fonctionne sans l'avoir testée.
+    Vérifié live 2026-11-25 : voir test_v3_quote_single_live."""
+    try:
+        data = encode_quote_single(token_in, token_out, fee_bps, amount_in_wei)
+        raw = _rpc_eth_call(rpc_url, QUOTER_V2, data, timeout=timeout)
+        res = decode_quote_single_result(raw)
+        return V3Quote(amount_in=amount_in_wei, amount_out=res["amount_out"],
+                       source="quoter_v2_single_onchain", fee_bps=fee_bps,
+                       crossed_tick=res["ticks_crossed"] > 0,
+                       sqrt_price_x96_after=res["sqrt_price_x96_after"],
+                       gas_estimate=res["gas_estimate"])
+    except Exception as e:
+        return V3Quote(amount_in=amount_in_wei, amount_out=0.0,
+                       source="unavailable", fee_bps=fee_bps,
+                       error=f"quoteExactInputSingle indisponible : {type(e).__name__}: {e}")
 
 
 # Largeur d'un tick Uniswap V3 selon le tier de frais (en bps -> tick spacing) :

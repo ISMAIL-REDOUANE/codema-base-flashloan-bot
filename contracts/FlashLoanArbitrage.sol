@@ -327,54 +327,6 @@ contract BalancerFlashLoanArbitrage is IFlashLoanRecipient, Ownable, ReentrancyG
     }
 }
 
-/* ==========================================================================
- * v3.3 — MORPHO BLUE (0 frais par conception) — JAMBE PRINCIPALE
- * ==========================================================================
- * POURQUOI MORPHO (vérifié 2026-11-24, voir RESEARCH.md § Morpho Blue) :
- *    Morpho Blue Base : 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb
- *    (singleton canonique, code 15 623 octets, bloc 61 806 974).
- *    Soldes Morpho Base : USDC 328 711 525,75 $ / WETH 88 713,53
- *    (~148,9 M$) — maxFlashLoan = le solde entier du contrat.
- *    TVL Morpho Blue sur Base : 3,336 Md$ (DefiLlama, 24 nov 2026).
- *
- * SIGNATURES VÉRIFIÉES contre le repo officiel morpho-org/morpho-blue
- * (src/Morpho.sol + src/interfaces/IMorphoCallbacks.sol) et la doc
- * officielle https://docs.morpho.org/developers/contracts/blue/ :
- *    function flashLoan(address token, uint256 assets, bytes calldata data) external;
- *    function onMorphoFlashLoan(uint256 assets, bytes calldata data) external;
- * Sélecteurs vérifiés par keccak : flashLoan = 0xe0232b42,
- * onMorphoFlashLoan = 0x31f57072.
- * Doc officielle : "flashFee is zero", "maxFlashLoan is the token's
- * balance of this contract", "the receiver of assets is the caller".
- * Il n'existe PAS de fonction flashFee sur Morpho : l'eth_call du
- * sélecteur ERC-3156 0xd9d98ce4 REVERT (bloc 61 806 974). Le fee 0 est
- * structurel — aucune gouvernance ne peut le monter (contrairement
- * à Balancer, mort de toute façon — BIP-928).
- *
- * DIFFÉRENCES AVEC AAVE / BALANCER (à ne pas confondre) :
- *    1. Un seul token par appel : flashLoan(token, assets, data).
- *    2. Le RECEIVER est l'appelant (msg.sender) — pas de paramètre
- *       recipient. Le contrat qui appelle reçoit les fonds.
- *    3. Callback = onMorphoFlashLoan(assets, data) — 2 paramètres
- *       seulement (pas de token, pas de fee, pas d'initiator).
- *    4. Remboursement par APPROVE : Morpho tire `assets` via
- *       transferFrom(msg.sender, address(this), assets) APRÈS le
- *       callback. Le callback DOIT donc faire
- *       approve(Morpho, assets) — fee 0, on rembourse EXACTEMENT
- *       `assets`, jamais plus.
- *    5. `data` est NON VIDE (abi.encode(amount)) : le callback
- *       décode le montant attendu et exige decoded == assets.
- *    6. Vérification OBLIGATOIRE : msg.sender == morpho, sinon
- *       n'importe qui peut appeler onMorphoFlashLoan.
- *    7. Aerodrome : le router n'a PAS d'interface V2 (prouvé on-chain,
- *       FORK_TEST_RESULTS.md §7.1) — jambes Uni V2 / BaseSwap V2
- *       seulement dans ce contrat, comme pour Aave et Balancer.
- *
- * TESTÉ SUR FORK (FORK_TEST_RESULTS.md §11, 2026-11-24) : cas gagnant
- * WIN + net >= 3 $, cas perdant SKIP 0 $ + revert confirmé.
- * NON AUDITÉ — ne pas déployer avec de vrais fonds sans audit.
- * ========================================================================== */
-
 interface IMorpho {
     function flashLoan(address token, uint256 assets, bytes calldata data) external;
 }
@@ -484,3 +436,190 @@ contract MorphoFlashLoanArbitrage is IMorphoFlashLoanCallback, Ownable, Reentran
         minProfit = _minProfit;
     }
 }
+
+/// @notice Interface minimale Uniswap V3 SwapRouter02 (audit #7).
+/// @dev Définie ici car v3-core n'est PAS dans lib/ (seuls v2-core,
+///      v2-periphery, uniswap-lib, aave-v3-core, OZ).
+///      ⚠️ PIÈGE VÉRIFIÉ SUR BASE (2026-11-25) : le SwapRouter02 de Base
+///      (0x2626664c2603336E57B271c5C0b26F421741e481, ABI vérifiée sur
+///      Basescan + tx live 0x99bbc7…) utilise le struct IV3SwapRouter à
+///      7 CHAMPS, SANS `deadline` — sélecteur 0x04e45aaf. Le struct à
+///      8 champs (avec deadline, sélecteur 0x414bf389) est celui du
+///      SwapRouter02 canonique (Ethereum) : il REVERT sans raison sur
+///      Base (prouvé en fork : swap direct USDC->WETH sur le vrai pool
+///      fee 500 revert avec le struct 8 champs, OK avec 7 champs).
+///      Ne JAMAIS remettre `deadline` dans ce struct sur Base.
+interface ISwapRouter {
+    struct ExactInputSingleParams {
+        address tokenIn;
+        address tokenOut;
+        uint24 fee;
+        address recipient;
+        uint256 amountIn;
+        uint256 amountOutMinimum;
+        uint160 sqrtPriceLimitX96;
+    }
+
+    function exactInputSingle(ExactInputSingleParams calldata params)
+        external
+        payable
+        returns (uint256 amountOut);
+}
+
+/// @notice Arbitrage via Morpho Blue (0 frais) sur jambes Uniswap V3
+///         (audit #7 — adaptateur CL).
+/// @dev NON AUDITÉ, NON DÉPLOYÉ mainnet. Le token de loan est un
+///      paramètre (USDC, WETH, cbBTC...) — l'exécuteur doit vérifier que
+///      Morpho détient assez de ce token (cap 50 %, morpho_flash.py).
+///      Les frais des deux jambes sont des paramètres (feeBuy/feeSell)
+///      car chaque pool V3 a son propre tier. Les routes V2 restent
+///      servies par MorphoFlashLoanArbitrage ci-dessus ; ce contrat ne
+///      prétend exécuter QUE des jambes V3 (exactInputSingle).
+contract MorphoFlashLoanArbitrageV3 is IMorphoFlashLoanCallback, Ownable, ReentrancyGuard {
+    using SafeERC20 for IERC20;
+
+    IMorpho public constant MORPHO =
+        IMorpho(0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb);
+
+    address public immutable loanToken; // ex. USDC
+    address public immutable tokenOther; // ex. WETH
+    ISwapRouter public immutable router; // SwapRouter02 Base
+    uint24 public immutable feeBuy; // tier de la jambe achat
+    uint24 public immutable feeSell; // tier de la jambe vente
+    uint256 public minProfit; // en unités de loanToken
+
+    event MorphoV3ArbitrageExecuted(uint256 loan, uint256 profit, uint256 gasLeft);
+
+    constructor(
+        address _loanToken,
+        address _tokenOther,
+        address _router,
+        uint24 _feeBuy,
+        uint24 _feeSell,
+        uint256 _minProfit
+    ) {
+        loanToken = _loanToken;
+        tokenOther = _tokenOther;
+        router = ISwapRouter(_router);
+        feeBuy = _feeBuy;
+        feeSell = _feeSell;
+        minProfit = _minProfit;
+    }
+
+    /// @notice Lance un arbitrage Morpho sur jambes V3. `amount` =
+    ///         taille calculée off-chain (math_engine, provider morpho).
+    function executeArbitrage(uint256 amount) external onlyOwner nonReentrant {
+        require(amount > 0, "amount=0");
+        MORPHO.flashLoan(loanToken, amount, abi.encode(amount));
+    }
+
+    /// @notice Callback Morpho : 2 exactInputSingle + remboursement.
+    /// @dev PAS de `nonReentrant` ici : le callback est appelé DEPUIS
+    ///      executeArbitrage (déjà sous nonReentrant) via Morpho — un 2e
+    ///      garde reverterait. La protection est `msg.sender == MORPHO`.
+    function onMorphoFlashLoan(
+        uint256 assets,
+        bytes calldata data
+    ) external override {
+        require(msg.sender == address(MORPHO), "appelant != Morpho");
+        require(assets > 0, "assets=0");
+        uint256 expected = abi.decode(data, (uint256));
+        require(expected == assets, "data != assets");
+
+        // 1) loanToken -> tokenOther sur la jambe achat (pas chère).
+        IERC20(loanToken).safeApprove(address(router), assets);
+        uint256 bought = router.exactInputSingle(
+            ISwapRouter.ExactInputSingleParams({
+                tokenIn: loanToken,
+                tokenOut: tokenOther,
+                fee: feeBuy,
+                recipient: address(this),
+                amountIn: assets,
+                amountOutMinimum: 0,
+                sqrtPriceLimitX96: 0
+            })
+        );
+
+        // 2) tokenOther -> loanToken sur la jambe vente (chère).
+        IERC20(tokenOther).safeApprove(address(router), bought);
+        uint256 sold = router.exactInputSingle(
+            ISwapRouter.ExactInputSingleParams({
+                tokenIn: tokenOther,
+                tokenOut: loanToken,
+                fee: feeSell,
+                recipient: address(this),
+                amountIn: bought,
+                amountOutMinimum: 0,
+                sqrtPriceLimitX96: 0
+            })
+        );
+
+        // 3) Filet de sécurité : remboursement + profit minimum.
+        require(sold >= assets, "pas de quoi rembourser le loan");
+        uint256 profit = sold - assets;
+        require(profit >= minProfit, "profit < minProfit");
+
+        // 4) Rembourser Morpho : elle tire `assets` via transferFrom.
+        IERC20(loanToken).safeApprove(address(MORPHO), assets);
+
+        emit MorphoV3ArbitrageExecuted(assets, profit, gasleft());
+    }
+
+    function withdrawProfit() external onlyOwner {
+        uint256 bal = IERC20(loanToken).balanceOf(address(this));
+        require(bal > 0, "rien a retirer");
+        IERC20(loanToken).safeTransfer(owner(), bal);
+    }
+
+    function setMinProfit(uint256 _minProfit) external onlyOwner {
+        minProfit = _minProfit;
+    }
+}
+
+/* ==========================================================================
+ * v3.3 — MORPHO BLUE (0 frais par conception) — JAMBE PRINCIPALE
+ * ==========================================================================
+ * POURQUOI MORPHO (vérifié 2026-11-24, voir RESEARCH.md § Morpho Blue) :
+ *    Morpho Blue Base : 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb
+ *    (singleton canonique, code 15 623 octets, bloc 61 806 974).
+ *    Soldes Morpho Base : USDC 328 711 525,75 $ / WETH 88 713,53
+ *    (~148,9 M$) — maxFlashLoan = le solde entier du contrat.
+ *    TVL Morpho Blue sur Base : 3,336 Md$ (DefiLlama, 24 nov 2026).
+ *
+ * SIGNATURES VÉRIFIÉES contre le repo officiel morpho-org/morpho-blue
+ * (src/Morpho.sol + src/interfaces/IMorphoCallbacks.sol) et la doc
+ * officielle https://docs.morpho.org/developers/contracts/blue/ :
+ *    function flashLoan(address token, uint256 assets, bytes calldata data) external;
+ *    function onMorphoFlashLoan(uint256 assets, bytes calldata data) external;
+ * Sélecteurs vérifiés par keccak : flashLoan = 0xe0232b42,
+ * onMorphoFlashLoan = 0x31f57072.
+ * Doc officielle : "flashFee is zero", "maxFlashLoan is the token's
+ * balance of this contract", "the receiver of assets is the caller".
+ * Il n'existe PAS de fonction flashFee sur Morpho : l'eth_call du
+ * sélecteur ERC-3156 0xd9d98ce4 REVERT (bloc 61 806 974). Le fee 0 est
+ * structurel — aucune gouvernance ne peut le monter (contrairement
+ * à Balancer, mort de toute façon — BIP-928).
+ *
+ * DIFFÉRENCES AVEC AAVE / BALANCER (à ne pas confondre) :
+ *    1. Un seul token par appel : flashLoan(token, assets, data).
+ *    2. Le RECEIVER est l'appelant (msg.sender) — pas de paramètre
+ *       recipient. Le contrat qui appelle reçoit les fonds.
+ *    3. Callback = onMorphoFlashLoan(assets, data) — 2 paramètres
+ *       seulement (pas de token, pas de fee, pas d'initiator).
+ *    4. Remboursement par APPROVE : Morpho tire `assets` via
+ *       transferFrom(msg.sender, address(this), assets) APRÈS le
+ *       callback. Le callback DOIT donc faire
+ *       approve(Morpho, assets) — fee 0, on rembourse EXACTEMENT
+ *       `assets`, jamais plus.
+ *    5. `data` est NON VIDE (abi.encode(amount)) : le callback
+ *       décode le montant attendu et exige decoded == assets.
+ *    6. Vérification OBLIGATOIRE : msg.sender == morpho, sinon
+ *       n'importe qui peut appeler onMorphoFlashLoan.
+ *    7. Aerodrome : le router n'a PAS d'interface V2 (prouvé on-chain,
+ *       FORK_TEST_RESULTS.md §7.1) — jambes Uni V2 / BaseSwap V2
+ *       seulement dans ce contrat, comme pour Aave et Balancer.
+ *
+ * TESTÉ SUR FORK (FORK_TEST_RESULTS.md §11, 2026-11-24) : cas gagnant
+ * WIN + net >= 3 $, cas perdant SKIP 0 $ + revert confirmé.
+ * NON AUDITÉ — ne pas déployer avec de vrais fonds sans audit.
+ * ========================================================================== */
