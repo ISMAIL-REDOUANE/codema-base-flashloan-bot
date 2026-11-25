@@ -1,4 +1,23 @@
-# Bot Flash Loan — Base, Meme Coins Sghar (v1)
+# CODEMA — arbitrage Base
+
+**Point d'entrée actuel : [`bot.py`](bot.py). Installation et commandes :
+[`RUNBOOK.md`](RUNBOOK.md).** Les anciens scanners ci-dessous sont des outils
+de recherche ; leurs verdicts mathématiques ne permettent pas un envoi réel.
+
+Le nouveau moteur vérifie les adresses/factories on-chain, chaîne les sorties
+exactes Uni V3 / Pancake V3, puis simule les deux swaps et le prêt Morpho dans
+`AtomicArbitrage.sol`. Les coûts incluent l'enveloppe de transaction complète,
+L1, L2 et la fee opérateur. `scan` et `watch` n'envoient aucune transaction.
+Un envoi réel exige la commande séparée `trade --broadcast`, un contrat déployé,
+le propriétaire et un budget réseau explicite. Aucun déploiement mainnet ni
+envoi mainnet n'a été fait pendant cette modification.
+
+Preuve historique reproductible : bloc **61 989 637**, prêt **300 USDC**,
+profit brut **0,039188 USDC**, net estimé prudent **≈0,0262 USDC**, remboursement
+confirmé par une transaction **locale sur fork**. Cela ne prouve ni une
+opportunité actuelle ni un revenu régulier. Détails : [`validation/`](validation/).
+
+## Documentation historique v1
 
 **Bni mn 0, bla flous 7qiqiyn, simulation seulement.**
 Chaîne : Base (8453). Cible : meme coins sghar, liquidité 5k–100k $,

@@ -3,7 +3,7 @@
 import json, re, urllib.request
 from pathlib import Path
 
-txt = Path("/home/hatch/workspace/crypto-base-flashloan-bot/config.yaml").read_text()
+txt = Path(str(Path(__file__).resolve().parents[1] / 'config.yaml')).read_text()
 RPC = re.search(r'rpc_url:\s*"([^"]+)"', txt).group(1)
 
 def call(method, params, timeout=25):

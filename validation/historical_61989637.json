@@ -1,0 +1,31 @@
+{
+  "status": "HISTORICAL_VERIFIED",
+  "gross_usdc": "0.039188",
+  "net_usdc": "0.02620220574936925613954992548271745093558852475844940363648708230476190",
+  "costs": {
+    "gas_units": 627750,
+    "gas_price_wei": 10000000,
+    "l1_fee_wei": 1039294086,
+    "operator_fee_wei": 0,
+    "envelope_bytes": 590,
+    "cost_margin": "1.25",
+    "total_usdc": "0.01298579425063074386045007451728254906441147524155059636351291769523810"
+  },
+  "profit_raw": "39188",
+  "min_profit_raw": "22986",
+  "simulation_block": 61989637,
+  "expires_block": 61989639,
+  "deployment_required": true,
+  "block": 61989637,
+  "block_hash": "0x6254706d967192307a98a67a659c1e9320e95ab14f63b7357c0999bb5ce9f2c1",
+  "loan_usdc": 300,
+  "buy_pool": "0x72AB388E2E2F6FaceF59E3C3FA2C4E29011c2D38",
+  "sell_pool": "0xb4CB800910B228ED3d0834cF79D697127BBB00e5",
+  "local_receipt_status": 1,
+  "local_gas_used": 421497,
+  "lender_fully_repaid": true,
+  "executor_profit_raw": "39188",
+  "historical_only": true,
+  "broadcast_network": "localhost Anvil only",
+  "fees_note": "L1 + operator fees read from Base at the historical block; L2 gas includes 20% gas-limit padding and 25% total-cost margin."
+}

@@ -28,20 +28,21 @@ from __future__ import annotations
 
 import json
 import math
+import os
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot")
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot/leadlag")
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'leadlag'))
 
 from web3 import Web3
 
 import cross_venue as cv  # noqa: E402  (helpers RPC + price_from_sqrt)
 from v3_quote import v3_quote_python  # noqa: E402
 
-BASE_DIR = Path("/home/hatch/workspace/crypto-base-flashloan-bot/leadlag")
+BASE_DIR = Path(str(Path(__file__).resolve().parents[1] / 'leadlag'))
 RESULTS_JSON = BASE_DIR / "cross_venue_results.json"
 OUT_JSONL = BASE_DIR / "replay_24h.jsonl"
 OUT_SUMMARY = BASE_DIR / "replay_24h_summary.json"
@@ -55,7 +56,7 @@ SCAN_BLOCK = 62077712
 START_BLOCK = SCAN_BLOCK - 432000          # 24 h avant le scan (200 ms/bloc)
 STEP_BLOCKS = 25                            # 5 s
 SIZES = (25, 100)
-GAS_USD = 0.0044
+GAS_USD = float(os.environ["CODEMA_REPLAY_GAS_USD"]) if "CODEMA_REPLAY_GAS_USD" in os.environ else None
 MAX_WORKERS = 8
 GROUPS_WANTED = {("WETH", "cbBTC"), ("WETH", "USDC")}
 
@@ -84,6 +85,8 @@ def load_pools():
         dec_t = cv.token_decimals(g["token_addr"])
         dec_q = cv.token_decimals(g["quote_addr"])
         for p in g["pools"]:
+            if p.get("pool_type") == "v2":
+                continue  # unknown V2 fee schedules cannot be assumed to be 30 bp
             pools.append({
                 "group": f"{sym}/{quote}",
                 "token_addr": g["token_addr"], "quote_addr": g["quote_addr"],
@@ -124,6 +127,9 @@ def build_calls(pools):
             meta.append((i, "slot0"))
             calls.append((addr, bytes.fromhex(cv.keccak_sel("liquidity()"))))
             meta.append((i, "liq"))
+        if p["pool_type"] != "v2" and p.get("mid_method") != "algebra_globalState":
+            calls.append((addr, bytes.fromhex(cv.keccak_sel("fee()"))))
+            meta.append((i, "fee"))
     return calls, meta
 
 
@@ -152,6 +158,10 @@ def sample_block(block, pools, calls, meta):
             tick = tr - (1 << 256) if tr >= (1 << 255) else tr
             states.setdefault(i, {})["sqrt_x96"] = sqrt_x96
             states[i]["tick"] = tick
+            states[i]["fee_bps"] = int.from_bytes(raw_b[64:96], "big")
+        elif kind == "fee":
+            if len(raw_b) >= 32:
+                states.setdefault(i, {})["fee_bps"] = int.from_bytes(raw_b[:32], "big")
         elif kind == "liq":
             if len(raw_b) < 32:
                 continue
@@ -206,7 +216,7 @@ def leg_out(pool, st, amount_in_raw, direction, upq):
         out = cv.v2_quote(amount_in_raw, r_in, r_out, fee=0.003)
         return out / 10 ** pool["dec_quote"] * upq, "v2_cp"
     liq, sqrt_x96 = st.get("liq"), st.get("sqrt_x96")
-    fee = pool["fee_bps"]
+    fee = st.get("fee_bps")  # historical fee from this sample, never the scan snapshot
     if liq is None or sqrt_x96 is None or fee is None:
         return None, "no_state"
     t0 = pool["token_is_token0"]
@@ -251,7 +261,9 @@ def compute_sample(block, pools, states):
     if weth_usd and cbbtc_mids:
         cbbtc_mids.sort()
         cbbtc_usd = weth_usd / cbbtc_mids[len(cbbtc_mids) // 2]
-    out = {"block": block, "weth_usd": weth_usd, "cbbtc_usd": cbbtc_usd, "groups": {}}
+    out = {"block": block, "weth_usd": weth_usd, "cbbtc_usd": cbbtc_usd, "groups": {},
+           "status": "ANALYTIC_ESTIMATE", "step_blocks": STEP_BLOCKS,
+           "intra_block_coverage": False, "gas_assumption_usd": GAS_USD}
     for gname, upq, dec_t, dec_q in (("WETH/cbBTC", cbbtc_usd, 18, 8),
                                      ("WETH/USDC", 1.0, 18, 6)):
         if upq is None:
@@ -289,11 +301,11 @@ def compute_sample(block, pools, states):
                     usd_out, _ = leg_out(sp, bst_s, tok_raw, "sell", upq)
                     if usd_out is None:
                         continue
-                    net = usd_out - size - GAS_USD
+                    net = usd_out - size  # rank by gross, independent of an unmeasured gas assumption
                     if best_net is None or net > best_net:
                         best_net, best_desc = net, f"{bp['venue']}:{bp['addr'][:10]}..->{sp['venue']}:{sp['addr'][:10]}.."
-            best[size] = {"net_usd": (round(best_net, 4) if best_net is not None else None),
-                          "pair": best_desc}
+            best[size] = {"net_usd": (best_net - GAS_USD if best_net is not None and GAS_USD is not None else None),
+                          "gross_usd": best_net, "pair": best_desc}
         # gap brut entre mids extrêmes du groupe
         gm = [mids[i] for i in idxs if mids[i]]
         gap = ((max(gm) - min(gm)) / min(gm) * 100.0) if len(gm) >= 2 else None

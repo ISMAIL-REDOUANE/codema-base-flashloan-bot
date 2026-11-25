@@ -10,11 +10,11 @@
       "revert_reason": "pas de quoi rembourser le loan",
       "gas_estimate": null,
       "gas_used": 327643,
-      "tx_hash": "fe9cbb9e1340418d3d5b2ade7f6b62aebb7d82f2b0c150ff86be729b9c3a2b56",
-      "block": 62106592,
+      "tx_hash": "03edf3b2de9d909f0b270ea9bb14307e0e0ee4a6245f91ce2915ac914b0e783d",
+      "block": 62107270,
       "call_ok": false,
       "gas_estimate_error": "pas de quoi rembourser le loan",
-      "fork_block": 62106593,
+      "fork_block": 62107271,
       "label": "majors WETH/USDC 100$ UniV2->BaseSwapV2"
     }
   ]

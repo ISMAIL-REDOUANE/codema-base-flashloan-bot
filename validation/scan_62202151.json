@@ -1,0 +1,1253 @@
+{
+  "block": 62202151,
+  "block_hash": "0xb2ec7ba07d55eabcbe244c1c5efb62ed44d5443b9305d16457d67d7c499d2067",
+  "accounting_unit": "USDC",
+  "pools": 22,
+  "routes": 280,
+  "routes_below_spot_breakeven": 266,
+  "discovery_errors": [
+    {
+      "venue": "pancake",
+      "pair": "USDC/cbBTC",
+      "fee": 10000,
+      "error": "empty or uninitialized pool"
+    },
+    {
+      "venue": "pancake",
+      "pair": "WETH/cbBTC",
+      "fee": 10000,
+      "error": "empty or uninitialized pool"
+    }
+  ],
+  "sizes_usdc": [
+    "10",
+    "100",
+    "1000"
+  ],
+  "min_net_usdc": "0.01",
+  "mode": "read_only",
+  "quotes": [
+    {
+      "loan": "USDC",
+      "other": "WETH",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xb4CB800910B228ED3d0834cF79D697127BBB00e5",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 100,
+        "sqrt_price": 3258420609439224321699559,
+        "liquidity": 115501570962540913
+      },
+      "size_usdc": "10",
+      "amount_raw": "10000000",
+      "block": 62202151,
+      "gross_usdc": "-0.451932",
+      "bought_raw": "5645530099134870",
+      "returned_raw": "9548068",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "WETH",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xb4CB800910B228ED3d0834cF79D697127BBB00e5",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 100,
+        "sqrt_price": 3258420609439224321699559,
+        "liquidity": 115501570962540913
+      },
+      "size_usdc": "100",
+      "amount_raw": "100000000",
+      "block": 62202151,
+      "gross_usdc": "-31.971765",
+      "bought_raw": "40223859360193755",
+      "returned_raw": "68028235",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "WETH",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xb4CB800910B228ED3d0834cF79D697127BBB00e5",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 100,
+        "sqrt_price": 3258420609439224321699559,
+        "liquidity": 115501570962540913
+      },
+      "size_usdc": "1000",
+      "amount_raw": "1000000000",
+      "block": 62202151,
+      "gross_usdc": "-818.942471",
+      "bought_raw": "107058574231588196",
+      "returned_raw": "181057529",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "WETH",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xd0b53D9277642d899DF5C87A3966A349A798F224",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 500,
+        "sqrt_price": 3258217732318277912689202,
+        "liquidity": 677300230293813624
+      },
+      "size_usdc": "10",
+      "amount_raw": "10000000",
+      "block": 62202151,
+      "gross_usdc": "-0.456924",
+      "bought_raw": "5645530099134870",
+      "returned_raw": "9543076",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "WETH",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xd0b53D9277642d899DF5C87A3966A349A798F224",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 500,
+        "sqrt_price": 3258217732318277912689202,
+        "liquidity": 677300230293813624
+      },
+      "size_usdc": "100",
+      "amount_raw": "100000000",
+      "block": 62202151,
+      "gross_usdc": "-32.006639",
+      "bought_raw": "40223859360193755",
+      "returned_raw": "67993361",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "WETH",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xd0b53D9277642d899DF5C87A3966A349A798F224",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 500,
+        "sqrt_price": 3258217732318277912689202,
+        "liquidity": 677300230293813624
+      },
+      "size_usdc": "1000",
+      "amount_raw": "1000000000",
+      "block": 62202151,
+      "gross_usdc": "-819.031716",
+      "bought_raw": "107058574231588196",
+      "returned_raw": "180968284",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "WETH",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x72AB388E2E2F6FaceF59E3C3FA2C4E29011c2D38",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 100,
+        "sqrt_price": 3258420785214607515207831,
+        "liquidity": 254465093525335450
+      },
+      "size_usdc": "10",
+      "amount_raw": "10000000",
+      "block": 62202151,
+      "gross_usdc": "-0.45192",
+      "bought_raw": "5645530099134870",
+      "returned_raw": "9548080",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "WETH",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x72AB388E2E2F6FaceF59E3C3FA2C4E29011c2D38",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 100,
+        "sqrt_price": 3258420785214607515207831,
+        "liquidity": 254465093525335450
+      },
+      "size_usdc": "100",
+      "amount_raw": "100000000",
+      "block": 62202151,
+      "gross_usdc": "-31.971226",
+      "bought_raw": "40223859360193755",
+      "returned_raw": "68028774",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "WETH",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x72AB388E2E2F6FaceF59E3C3FA2C4E29011c2D38",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 100,
+        "sqrt_price": 3258420785214607515207831,
+        "liquidity": 254465093525335450
+      },
+      "size_usdc": "1000",
+      "amount_raw": "1000000000",
+      "block": 62202151,
+      "gross_usdc": "-818.938683",
+      "bought_raw": "107058574231588196",
+      "returned_raw": "181061317",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "WETH",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0xB775272E537cc670C65DC852908aD47015244EaF",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 500,
+        "sqrt_price": 3258150657690053231247360,
+        "liquidity": 44620205433181568
+      },
+      "size_usdc": "10",
+      "amount_raw": "10000000",
+      "block": 62202151,
+      "gross_usdc": "-0.457363",
+      "bought_raw": "5645530099134870",
+      "returned_raw": "9542637",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "WETH",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0xB775272E537cc670C65DC852908aD47015244EaF",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 500,
+        "sqrt_price": 3258150657690053231247360,
+        "liquidity": 44620205433181568
+      },
+      "size_usdc": "100",
+      "amount_raw": "100000000",
+      "block": 62202151,
+      "gross_usdc": "-32.011791",
+      "bought_raw": "40223859360193755",
+      "returned_raw": "67988209",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "WETH",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0xB775272E537cc670C65DC852908aD47015244EaF",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 500,
+        "sqrt_price": 3258150657690053231247360,
+        "liquidity": 44620205433181568
+      },
+      "size_usdc": "1000",
+      "amount_raw": "1000000000",
+      "block": 62202151,
+      "gross_usdc": "-819.055835",
+      "bought_raw": "107058574231588196",
+      "returned_raw": "180944165",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "cbBTC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xfBB6Eed8e7aa03B138556eeDaF5D271A5E1e43ef",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 500,
+        "sqrt_price": 3238311786905579148717916955,
+        "liquidity": 1268721551130
+      },
+      "size_usdc": "10",
+      "amount_raw": "10000000",
+      "block": 62202151,
+      "gross_usdc": "-0.923143",
+      "bought_raw": "15172",
+      "returned_raw": "9076857",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "cbBTC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xfBB6Eed8e7aa03B138556eeDaF5D271A5E1e43ef",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 500,
+        "sqrt_price": 3238311786905579148717916955,
+        "liquidity": 1268721551130
+      },
+      "size_usdc": "100",
+      "amount_raw": "100000000",
+      "block": 62202151,
+      "gross_usdc": "-56.585688",
+      "bought_raw": "72566",
+      "returned_raw": "43414312",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "cbBTC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xfBB6Eed8e7aa03B138556eeDaF5D271A5E1e43ef",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 500,
+        "sqrt_price": 3238311786905579148717916955,
+        "liquidity": 1268721551130
+      },
+      "size_usdc": "1000",
+      "amount_raw": "1000000000",
+      "block": 62202151,
+      "gross_usdc": "-887.070007",
+      "bought_raw": "188759",
+      "returned_raw": "112929993",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "cbBTC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0xb94b22332ABf5f89877A14Cc88f2aBC48c34B3Df",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3237801883176114838868852736,
+        "liquidity": 138694700412
+      },
+      "size_usdc": "10",
+      "amount_raw": "10000000",
+      "block": 62202151,
+      "gross_usdc": "-0.916713",
+      "bought_raw": "15172",
+      "returned_raw": "9083287",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "cbBTC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0xb94b22332ABf5f89877A14Cc88f2aBC48c34B3Df",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3237801883176114838868852736,
+        "liquidity": 138694700412
+      },
+      "size_usdc": "100",
+      "amount_raw": "100000000",
+      "block": 62202151,
+      "gross_usdc": "-56.555144",
+      "bought_raw": "72566",
+      "returned_raw": "43444856",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "cbBTC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0xb94b22332ABf5f89877A14Cc88f2aBC48c34B3Df",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3237801883176114838868852736,
+        "liquidity": 138694700412
+      },
+      "size_usdc": "1000",
+      "amount_raw": "1000000000",
+      "block": 62202151,
+      "gross_usdc": "-886.99228",
+      "bought_raw": "188759",
+      "returned_raw": "113007720",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "cbBTC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x26e263efdc91f0d3279E2Ec2Bd58A7Ca5C2fCE62",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 500,
+        "sqrt_price": 3238335103581045103772091901,
+        "liquidity": 12721568172
+      },
+      "size_usdc": "10",
+      "amount_raw": "10000000",
+      "block": 62202151,
+      "gross_usdc": "-0.923536",
+      "bought_raw": "15172",
+      "returned_raw": "9076464",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "cbBTC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x26e263efdc91f0d3279E2Ec2Bd58A7Ca5C2fCE62",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 500,
+        "sqrt_price": 3238335103581045103772091901,
+        "liquidity": 12721568172
+      },
+      "size_usdc": "100",
+      "amount_raw": "100000000",
+      "block": 62202151,
+      "gross_usdc": "-56.592307",
+      "bought_raw": "72566",
+      "returned_raw": "43407693",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "USDC",
+      "other": "cbBTC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x26e263efdc91f0d3279E2Ec2Bd58A7Ca5C2fCE62",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 500,
+        "sqrt_price": 3238335103581045103772091901,
+        "liquidity": 12721568172
+      },
+      "size_usdc": "1000",
+      "amount_raw": "1000000000",
+      "block": 62202151,
+      "gross_usdc": "-887.112181",
+      "bought_raw": "188759",
+      "returned_raw": "112887819",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "WETH",
+      "other": "USDC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xb4CB800910B228ED3d0834cF79D697127BBB00e5",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 100,
+        "sqrt_price": 3258420609439224321699559,
+        "liquidity": 115501570962540913
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "size_usdc": "10",
+      "amount_raw": "5919651454761998",
+      "block": 62202151,
+      "gross_usdc": "-0.4524565019339868039264720952653533576002091476176742873670204402367444",
+      "bought_raw": "10011678",
+      "returned_raw": "5651812975772993",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "WETH",
+      "other": "USDC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xb4CB800910B228ED3d0834cF79D697127BBB00e5",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 100,
+        "sqrt_price": 3258420609439224321699559,
+        "liquidity": 115501570962540913
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "size_usdc": "100",
+      "amount_raw": "59196514547619985",
+      "block": 62202151,
+      "gross_usdc": "-31.99216040576509080323880364426289612174807785136424872243347836927063",
+      "bought_raw": "100114889",
+      "returned_raw": "40258270658923332",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "WETH",
+      "other": "USDC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xb4CB800910B228ED3d0834cF79D697127BBB00e5",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 100,
+        "sqrt_price": 3258420609439224321699559,
+        "liquidity": 115501570962540913
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "size_usdc": "1000",
+      "amount_raw": "591965145476199856",
+      "block": 62202151,
+      "gross_usdc": "-819.1379346217035181602485618263095965701058869458127920413196797849135",
+      "bought_raw": "1000959030",
+      "returned_raw": "107064038842789246",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "WETH",
+      "other": "USDC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xd0b53D9277642d899DF5C87A3966A349A798F224",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 500,
+        "sqrt_price": 3258217732318277912689202,
+        "liquidity": 677300230293813624
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "size_usdc": "10",
+      "amount_raw": "5919651454761998",
+      "block": 62202151,
+      "gross_usdc": "-0.4572127823143934239252063452088177869235722633803492036661766543674921",
+      "bought_raw": "10006445",
+      "returned_raw": "5648997423565680",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "WETH",
+      "other": "USDC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xd0b53D9277642d899DF5C87A3966A349A798F224",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 500,
+        "sqrt_price": 3258217732318277912689202,
+        "liquidity": 677300230293813624
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "size_usdc": "100",
+      "amount_raw": "59196514547619985",
+      "block": 62202151,
+      "gross_usdc": "-32.01784320919159803906584372797141940936027460567290585825774873271594",
+      "bought_raw": "100064127",
+      "returned_raw": "40243067334456723",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "WETH",
+      "other": "USDC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xd0b53D9277642d899DF5C87A3966A349A798F224",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 500,
+        "sqrt_price": 3258217732318277912689202,
+        "liquidity": 677300230293813624
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "size_usdc": "1000",
+      "amount_raw": "591965145476199856",
+      "block": 62202151,
+      "gross_usdc": "-819.1413023028058123007982604223027455009746236548899496227990934420444",
+      "bought_raw": "1000608923",
+      "returned_raw": "107062045292955609",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "WETH",
+      "other": "USDC",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x72AB388E2E2F6FaceF59E3C3FA2C4E29011c2D38",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 100,
+        "sqrt_price": 3258420785214607515207831,
+        "liquidity": 254465093525335450
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "size_usdc": "10",
+      "amount_raw": "5919651454761998",
+      "block": 62202151,
+      "gross_usdc": "-0.4524445679208426397972544446223779231763882051452799340063791250404831",
+      "bought_raw": "10011691",
+      "returned_raw": "5651820040292820",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "WETH",
+      "other": "USDC",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x72AB388E2E2F6FaceF59E3C3FA2C4E29011c2D38",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 100,
+        "sqrt_price": 3258420785214607515207831,
+        "liquidity": 254465093525335450
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "size_usdc": "100",
+      "amount_raw": "59196514547619985",
+      "block": 62202151,
+      "gross_usdc": "-31.99157221466777728913992039542855669564554114312119623385140795877515",
+      "bought_raw": "100116052",
+      "returned_raw": "40258618847551821",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "WETH",
+      "other": "USDC",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x72AB388E2E2F6FaceF59E3C3FA2C4E29011c2D38",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 100,
+        "sqrt_price": 3258420785214607515207831,
+        "liquidity": 254465093525335450
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "size_usdc": "1000",
+      "amount_raw": "591965145476199856",
+      "block": 62202151,
+      "gross_usdc": "-819.1368260885152945247926149736474035958560080003730355899281431520533",
+      "bought_raw": "1001074335",
+      "returned_raw": "107064695055799278",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "WETH",
+      "other": "USDC",
+      "buy": {
+        "venue": "pancake",
+        "address": "0xB775272E537cc670C65DC852908aD47015244EaF",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 500,
+        "sqrt_price": 3258150657690053231247360,
+        "liquidity": 44620205433181568
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "size_usdc": "10",
+      "amount_raw": "5919651454761998",
+      "block": 62202151,
+      "gross_usdc": "-0.4576332483756169679601891445676745287387451846017318425612489453128105",
+      "bought_raw": "10005982",
+      "returned_raw": "5648748522312580",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "WETH",
+      "other": "USDC",
+      "buy": {
+        "venue": "pancake",
+        "address": "0xB775272E537cc670C65DC852908aD47015244EaF",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 500,
+        "sqrt_price": 3258150657690053231247360,
+        "liquidity": 44620205433181568
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "size_usdc": "100",
+      "amount_raw": "59196514547619985",
+      "block": 62202151,
+      "gross_usdc": "-32.02250627517102905548296185287586828514755663038881791638977926156663",
+      "bought_raw": "100054911",
+      "returned_raw": "40240306961925844",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "WETH",
+      "other": "USDC",
+      "buy": {
+        "venue": "pancake",
+        "address": "0xB775272E537cc670C65DC852908aD47015244EaF",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 500,
+        "sqrt_price": 3258150657690053231247360,
+        "liquidity": 44620205433181568
+      },
+      "sell": {
+        "venue": "pancake",
+        "address": "0x118EFEF7DB0712F03E067122b8F89E7a4B79262f",
+        "token0": "0x4200000000000000000000000000000000000006",
+        "token1": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "fee": 10000,
+        "sqrt_price": 3238944610342056909850049,
+        "liquidity": 4916182749958
+      },
+      "size_usdc": "1000",
+      "amount_raw": "591965145476199856",
+      "block": 62202151,
+      "gross_usdc": "-819.1466038354384277074407959318044432261020731527773201256419806891154",
+      "bought_raw": "1000058335",
+      "returned_raw": "107058906970419496",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "cbBTC",
+      "other": "USDC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xfBB6Eed8e7aa03B138556eeDaF5D271A5E1e43ef",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 500,
+        "sqrt_price": 3238311786905579148717916955,
+        "liquidity": 1268721551130
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "size_usdc": "10",
+      "amount_raw": "16706",
+      "block": 62202151,
+      "gross_usdc": "-0.9230096041421135482976628409284064739987684831586506618425608834126027",
+      "bought_raw": "9994478",
+      "returned_raw": "15164",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "cbBTC",
+      "other": "USDC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xfBB6Eed8e7aa03B138556eeDaF5D271A5E1e43ef",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 500,
+        "sqrt_price": 3238311786905579148717916955,
+        "liquidity": 1268721551130
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "size_usdc": "100",
+      "amount_raw": "167062",
+      "block": 62202151,
+      "gross_usdc": "-56.57833384767620927279078429792082252194396614568016809858670380093555",
+      "bought_raw": "99949287",
+      "returned_raw": "72541",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "cbBTC",
+      "other": "USDC",
+      "buy": {
+        "venue": "uniswap",
+        "address": "0xfBB6Eed8e7aa03B138556eeDaF5D271A5E1e43ef",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 500,
+        "sqrt_price": 3238311786905579148717916955,
+        "liquidity": 1268721551130
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "size_usdc": "1000",
+      "amount_raw": "1670621",
+      "block": 62202151,
+      "gross_usdc": "-887.0122295805711199140539901321986215128165123154632860307010089595111",
+      "bought_raw": "999466904",
+      "returned_raw": "188759",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "cbBTC",
+      "other": "USDC",
+      "buy": {
+        "venue": "pancake",
+        "address": "0xb94b22332ABf5f89877A14Cc88f2aBC48c34B3Df",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3237801883176114838868852736,
+        "liquidity": 138694700412
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "size_usdc": "10",
+      "amount_raw": "16706",
+      "block": 62202151,
+      "gross_usdc": "-0.9170238090439156653644743659548111012750410610888799052806765715876182",
+      "bought_raw": "10001792",
+      "returned_raw": "15174",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "cbBTC",
+      "other": "USDC",
+      "buy": {
+        "venue": "pancake",
+        "address": "0xb94b22332ABf5f89877A14Cc88f2aBC48c34B3Df",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3237801883176114838868852736,
+        "liquidity": 138694700412
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "size_usdc": "100",
+      "amount_raw": "167062",
+      "block": 62202151,
+      "gross_usdc": "-56.55798214434233647081794348301059825468329291064294752627629714073060",
+      "bought_raw": "100018262",
+      "returned_raw": "72575",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "cbBTC",
+      "other": "USDC",
+      "buy": {
+        "venue": "pancake",
+        "address": "0xb94b22332ABf5f89877A14Cc88f2aBC48c34B3Df",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3237801883176114838868852736,
+        "liquidity": 138694700412
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "size_usdc": "1000",
+      "amount_raw": "1670621",
+      "block": 62202151,
+      "gross_usdc": "-887.0122295805711199140539901321986215128165123154632860307010089595111",
+      "bought_raw": "999919207",
+      "returned_raw": "188759",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "cbBTC",
+      "other": "USDC",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x26e263efdc91f0d3279E2Ec2Bd58A7Ca5C2fCE62",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 500,
+        "sqrt_price": 3238335103581045103772091901,
+        "liquidity": 12721568172
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "size_usdc": "10",
+      "amount_raw": "16706",
+      "block": 62202151,
+      "gross_usdc": "-0.9236081836519333365909816884257660112711412253656277374987493145951011",
+      "bought_raw": "9994017",
+      "returned_raw": "15163",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "cbBTC",
+      "other": "USDC",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x26e263efdc91f0d3279E2Ec2Bd58A7Ca5C2fCE62",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 500,
+        "sqrt_price": 3238335103581045103772091901,
+        "liquidity": 12721568172
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "size_usdc": "100",
+      "amount_raw": "167062",
+      "block": 62202151,
+      "gross_usdc": "-56.58850969934314567377720470537593465557430276319877838474190713103802",
+      "bought_raw": "99916084",
+      "returned_raw": "72524",
+      "status": "CHAINED_QUOTE_LOSS"
+    },
+    {
+      "loan": "cbBTC",
+      "other": "USDC",
+      "buy": {
+        "venue": "pancake",
+        "address": "0x26e263efdc91f0d3279E2Ec2Bd58A7Ca5C2fCE62",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 500,
+        "sqrt_price": 3238335103581045103772091901,
+        "liquidity": 12721568172
+      },
+      "sell": {
+        "venue": "uniswap",
+        "address": "0xE9e25E35aa99A2A60155010802b81A25C45bA185",
+        "token0": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "token1": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+        "fee": 100,
+        "sqrt_price": 3240536777752296121207827564,
+        "liquidity": 4755387
+      },
+      "size_usdc": "1000",
+      "amount_raw": "1670621",
+      "block": 62202151,
+      "gross_usdc": "-887.0122295805711199140539901321986215128165123154632860307010089595111",
+      "bought_raw": "996304940",
+      "returned_raw": "188759",
+      "status": "CHAINED_QUOTE_LOSS"
+    }
+  ],
+  "profitable": 0,
+  "coverage": "Pinned block snapshots, Uni V3 and Pancake V3 majors only. No intra-block coverage.",
+  "skipped_blocks_since_previous": 0,
+  "note": "Research snapshot, not a whole-market or intra-block census. All tested chained returns were negative before network costs."
+}

@@ -1,8 +1,9 @@
 """Offline analysis of leadlag measurements.jsonl. Pure math, no network."""
+from pathlib import Path
 import json, math, statistics, sys
 from collections import defaultdict
 
-F = "/home/hatch/workspace/crypto-base-flashloan-bot/leadlag/measurements.jsonl"
+F = str(Path(__file__).resolve().parents[1] / 'leadlag/measurements.jsonl')
 CLOCK_SKEW_MS = 1190.0  # Binance serverTime - local mid, median of 10 samples (see report)
 BIN_S = 2.0
 

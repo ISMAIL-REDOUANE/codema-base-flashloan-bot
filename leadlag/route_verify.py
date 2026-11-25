@@ -28,7 +28,8 @@ Gardes (fail-closed) :
   - quoter on-chain officiel comme garde là où il existe (Uni V3 /
     Pancake QuoterV2 ; Aerodrome MixedQuoterV3 SEULEMENT si la factory de
     la pool est GaugesV3 0xf8f2... — sinon "non adressable", dit
-    explicitement) : écart quoter vs analytique > 2% => NON VÉRIFIÉ.
+    explicitement). Les sorties exactes chaînées déterminent le net ;
+    le modèle analytique reste une décomposition indicative séparée.
   - TVL >= 10x la taille sur chaque jambe (règle AMZNc), sinon NON VÉRIFIÉ.
   - crossed_tick : si le swap traverse un tick, le modèle mono-tick est
     fragile => signalé, et la quote du quoter (si dispo) fait foi.
@@ -43,8 +44,8 @@ import math
 import sys
 from pathlib import Path
 
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot")
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot/leadlag")
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'leadlag'))
 
 import cross_venue as cv  # noqa: E402  (RPC + eth_call + keccak_sel)
 from v3_quote import v3_quote_python  # noqa: E402  (garde croisée uniquement)
@@ -319,11 +320,14 @@ def measure_full_gas(block, eth_usd, gas_units=GAS_UNITS_MEASURED,
     amount = (100_000_000).to_bytes(32, "big")
     data = bytes.fromhex(sel) + amount
     assert len(data) == calldata_len, len(data)
-    # getL1Fee(bytes) : sélecteur + offset 0x20 + longueur + données (32 o)
+    from arb.runtime import serialized_envelope
+    data = serialized_envelope({"to": "0xFfFfFfFFfFfffFFfFFfFFFFFffFFFffffFfFFFfF",
+        "data": "0x" + data.hex(), "gas": hex(gas_units), "gasPrice": hex(base_fee_wei)})
+    # getL1Fee requires the complete serialized transaction envelope.
     gsel = cv.keccak_sel("getL1Fee(bytes)")
     payload = ("0x" + gsel + (32).to_bytes(32, "big").hex()
                + len(data).to_bytes(32, "big").hex()
-               + data.hex().ljust(64, "0"))
+               + data.hex().ljust(((len(data) + 31) // 32) * 64, "0"))
     l1_fee_wei = _u256(_eth_call_retry(GAS_ORACLE, payload, block))
     l2_fee_wei = gas_units * base_fee_wei
     total_wei = l2_fee_wei + l1_fee_wei
@@ -335,6 +339,7 @@ def measure_full_gas(block, eth_usd, gas_units=GAS_UNITS_MEASURED,
         "l1_share_pct": (l1_fee_wei / total_wei * 100.0 if total_wei else 0.0),
         "total_usd": total_wei / 1e18 * eth_usd,
         "eth_usd": eth_usd, "calldata_len": calldata_len,
+        "gas_source": "legacy_serialized_template_estimate", "envelope_bytes": len(data),
         "legacy_usd": GAS_LEGACY_USD,
     }
 
@@ -457,7 +462,7 @@ def verify_cycle(buy_pool, sell_pool, token_addr, quote_addr, size_usd,
     figé est interdit, audit #12). Le cycle est INVALIDE si
     buy_pool == sell_pool (audit : la « meilleure paire » $1 000 du scan
     est la même pool des deux côtés — exclue)."""
-    """Simule le CYCLE ATOMIQUE COMPLET au bloc donné :
+    """Estime un cycle par quotes au bloc donné (pas une simulation EVM du prêt) :
     emprunt flash Morpho 0% (size_usd de quote) -> achat jambe 1 (quote->token)
     -> vente jambe 2 (token->quote) -> remboursement.
     Retourne la décomposition complète + gardes. TOUT EST SYNTHÉTIQUE
@@ -570,12 +575,30 @@ def verify_cycle(buy_pool, sell_pool, token_addr, quote_addr, size_usd,
     # La route n'est « vérifiée » que si les DEUX jambes le sont ; sinon
     # elle est classée séparément (PARTIALLY_VERIFIED / NOT_VERIFIED).
     guards = {}
+    analytic_net_usd = net_usd
+    exact_buy_raw = None
     if quoter_guard:
         for leg, pool, st, amt, tin, tout, fee, analytic_raw in (
                 ("buy", buy_pool, bs, quote_in_raw, quote_addr, token_addr,
                  bs["fee_bps"], leg1["actual_raw"]),
                 ("sell", sell_pool, ss, int(tok_bought_raw), token_addr, quote_addr,
                  ss["fee_bps"], leg2["actual_raw"])):
+            if leg == "sell":
+                if exact_buy_raw is None:
+                    guards[leg] = {"quoter": None, "out_raw": None,
+                                   "status": "not_addressable", "reason": "buy quote unavailable"}
+                    continue
+                amt = exact_buy_raw
+                if st.get("pool_type") == "v2":
+                    analytic_raw = decompose_leg_v2(
+                        amt, ss["reserve0"] if tok0_sell else ss["reserve1"],
+                        ss["reserve1"] if tok0_sell else ss["reserve0"], ss["fee_bps"],
+                        dec_in=dec_t, dec_out=dec_q, mid_out_per_in=mid_sell)["actual_raw"]
+                else:
+                    analytic_raw = decompose_leg(
+                        amt, ss["liq"], ss["sqrt_x96"], ss["fee_bps"], zero_for_one=tok0_sell,
+                        dec_in=dec_t, dec_out=dec_q, mid_out_per_in=mid_sell,
+                        tick_spacing=ss.get("tick_spacing"))["actual_raw"]
             # Garde par jambe : CL -> quoter de sa factory ; V2 -> Router
             # getAmountsOut de sa factory (l'équivalent V2 du quoter).
             if st.get("pool_type") == "v2":
@@ -611,10 +634,18 @@ def verify_cycle(buy_pool, sell_pool, token_addr, quote_addr, size_usd,
                           and abs(diff_pct) <= tol_pct
                           else "quoter_disagree")
             guards[leg] = {"quoter": venue, "out_raw": out_raw,
+                           "amount_in_raw": amt,
                            "analytic_raw": analytic_raw,
                            "diff_pct": diff_pct, "diff_usd": diff_usd,
                            "status": status,
                            "tolerance_pct": tol_pct}
+            if leg == "buy":
+                exact_buy_raw = out_raw
+    exact_sell_raw = guards.get("sell", {}).get("out_raw")
+    if exact_buy_raw is not None and exact_sell_raw is not None:
+        tok_bought = exact_buy_raw / 10 ** dec_t
+        usd_out = exact_sell_raw / 10 ** dec_q * usd_price_quote
+        net_usd = net_direct = usd_out - quote_in_raw / 10 ** dec_q * usd_price_quote - gas_usd
     _statuses = [g["status"] for g in guards.values()] if guards else []
     if _statuses and all(s == "quoter_verified" for s in _statuses):
         route_status = "FULLY_QUOTER_VERIFIED"
@@ -645,6 +676,8 @@ def verify_cycle(buy_pool, sell_pool, token_addr, quote_addr, size_usd,
         "fee_sell_usd": fee2_usd, "impact_sell_usd": imp2_usd,
         "gas_usd": gas_usd, "gas_legacy_usd": GAS_LEGACY_USD,
         "net_usd": net_usd, "net_direct_usd": net_direct,
+        "analytic_net_usd": analytic_net_usd,
+        "net_source": "chained_onchain_quotes" if exact_sell_raw is not None else "analytic_estimate",
         "identity_err_usd": net_usd - net_direct,
         "threshold_pct": thr_pct,
         "leg1_identity_err_raw": leg1["identity_err_raw"],

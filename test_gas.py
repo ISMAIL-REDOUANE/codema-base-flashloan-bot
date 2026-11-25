@@ -56,8 +56,12 @@ def test_full_cost_math_offline():
 def test_l1_fee_live():
     """Lecture seule : frais L1 réel pour executeArbitrage(100 USDC)."""
     try:
+        from arb.runtime import serialized_envelope
+        payload = serialized_envelope({"to": "0x1111111111111111111111111111111111111111",
+            "data": "0x" + execute_arbitrage_calldata(100_000_000).hex(),
+            "gas": hex(450000), "gasPrice": hex(10000000)})
         fee_wei = get_l1_fee_wei(_rpc_url(),
-                                 execute_arbitrage_calldata(100_000_000))
+                                 payload)
     except Exception as e:  # noqa: BLE001
         print(f"SKIP test_l1_fee_live (oracle illisible : {e})")
         return
@@ -93,7 +97,7 @@ def test_full_cost_live():
         return
     assert full["l1_fee_usd"] > 0, full
     assert full["total_cost_usd"] > full["l2_cost_usd"], full
-    assert full["l1_source"] == "oracle_live"
+    assert full["l1_source"] == "oracle_serialized_template"
     assert full["eth_price_source"].startswith("coingecko ")
     print(f"OK test_full_cost_live — L2 {full['l2_cost_usd']:.4f} $ + L1 "
           f"{full['l1_fee_usd']:.6f} $ = {full['total_cost_usd']:.4f} $ "

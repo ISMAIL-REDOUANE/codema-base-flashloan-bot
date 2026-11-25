@@ -62,11 +62,11 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from statistics import median
 
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot")
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from v3_quote import quote_v3_onchain, v3_quote_python  # noqa: E402
 
-BASE_DIR = Path("/home/hatch/workspace/crypto-base-flashloan-bot/leadlag")
+BASE_DIR = Path(str(Path(__file__).resolve().parents[1] / 'leadlag'))
 OUT = BASE_DIR / "paper_entries.jsonl"
 BASE_RPC = "https://mainnet.base.org"
 BINANCE = "https://data-api.binance.vision"
@@ -123,7 +123,7 @@ def _load_alchemy_rpc():
     le RPC public Base rate-limite (403) ou coupe (taux d'échec ~15 %)."""
     try:
         import re
-        txt = Path("/home/hatch/workspace/crypto-base-flashloan-bot/config.yaml").read_text()
+        txt = Path(str(Path(__file__).resolve().parents[1] / 'config.yaml')).read_text()
         m = re.search(r'rpc_url:\s*"([^"]+)"', txt)
         return m.group(1) if m else None
     except Exception:

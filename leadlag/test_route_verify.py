@@ -21,8 +21,8 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot")
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot/leadlag")
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'leadlag'))
 
 import cross_venue as cv  # noqa: E402
 import route_verify as rv  # noqa: E402

@@ -96,22 +96,17 @@ def test_v3_quote_python_sanity():
 
 
 def test_v3_quote_selector():
-    # Sélecteurs vérifiés par keccak + test live 2026-11-24 :
-    # quoteExactInput (0xcdca1753) FONCTIONNE ; quoteExactInputSingle (0xf7729d43)
-    # — voir test_v3_quote_single_encoding / test_v3_quote_single_live :
-    # l'ancien encodage était invalide (audit #8), l'encodage corrigé
-    # revert toujours sur Base (testé live 2026-11-25) — inutilisable.
+    # V2 tuple selector; the former f7729d43 selector belongs to the V1 ABI.
     from v3_quote import SELECTOR_QUOTE_INPUT, SELECTOR_QUOTE_SINGLE, encode_quote_path
     assert SELECTOR_QUOTE_INPUT.hex() == "cdca1753"
-    assert SELECTOR_QUOTE_SINGLE.hex() == "f7729d43"
+    assert SELECTOR_QUOTE_SINGLE.hex() == "c6a5026a"
     data = encode_quote_path("0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
                              500, "0x4200000000000000000000000000000000000006",
                              100_000_000)
     assert data[:4].hex() == "cdca1753"
     assert len(data) == 4 + 32 + 32 + 32 + 64  # sélecteur + offset + amount + len + path paddé
     assert QUOTER_V2.lower() == "0x3d4e44eb1374240ce5f1b871ab261cd16335b76a"
-    print("OK test_v3_quote_selector — quoteExactInput 0xcdca1753 (fonctionne), "
-          "quoteExactInputSingle 0xf7729d43 (revert sur Base, cf. test single)")
+    print("OK QuoterV2 selectors: cdca1753 / c6a5026a")
 
 
 def test_v3_quote_single_encoding():
@@ -121,7 +116,7 @@ def test_v3_quote_single_encoding():
     weth = "0x4200000000000000000000000000000000000006"
     data = encode_quote_single(usdc, weth, 500, 100_000_000)
     d = decode_quote_single(data)
-    assert d["selector"] == "f7729d43", d
+    assert d["selector"] == "c6a5026a", d
     assert d["token_in"].lower() == usdc.lower(), d
     assert d["token_out"].lower() == weth.lower(), d
     assert d["amount_in"] == 100_000_000, d  # PAS 500 (l'ancien bug)
@@ -129,7 +124,7 @@ def test_v3_quote_single_encoding():
     assert d["fee"] <= 0xFFFFFF, "fee doit tenir dans uint24"
     assert d["sqrt_price_limit_x96"] == 0
     # L'ancien encodage (bug) : fee et amountIn intervertis.
-    buggy = (bytes.fromhex("f7729d43")
+    buggy = (bytes.fromhex("c6a5026a")
              + bytes.fromhex(usdc[2:].lower().rjust(64, "0"))
              + bytes.fromhex(weth[2:].lower().rjust(64, "0"))
              + (500).to_bytes(32, "big") + (100_000_000).to_bytes(32, "big")
@@ -167,12 +162,8 @@ def test_v3_quote_single_live():
         return
     assert q_path.amount_out > 0, q_path
     q_single = quote_single_onchain(usdc, weth, 500, 100_000_000, rpc_url)
-    assert q_single.source == "unavailable", (
-        f"quoteExactInputSingle a répondu ({q_single.amount_out}) — "
-        "la conclusion 'inutilisable sur Base' serait à revoir !")
-    assert "revert" in (q_single.error or "").lower(), q_single.error
-    print(f"OK test_v3_quote_single_live — single REVERT (calldata correct, "
-          f"vérifié live), path OK : 100 USDC -> {q_path.amount_out / 1e18:.5f} WETH")
+    assert q_single.source == "quoter_v2_single_onchain", q_single.error
+    assert abs(q_single.amount_out / q_path.amount_out - 1) < 0.001
 
 
 def test_v3_quote_onchain_live():
@@ -341,6 +332,29 @@ def test_scanner_dexscreener_token_pairs_endpoint():
           "/token-pairs/v1/base/<tokenAddress>")
 
 
+def test_scanner_token_pairs_bare_list_response():
+    # RE-MESUREMENT 2026-11-25 (local, PRESERVE lors du merge GPT) :
+    # l'endpoint /token-pairs/v1 renvoie en LIVE un TABLEAU JSON nu
+    # ([{paire}, ...]), pas {"pairs": [...]}. Le fix #4 supposait le
+    # schéma dict (son test mockait {"pairs": []}) : le live crashait
+    # avec AttributeError ('list' object has no attribute 'get').
+    # Ce test mocke la VRAIE forme live et exige qu'elle soit acceptée.
+    pair = _dex_pair("uniswap", "0x1111111111111111111111111111111111111111",
+                     0.001, 20_000, 10)
+    body = json.dumps([pair]).encode()
+    resp = mock.MagicMock()
+    resp.read.return_value = body
+    resp.__enter__.return_value = resp
+    resp.__exit__.return_value = False
+    with mock.patch.object(urllib.request, "urlopen", return_value=resp):
+        pairs = fetch_pairs_from_dexscreener(
+            "0x000000000000000000000000000000000000feed")
+    assert isinstance(pairs, list) and len(pairs) == 1, pairs
+    assert pairs[0]["pairAddress"] == "0x1111111111111111111111111111111111111111", pairs
+    print("OK test_scanner_token_pairs_bare_list_response — tableau JSON nu "
+          "accepté (forme live réelle de /token-pairs/v1)")
+
+
 def test_scanner_usdc_address_not_symbol():
     # Audit #4 : une paire dont le quoteToken s'appelle "USDC" mais dont
     # l'adresse n'est PAS celle de l'USDC Base doit être exclue (faux USDC).
@@ -506,6 +520,7 @@ if __name__ == "__main__":
     test_goplus_tax_unknown()
     test_goplus_not_open_source_and_few_holders_reject()
     test_scanner_dexscreener_token_pairs_endpoint()
+    test_scanner_token_pairs_bare_list_response()
     test_scanner_usdc_address_not_symbol()
     test_scanner_unknown_holders_rejected_explicitly()
     test_scanner_holders_propagated()

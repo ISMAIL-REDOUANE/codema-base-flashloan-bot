@@ -620,7 +620,7 @@ def evaluate_pair(pair: dict, gas_gwei: float, matic_price: float,
 
 
 def _exact_quote(w3, venue: dict, token_in_addr: str, token_out_addr: str,
-                 amount_in_raw: int, resolved: dict) -> tuple:
+                 amount_in_raw: int, resolved: dict, block="latest") -> tuple:
     """Quote exacte d'une jambe : QuoterV2 (V3-Uni), getAmountsOut
     (V2 avec router). V2 sans router : AMM local sur reserves orientees
     (meme methode que la quote virtuelle)."""
@@ -630,24 +630,16 @@ def _exact_quote(w3, venue: dict, token_in_addr: str, token_out_addr: str,
         if kind == "v3-uni" or router:
             return bp.quote_venue(w3, kind, venue["pair"], token_in_addr,
                                   token_out_addr, amount_in_raw, router,
-                                  None)
-        # V2 sans router : reserves orientees sens entree -> sortie.
-        addr_a = venue["_addr_a"].lower()
-        if token_in_addr.lower() == addr_a:
-            r_in, r_out = venue["res_a"], venue["res_b"]
-        else:
-            r_in, r_out = venue["res_b"], venue["res_a"]
-        dec_in = resolved_by_addr(resolved, token_in_addr)["decimals"]
-        dec_out = resolved_by_addr(resolved, token_out_addr)["decimals"]
-        out = amm_out(amount_in_raw / 10**dec_in, r_in, r_out, 30)
-        return int(out * 10**dec_out), "reserves-amm"
+                                  None, block_identifier=block)
+        # Local reserve snapshots are not exact on-chain verification.
+        raise ValueError("V2 without a verified router cannot pass exact verification")
     raise ValueError(f"pas de quote exacte pour kind={kind}")
 
 
 def _exact_cycle_net(w3, buy_v: dict, sell_v: dict, addr_a: str,
                      addr_b: str, dec_a: int, dec_b: int, size_usd: float,
                      price_b: float, gas_gwei: float, matic_price: float,
-                     resolved: dict) -> dict:
+                     resolved: dict, block="latest") -> dict:
     """Un aller-retour EXACT chaîné (audit #10) : l'achat B -> A est
     quoté on-chain, puis sa sortie EXACTE out_a devient l'entrée de la
     vente A -> B (jamais un montant recalculé depuis un prix spot).
@@ -655,10 +647,10 @@ def _exact_cycle_net(w3, buy_v: dict, sell_v: dict, addr_a: str,
     exact (trade + budget revert, polygon_costs). Tout en $ (pas de %).
     """
     amt_in_b = int((size_usd / price_b) * 10**dec_b)
-    out_a = _exact_quote(w3, buy_v, addr_b, addr_a, amt_in_b, resolved)[0]
+    out_a = _exact_quote(w3, buy_v, addr_b, addr_a, amt_in_b, resolved, block)[0]
     if out_a <= 0:
         raise ValueError("quote achat nulle")
-    out_b = _exact_quote(w3, sell_v, addr_a, addr_b, out_a, resolved)[0]
+    out_b = _exact_quote(w3, sell_v, addr_a, addr_b, out_a, resolved, block)[0]
     if out_b <= 0:
         raise ValueError("quote vente nulle")
     usdc_back = (out_b / 10**dec_b) * price_b
@@ -716,7 +708,7 @@ def verify_signal_exact(w3, pair: dict, size_usd: float, meas: dict,
     try:
         best = _exact_cycle_net(w3, buy_v, sell_v, addr_a, addr_b, dec_a,
                                 dec_b, size_usd, price_b, gas_gwei,
-                                matic_price, resolved)
+                                matic_price, resolved, block)
         # Revalidation de la taille optimale (audit #10) : si
         # polygon_decide suggère une autre taille, on la re-quote
         # exactement et on garde le meilleur net des deux.
@@ -726,7 +718,7 @@ def verify_signal_exact(w3, pair: dict, size_usd: float, meas: dict,
                 and abs(optimal - size_usd) > 0.10 * size_usd:
             alt = _exact_cycle_net(w3, buy_v, sell_v, addr_a, addr_b,
                                    dec_a, dec_b, optimal, price_b,
-                                   gas_gwei, matic_price, resolved)
+                                   gas_gwei, matic_price, resolved, block)
             size_revalidated = True
             if alt["net_usd"] > best["net_usd"]:
                 best = alt
@@ -735,6 +727,7 @@ def verify_signal_exact(w3, pair: dict, size_usd: float, meas: dict,
         # ]0 ; 0,01] reverrait à l'exécution — il n'est pas EXECUTE.
         action = "EXECUTE" if net > ONCHAIN_MIN_PROFIT_USD else "SKIP"
         return {"method": "exact-quote",
+                "quote_block": block, "out_a_raw": best["out_a_raw"], "out_b_raw": best["out_b_raw"],
                 "spread_pct": round(best["spread_pct"], 4),
                 "expected_net_usd": net,
                 "action": action,

@@ -17,7 +17,7 @@ import urllib.request
 from collections import Counter, defaultdict
 from pathlib import Path
 
-LEAD = Path("/home/hatch/workspace/crypto-base-flashloan-bot/leadlag")
+LEAD = Path(str(Path(__file__).resolve().parents[1] / 'leadlag'))
 ENTRIES = LEAD / "paper_entries.jsonl"
 MEAS = LEAD / "measurements.jsonl"
 
@@ -154,7 +154,7 @@ for _ in range(3):
         print("    Base public RPC ERROR:", e)
 # Alchemy URL loaded in-process, never printed
 try:
-    txt = Path("/home/hatch/workspace/crypto-base-flashloan-bot/config.yaml").read_text()
+    txt = Path(str(Path(__file__).resolve().parents[1] / 'config.yaml')).read_text()
     mm = re.search(r'rpc_url:\s*"([^"]+)"', txt)
     if mm:
         for _ in range(3):

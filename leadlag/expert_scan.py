@@ -46,12 +46,12 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot")
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from v3_quote import quote_v3_onchain  # noqa: E402
 from web3 import Web3  # noqa: E402
 
-BASE_DIR = Path("/home/hatch/workspace/crypto-base-flashloan-bot/leadlag")
+BASE_DIR = Path(str(Path(__file__).resolve().parents[1] / 'leadlag'))
 OUT_JSON = BASE_DIR / "expert_scan_results.json"
 BASE_RPC = "https://mainnet.base.org"
 BINANCE = "https://data-api.binance.vision"
@@ -106,7 +106,7 @@ def _load_alchemy_rpc():
     """URL Alchemy lue dans config.yaml EN MÉMOIRE seulement — jamais affichée
     ni loguée (clé = credential). RPC de secours si le RPC public échoue."""
     try:
-        txt = Path("/home/hatch/workspace/crypto-base-flashloan-bot/config.yaml").read_text()
+        txt = Path(str(Path(__file__).resolve().parents[1] / 'config.yaml')).read_text()
         m = re.search(r'rpc_url:\s*"([^"]+)"', txt)
         return m.group(1) if m else None
     except Exception:

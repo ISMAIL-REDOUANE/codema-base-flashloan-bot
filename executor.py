@@ -285,6 +285,11 @@ def run(opportunities: List[MemeCandidate], costs: Optional[Costs] = None,
                 else:
                     r.expected_net_usd = pf.net_usd  # le net on-chain fait foi
                     r.gas_usd = pf.gas_cost_usd
+                    # Two independent router quotes are not a flash-loan EVM
+                    # simulation. Legacy research routes cannot pass this gate.
+                    # The supported atomic pipeline is bot.py + AtomicArbitrage.
+                    r.action = "SKIP"
+                    r.reasons = ["quotes only; complete atomic verification required — use bot.py"]
         # v3.1 — SPONSOR : un EXECUTE ne part que si le deal sponsor l'autorise.
         # Bloqué (plafond / kill switch / prefund) -> SKIP avec raison STOP
         # explicite, 0 $ pour tout le monde. Autorisé -> on passe au garde

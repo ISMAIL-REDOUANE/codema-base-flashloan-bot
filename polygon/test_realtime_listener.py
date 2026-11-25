@@ -403,6 +403,20 @@ class TestVerifySignalExact(unittest.TestCase):
     out_a (achat) devient l'entrée de la vente, le net dépend de la
     quote de vente, et le verdict découle de ce net."""
 
+    def setUp(self):
+        # Synthetic quote source for cashflow tests, never claimed as on-chain
+        # verification. Production rejects routerless reserve approximations.
+        def quote_fixture(w3, venue, tin, tout, amount, resolved, block):
+            self.assertEqual(block, 123)
+            ra, rb = venue["res_a"], venue["res_b"]
+            rin, rout = (ra, rb) if tin.lower() == venue["_addr_a"].lower() else (rb, ra)
+            human_in = amount / 10 ** 6
+            output = rout * (human_in * .997) / (rin + human_in * .997)
+            return int(output * 10 ** 6), "synthetic_fixture"
+        patcher = patch.object(rl, "_exact_quote", side_effect=quote_fixture)
+        self.quote_mock = patcher.start()
+        self.addCleanup(patcher.stop)
+
     def _pair(self, res_buy, res_sell):
         a = "0x1111111111111111111111111111111111111111"
         return {
@@ -470,6 +484,7 @@ class TestVerifySignalExact(unittest.TestCase):
         self.assertGreater(ver["usdc_back_usd"], 1000.0)
         self.assertEqual(ver["flash_fee_usd"], 0.0)
         self.assertGreater(ver["gas_total_usd"], 0.0)
+        self.assertEqual(self.quote_mock.call_args_list[1].args[4], ver["out_a_raw"])
 
     def test_thin_buy_pool_not_overstated(self):
         # Achat dans un pool fin : out_a (~499) << montant spot (1 000).

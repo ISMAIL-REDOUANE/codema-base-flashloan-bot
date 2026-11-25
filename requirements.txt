@@ -6,11 +6,13 @@
 #
 # Tests fork / on-chain (fork_test*.py, test_fork_preflight.py,
 # morpho_flash.py, polygon/*) :
-web3>=8.0
-eth-abi>=6.0
-eth-utils>=6.0
+web3>=8.0,<9
+eth-abi>=6.0,<7
+eth-utils>=6.0,<7
+eth-account>=0.13,<1
+# Moteur atomique arb/ + bot.py (imports directs eth_account) : 0.14.0 installé.
 # Flux temps réel WebSocket (websocket_listener.py, polygon/realtime_listener.py) :
-websockets>=17.0
+websockets>=17.0,<18
 #
 # NON requis (ne pas installer) :
 #   pyyaml — AUCUN fichier ne l'importe : les loaders de config.yaml

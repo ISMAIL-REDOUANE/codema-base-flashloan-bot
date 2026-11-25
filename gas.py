@@ -109,8 +109,9 @@ def execute_arbitrage_calldata(amount_raw: int) -> bytes:
 
 def get_l1_fee_wei(rpc_url: str, tx_data: bytes,
                    block="latest", timeout: int = 10) -> int:
-    """Frais L1 (en wei) pour publier tx_data, lu sur le GasPriceOracle
-    (getL1Fee). Lève une exception si l'oracle ne répond pas."""
+    """L1 fee for a SERIALIZED TRANSACTION, not its calldata alone."""
+    if len(tx_data) < 70:
+        raise ValueError("getL1Fee requires a complete serialized transaction")
     block_param = hex(block) if isinstance(block, int) else block
     calldata = SELECTOR_GET_L1_FEE + (32).to_bytes(32, "big") \
         + len(tx_data).to_bytes(32, "big") + tx_data
@@ -156,7 +157,13 @@ def estimate_full_tx_cost_usd(rpc_url: str, tx_data: bytes,
     if not eth_price.source:
         raise ValueError("prix ETH sans source — refusé (audit #12)")
     l2_usd = gas_cost_usd_from_gwei(gas_units, gas_price_gwei, eth_price.usd)
-    l1_wei = get_l1_fee_wei(rpc_url, tx_data, block, timeout)
+    # Legacy callers supply calldata. Include the entire transaction envelope.
+    # This remains a template estimate; bot.py prices the actual guarded plan.
+    from arb.runtime import serialized_envelope
+    envelope = serialized_envelope({"to": "0xFfFfFfFFfFfffFFfFFfFFFFFffFFFffffFfFFFfF",
+        "data": "0x" + tx_data.hex(), "gas": hex(gas_units),
+        "gasPrice": hex(int(gas_price_gwei * 1e9))})
+    l1_wei = get_l1_fee_wei(rpc_url, envelope, block, timeout)
     l1_usd = l1_wei / 1e18 * eth_price.usd
     return {"l2_cost_usd": l2_usd, "l1_fee_usd": l1_usd,
             "total_cost_usd": l2_usd + l1_usd,
@@ -164,7 +171,7 @@ def estimate_full_tx_cost_usd(rpc_url: str, tx_data: bytes,
             "gas_price_gwei": gas_price_gwei,
             "eth_price_usd": eth_price.usd,
             "eth_price_source": eth_price.source,
-            "l1_source": "oracle_live"}
+            "l1_source": "oracle_serialized_template", "envelope_bytes": len(envelope)}
 
 
 def fetch_live_gas_price_gwei(rpc_url: str = PUBLIC_BASE_RPC,

@@ -264,7 +264,7 @@ def venue_reserves(w3, kind, addr, token_a, token_b):
 
 
 def quote_venue(w3, kind, addr, token_in, token_out, amount_in_raw,
-                router=None, reserves=None):
+                router=None, reserves=None, block_identifier="latest"):
     """Quote on-chain d'un sens. Retourne (amount_out_raw, méthode).
     token_in / token_out = adresses (décimales résolues par adresse)."""
     addr_map = {a.lower(): (s, d) for s, (a, d) in TOKENS.items()}
@@ -274,16 +274,16 @@ def quote_venue(w3, kind, addr, token_in, token_out, amount_in_raw,
         if router:
             r = w3.eth.contract(address=router, abi=V2_ROUTER_ABI)
             amounts = r.functions.getAmountsOut(
-                amount_in_raw, [token_in, token_out]).call()
+                amount_in_raw, [token_in, token_out]).call(block_identifier=block_identifier)
             return amounts[1], "getAmountsOut"
         r_a, r_b = reserves[0], reserves[1]  # (réserve in, réserve out) humaines
         out = amm_out(amount_in_raw / 10**dec_in, r_a, r_b, 30)
         return int(out * 10**dec_out), "reserves-amm"
     if kind == "v3-uni":
         q = w3.eth.contract(address=QUOTER_V2, abi=QUOTER_ABI)
-        fee = w3.eth.contract(address=addr, abi=V3_POOL_ABI).functions.fee().call()
+        fee = w3.eth.contract(address=addr, abi=V3_POOL_ABI).functions.fee().call(block_identifier=block_identifier)
         res = q.functions.quoteExactInputSingle(
-            (token_in, token_out, amount_in_raw, fee, 0)).call()
+            (token_in, token_out, amount_in_raw, fee, 0)).call(block_identifier=block_identifier)
         return res[0], "QuoterV2"
     if kind == "algebra":
         r_a, r_b, fee = reserves  # (réserve in, réserve out) humaines + fee_bps

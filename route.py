@@ -126,6 +126,8 @@ def route_executable_by_contract(route: Route,
     if len(route.legs) != 2:
         return False, (f"route à {len(route.legs)} jambes — le contrat "
                        "n'exécute que des allers-retours à 2 jambes")
+    if len(set(route.kinds())) != 1:
+        return False, "legacy contracts require homogeneous legs; use AtomicArbitrage for a mixed route"
     for i, leg in enumerate(route.legs):
         if leg.kind == "unknown":
             return False, (f"jambe {i + 1} ({leg.dex_name or '?'}) : kind "

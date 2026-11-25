@@ -1,8 +1,9 @@
 """Round 2: 4 s bins (fixes Polygon 4 s cadence), standing gap distribution, move sizes."""
+from pathlib import Path
 import json, math, statistics
 from collections import defaultdict
 
-F = "/home/hatch/workspace/crypto-base-flashloan-bot/leadlag/measurements.jsonl"
+F = str(Path(__file__).resolve().parents[1] / 'leadlag/measurements.jsonl')
 CLOCK_SKEW_MS = 1190.0
 BIN_S = 4.0
 

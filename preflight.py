@@ -277,8 +277,11 @@ def preflight_roundtrip(rpc_url: str, loan_raw: int, token_in: str, token_mid: s
             l1_fee_usd = full["l1_fee_usd"]
             l1_note = (f"frais L1 mesuré (oracle) : {l1_fee_usd:.6f} $ "
                        f"(prix ETH : {eth_price_source})")
-        except Exception as e:  # noqa: BLE001
-            l1_note = f"frais L1 illisible ({type(e).__name__}) — non compté"
+        except Exception as e:
+            return PreflightResult(status="UNAVAILABLE", amount_in_raw=loan_raw,
+                                   block_number=block, error="L1 fee unavailable",
+                                   reasons=[f"L1 fee unavailable: {type(e).__name__}"])
+
     gas_cost += l1_fee_usd
     net = gross - flash_fee - gas_cost
     reasons: List[str] = [gas_note, l1_note]
@@ -307,7 +310,7 @@ def is_fresh(quoted_block: Optional[int], current_block: Optional[int],
     (bloc 200 ms), 2 blocs = 400 ms, le prix a déjà pu bouger."""
     if quoted_block is None or current_block is None:
         return False
-    return (current_block - quoted_block) <= max_age
+    return 0 <= (current_block - quoted_block) <= max_age
 
 
 if __name__ == "__main__":

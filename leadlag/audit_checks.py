@@ -15,10 +15,10 @@ import urllib.request
 from collections import Counter, defaultdict
 from pathlib import Path
 
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot")
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from v3_quote import v3_quote_python  # noqa: E402
 
-LEAD = Path("/home/hatch/workspace/crypto-base-flashloan-bot/leadlag")
+LEAD = Path(str(Path(__file__).resolve().parents[1] / 'leadlag'))
 ENTRIES = LEAD / "paper_entries.jsonl"
 MEAS = LEAD / "measurements.jsonl"
 SCAN = LEAD / "expert_scan_results.json"

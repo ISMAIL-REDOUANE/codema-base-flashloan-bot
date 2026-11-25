@@ -24,7 +24,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from statistics import median
 
-BASE = Path("/home/hatch/workspace/crypto-base-flashloan-bot/leadlag")
+BASE = Path(str(Path(__file__).resolve().parents[1] / 'leadlag'))
 IN = BASE / "paper_entries.jsonl"
 OUT = BASE / "paper_analysis.json"
 

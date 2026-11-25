@@ -50,10 +50,10 @@ import urllib.error
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot")
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from v3_quote import v3_quote_python  # noqa: E402  (analytic mono-tick model)
 
-BASE_DIR = Path("/home/hatch/workspace/crypto-base-flashloan-bot/leadlag")
+BASE_DIR = Path(str(Path(__file__).resolve().parents[1] / 'leadlag'))
 OUT_JSON = BASE_DIR / "cross_venue_results.json"
 
 GT = "https://api.geckoterminal.com/api/v2/networks/base/pools"
@@ -91,11 +91,17 @@ def http_get_json(url, timeout=20, headers=None):
 
 
 def _load_rpc():
-    txt = Path("/home/hatch/workspace/crypto-base-flashloan-bot/config.yaml").read_text()
-    m = re.search(r'rpc_url:\s*"([^"]+)"', txt)
-    if not m:
-        raise RuntimeError("no Alchemy rpc_url in config.yaml")
-    return m.group(1)
+    """Resolve configuration without requiring a private file at import time."""
+    import os
+    value = os.environ.get("BASE_RPC_URL") or os.environ.get("CODEMA_RPC_URL")
+    if value:
+        return value
+    path = Path(os.environ.get("CODEMA_CONFIG", str(Path(__file__).resolve().parents[1] / "config.yaml")))
+    if path.exists():
+        match = re.search(r'rpc_url:\s*["\']?([^"\'\s#]+)', path.read_text())
+        if match and "YOUR_" not in match.group(1):
+            return match.group(1)
+    return "https://base-rpc.publicnode.com"
 
 
 RPC = _load_rpc()

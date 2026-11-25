@@ -27,13 +27,13 @@ import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot")
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot/leadlag")
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'leadlag'))
 
 import cross_venue as cv  # noqa: E402
 import route_verify as rv  # noqa: E402
 
-BASE_DIR = Path("/home/hatch/workspace/crypto-base-flashloan-bot/leadlag")
+BASE_DIR = Path(str(Path(__file__).resolve().parents[1] / 'leadlag'))
 RESULTS_JSON = BASE_DIR / "cross_venue_results.json"
 OUT_JSON = BASE_DIR / "size_optimizer_results.json"
 SCAN_BLOCK = 62077712

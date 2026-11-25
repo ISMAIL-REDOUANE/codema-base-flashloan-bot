@@ -2,18 +2,19 @@
 """verify_static_positives.py — Vérifie les 11 échantillons positifs du
 replay dont les DEUX jambes sont à fees STATIQUES (Uni/Cake), avec
 route_verify (fees on-chain au bloc, cycle complet, gardes quoter).
-Les autres positifs impliquent une pool Aerodrome à fee DYNAMIQUE et sont
-des faux positifs (fee du scan réutilisée) — démontré par E1/E2.
+Les autres positifs restent NON VÉRIFIÉS. Deux contre-exemples ne
+permettent pas de rejeter tous les événements à frais dynamiques.
 """
+from pathlib import Path
 import sys, json
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot")
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot/leadlag")
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'leadlag'))
 import route_verify as rv
 
 WETH = "0x4200000000000000000000000000000000000006"
 USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
 
-d = json.load(open("/home/hatch/workspace/crypto-base-flashloan-bot/leadlag/cross_venue_results.json"))
+d = json.load(open(str(Path(__file__).resolve().parents[1] / 'leadlag/cross_venue_results.json')))
 addr_of = {}
 tvl_of = {}
 for g in d["groups"]:
@@ -26,7 +27,7 @@ for g in d["groups"]:
         venue_of[p["pair_address"].lower()[:10]] = p["venue"]
 STATIC = {"uniswap", "pancakeswap"}
 
-recs = [json.loads(l) for l in open("/home/hatch/workspace/crypto-base-flashloan-bot/leadlag/replay_24h.jsonl")]
+recs = [json.loads(l) for l in open(str(Path(__file__).resolve().parents[1] / 'leadlag/replay_24h.jsonl'))]
 events = []
 for r in recs:
     b = r["groups"]["WETH/USDC"]["best"]["100"]
@@ -63,7 +64,7 @@ for block, replay_net, buy10, sell10, pair in events:
                     "fees_bps": [r["fee_buy_bps_onchain"], r["fee_sell_bps_onchain"]],
                     "route_status": r["route_status"],
                     "quoter": {k: (v["status"], v["diff_pct"]) for k, v in r["quoter_guards"].items()}})
-json.dump(results, open("/home/hatch/workspace/crypto-base-flashloan-bot/leadlag/static_positives_verified.json", "w"), indent=1, default=str)
+json.dump(results, open(str(Path(__file__).resolve().parents[1] / 'leadlag/static_positives_verified.json'), "w"), indent=1, default=str)
 n_pos = sum(1 for x in results if x["verified_net_usd"] > 0)
 print(f"\nVÉRIFIÉS POSITIFS : {n_pos}/{len(results)} | meilleur net vérifié : "
       f"{max((x['verified_net_usd'] for x in results), default=None)} $")

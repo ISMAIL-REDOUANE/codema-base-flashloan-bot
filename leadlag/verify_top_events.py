@@ -2,9 +2,10 @@
 """verify_top_events.py — Vérification INDÉPENDANTE (route_verify.py) des
 2 meilleurs événements du replay 24 h, avec gardes quoter par jambe.
 Adresses copiées du JSON du scan (jamais tapées de mémoire)."""
+from pathlib import Path
 import sys
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot")
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot/leadlag")
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'leadlag'))
 import route_verify as rv
 
 WETH = "0x4200000000000000000000000000000000000006"

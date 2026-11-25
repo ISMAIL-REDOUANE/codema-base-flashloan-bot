@@ -1,44 +1,8 @@
-"""
-v3_quote.py — Cotation Uniswap V3 réelle (v2, amélioration n°1 de ADVANCED_RESEARCH.md).
+"""Uniswap V3 quotes. Use the QuoterV2 tuple ABI and a pinned block.
 
-LE PROBLÈME v1 : math_engine.py ne connaît que la formule V2 (x*y=k).
-Or la moitié du marché Base est en liquidité concentrée (Uniswap V3,
-Aerodrome Slipstream) : un swap V3 ne se calcule PAS avec la formule V2 —
-il traverse des ticks, et la sortie dépend de la liquidité L et du prix
-√P à chaque tick. Coter un pool V3 avec la formule V2 = trader à l'aveugle.
-
-DEUX VOIES (dans cet ordre de préférence) :
-  1. ON-CHAIN (exacte) : QuoterV2.quoteExactInput via eth_call sur le
-     RPC Base — c'est le prix que le router obtiendrait vraiment, frais et
-     ticks inclus. Adresse vérifiée (RESEARCH.md, docs Uniswap officiels) :
-     0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a
-     Sélecteur vérifié (keccak + test live 2026-11-24) :
-     quoteExactInput = 0xcdca1753 — 100 USDC -> 0,0595 WETH (fee 500).
-     quoteExactInputSingle (0xf7729d43) : voir l'encodage ci-dessous —
-     l'ancien helper encodait les champs dans le MAUVAIS ORDRE (audit #8 :
-     fee et amountIn intervertis), donc la « preuve » de revert de
-     2026-11-24 venait d'un calldata invalide, PAS du quoter.
-     L'encodage est corrigé ici (ordre ABI officiel) et RE-TESTÉ live
-     2026-11-25 (bloc ~62 093 375) : avec le calldata CORRECT, la fonction
-     REVERT TOUJOURS sur Base (3 variantes : limit 0 / MAX-1, fees 500 /
-     3000, sens USDC->WETH et WETH->USDC — toutes revert, alors que
-     quoteExactInput sur la même pool répond 100 USDC -> 0,06099 WETH).
-     Conclusion honnête : l'ancienne preuve était invalide, mais la
-     conclusion (« inutilisable sur Base ») se trouve CONFIRMÉE par le
-     test corrigé. On passe par quoteExactInput avec un path à 1 hop.
-  2. PYTHON (approximation, un seul tick) : formule V3 à liquidité
-     concentrée dans le tick courant — L et √P constants. Valable tant que
-     le swap ne traverse pas de tick initialisé ; sinon on le signale
-     (crossed_tick=True) et on recommande le quoter on-chain. À n'utiliser
-     que quand le RPC est indisponible, et TOUJOURS marquée "estimate".
-
-NON FAIT / HONNÊTETÉ :
-  - Aerodrome Slipstream a son propre quoter (frais dynamiques) — NON
-    implémenté ici : le quoter V3 Uniswap ne s'applique pas à Slipstream.
-    Coter Slipstream avec ce module serait faux. À ajouter en v3.
-  - Uniswap V4 (singleton, flash accounting) — NON implémenté, v3+.
-  - Aucune quote n'est inventée : si l'on-chain échoue ET qu'on n'a pas
-    L/√P réels, la fonction retourne status="unavailable", jamais un faux prix.
+Old observations that quoteExactInputSingle was unavailable used the V1
+selector. They are invalid evidence. The correct V2 selector is c6a5026a.
+The local single-tick model remains an estimate, never execution proof.
 """
 from __future__ import annotations
 
@@ -48,22 +12,8 @@ from dataclasses import dataclass
 from typing import Optional
 
 QUOTER_V2 = "0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a"
-# Sélecteurs keccak vérifiés (web3) le 2026-11-24 :
-#   quoteExactInput(bytes,uint256) = 0xcdca1753  -> FONCTIONNE sur Base (vérifié live)
-#   quoteExactInputSingle(...)    = 0xf7729d43  -> l'ancien helper
-#     l'encodait avec (tokenIn, tokenOut, fee, amountIn, sqrtPriceLimitX96)
-#     alors que l'ABI officielle IQuoterV2 ExactInputSingleParams est
-#     (tokenIn, tokenOut, amountIn, fee, sqrtPriceLimitX96) — le calldata
-#     était donc INVALIDE (audit #8 : amountIn recevait 500 et fee
-#     recevait 100 000 000 > uint24.max). Le « REVERT sur Base » venait
-#     de là, pas du quoter. L'encodage est corrigé ci-dessous (ordre
-#     officiel) et RE-TESTÉ live 2026-11-25 : avec le calldata CORRECT
-#     la fonction REVERT TOUJOURS sur Base (3 variantes testées) alors
-#     que quoteExactInput répond sur la même pool — la conclusion
-#     « inutilisable sur Base » est donc CONFIRMÉE, cette fois avec une
-#     preuve valide. On utilise quoteExactInput (path à 1 hop).
 SELECTOR_QUOTE_INPUT = bytes.fromhex("cdca1753")
-SELECTOR_QUOTE_SINGLE = bytes.fromhex("f7729d43")
+SELECTOR_QUOTE_SINGLE = bytes.fromhex("c6a5026a")
 Q96 = 2 ** 96
 
 
@@ -153,10 +103,10 @@ def encode_quote_path(token_in: str, fee_bps: int, token_out: str,
             + padded)
 
 
-def _rpc_eth_call(rpc_url: str, to: str, data: bytes, timeout: int = 15) -> bytes:
+def _rpc_eth_call(rpc_url: str, to: str, data: bytes, timeout: int = 15, block="latest") -> bytes:
     payload = json.dumps({
         "jsonrpc": "2.0", "id": 1, "method": "eth_call",
-        "params": [{"to": to, "data": "0x" + data.hex()}, "latest"],
+        "params": [{"to": to, "data": "0x" + data.hex()}, hex(block) if isinstance(block, int) else block],
     }).encode()
     req = urllib.request.Request(rpc_url, data=payload,
                                  headers={"Content-Type": "application/json", "User-Agent": "codema-flashloan-bot-v2"})
@@ -169,7 +119,7 @@ def _rpc_eth_call(rpc_url: str, to: str, data: bytes, timeout: int = 15) -> byte
 
 def quote_v3_onchain(token_in: str, token_out: str, fee_bps: int,
                      amount_in_wei: int, rpc_url: str,
-                     timeout: int = 15) -> V3Quote:
+                     timeout: int = 15, block="latest") -> V3Quote:
     """Quote EXACTE via QuoterV2 on-chain (eth_call = 0 gas, lecture seule),
     par quoteExactInput avec un path à 1 hop (la voie qui FONCTIONNE sur Base).
     amount_in_wei : montant brut (ex. USDC : 6 décimales, 1 USDC = 1_000_000).
@@ -177,7 +127,7 @@ def quote_v3_onchain(token_in: str, token_out: str, fee_bps: int,
     En cas d'échec RPC : status unavailable, JAMAIS de prix inventé."""
     try:
         data = encode_quote_path(token_in, fee_bps, token_out, amount_in_wei)
-        raw = _rpc_eth_call(rpc_url, QUOTER_V2, data, timeout=timeout)
+        raw = _rpc_eth_call(rpc_url, QUOTER_V2, data, timeout=timeout, block=block)
         # Retour quoteExactInput : (amountOut, sqrtPriceX96After[], ticksCrossed[], gasEstimate)
         amount_out = int.from_bytes(raw[0:32], "big")
         gas_est = int.from_bytes(raw[96:128], "big")
@@ -202,7 +152,7 @@ def quote_v3_onchain(token_in: str, token_out: str, fee_bps: int,
 
 def quote_single_onchain(token_in: str, token_out: str, fee_bps: int,
                          amount_in_wei: int, rpc_url: str,
-                         timeout: int = 15) -> V3Quote:
+                         timeout: int = 15, block="latest") -> V3Quote:
     """Quote EXACTE via QuoterV2.quoteExactInputSingle (eth_call, 0 gas),
     avec l'encodage CORRIGÉ (audit #8). Retourne amount_out brut.
     Si le quoter revert, la V3Quote porte source="unavailable" avec
@@ -210,7 +160,7 @@ def quote_single_onchain(token_in: str, token_out: str, fee_bps: int,
     Vérifié live 2026-11-25 : voir test_v3_quote_single_live."""
     try:
         data = encode_quote_single(token_in, token_out, fee_bps, amount_in_wei)
-        raw = _rpc_eth_call(rpc_url, QUOTER_V2, data, timeout=timeout)
+        raw = _rpc_eth_call(rpc_url, QUOTER_V2, data, timeout=timeout, block=block)
         res = decode_quote_single_result(raw)
         return V3Quote(amount_in=amount_in_wei, amount_out=res["amount_out"],
                        source="quoter_v2_single_onchain", fee_bps=fee_bps,

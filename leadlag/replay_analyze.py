@@ -15,7 +15,7 @@ import math
 from collections import Counter
 from pathlib import Path
 
-BASE_DIR = Path("/home/hatch/workspace/crypto-base-flashloan-bot/leadlag")
+BASE_DIR = Path(str(Path(__file__).resolve().parents[1] / 'leadlag'))
 IN = BASE_DIR / "replay_24h.jsonl"
 OUT = BASE_DIR / "replay_24h_summary.json"
 

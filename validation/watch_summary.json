@@ -1,0 +1,24 @@
+{
+  "mode": "read_only",
+  "snapshots": [
+    {
+      "block": 62204343,
+      "pools": 22,
+      "routes": 280,
+      "profitable": 0,
+      "elapsed_seconds": 31.674,
+      "snapshot_age_blocks": 158,
+      "skipped_blocks_since_previous": 0
+    },
+    {
+      "block": 62204531,
+      "pools": 22,
+      "routes": 280,
+      "profitable": 0,
+      "elapsed_seconds": 30.058,
+      "snapshot_age_blocks": 150,
+      "skipped_blocks_since_previous": 187
+    }
+  ],
+  "note": "Public RPC latency exceeds the two-block execution freshness budget. No trades were sent."
+}

@@ -1,13 +1,14 @@
 """Lead-lag measurement: Binance (REST, Vision endpoint) vs Base/Polygon DEX quotes.
 Read-only. No keys, no accounts, no trading. Logs to measurements.jsonl.
 Duration default 720 s. Threads: Binance 2 s, Base 2 s, Polygon 4 s."""
+from pathlib import Path
 import json, sys, threading, time, urllib.request
 
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot")
-sys.path.insert(0, "/home/hatch/workspace/crypto-base-flashloan-bot/polygon")
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'polygon'))
 from v3_quote import quote_v3_onchain
 
-OUT = "/home/hatch/workspace/crypto-base-flashloan-bot/leadlag/measurements.jsonl"
+OUT = str(Path(__file__).resolve().parents[1] / 'leadlag/measurements.jsonl')
 DURATION_S = float(sys.argv[1]) if len(sys.argv) > 1 else 720.0
 WETH_BASE = "0x4200000000000000000000000000000000000006"
 USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"

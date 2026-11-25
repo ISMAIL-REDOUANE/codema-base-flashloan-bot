@@ -1,0 +1,22 @@
+{
+  "status": "UNSIGNED_REVALIDATED",
+  "block": 61989637,
+  "block_hash": "0x6254706d967192307a98a67a659c1e9320e95ab14f63b7357c0999bb5ce9f2c1",
+  "expires_block": 61989639,
+  "gross_usdc": "0.039188",
+  "net_usdc": "0.02618027197502099959478320734642107387237258601102259552236811253689674",
+  "loan_unit_value_usdc": "0.000001",
+  "min_profit_raw": "23008",
+  "costs": {
+    "gas_units": 627794,
+    "gas_price_wei": 10000000,
+    "l1_fee_wei": 1039294086,
+    "operator_fee_wei": 0,
+    "envelope_bytes": 590,
+    "cost_margin": "1.25",
+    "total_usdc": "0.01300772802497900040521679265357892612762741398897740447763188746310326",
+    "l1_upper_bound_wei": 2455711135
+  },
+  "eth_price_usdc": "1656.931011772597944439321874500884049317877741688689285677008341125563",
+  "network": "localhost historical fork only"
+}
