@@ -8,8 +8,8 @@ from eth_abi import decode, encode
 from eth_utils import keccak
 
 from arb import live
-from arb.runtime import (LOCAL_KEY, LOCAL_OWNER, RPC, USDC, WETH, Unavailable,
-                         full_cost, serialized_envelope, transaction, PLAN_TYPE)
+from arb.runtime import (LOCAL_KEY, LOCAL_OWNER, RPC, USDC, WETH, Pool, Token, Unavailable,
+                         full_cost, optimize_route_size, serialized_envelope, transaction, PLAN_TYPE)
 from v3_quote import encode_quote_single
 
 
@@ -136,3 +136,117 @@ def test_one_explicit_submission_and_no_automatic_retry(monkeypatch):
     assert result["status"] == "SUBMISSION_UNKNOWN"
     assert len(result["transaction_hash"]) == 66
     assert sum(c.args[0] == "eth_sendRawTransaction" for c in rpc.request.call_args_list) == 1
+
+
+# --- Size optimizer: mock CL quoter with a constant-product curve -----------
+# The fake quoter models the same curve as MockCLPool kind=2 (see
+# test_atomic.py::test_mock_cpamm_curve_and_trade, which validates the curve
+# on-chain): out = eff * reserve_out / (reserve_in + eff), eff = amount net
+# of the pool fee. The chained gross has a known interior optimum, computed
+# in-test by a fine grid over the same formula.
+
+class FakeCLQuoter:
+    """Mock RPC whose batched calls are CPAMM quotes (synthetic, not a market)."""
+    def __init__(self, curves):
+        # curves: {(token_in, token_out, fee): (reserve_in_raw, reserve_out_raw)}
+        self.curves = curves
+        self.batches = 0
+
+    def calls(self, specs, block):
+        self.batches += 1
+        out = []
+        for _quoter, _sig, _types, values, _outputs in specs:
+            tin, tout, amount, fee, _sqrt = values[0]
+            r_in, r_out = self.curves[(tin.lower(), tout.lower(), fee)]
+            eff = amount * (1_000_000 - fee) // 1_000_000
+            out.append((eff * r_out // (r_in + eff) if eff > 0 else 0, 0, 0, 0))
+        return out
+
+
+def _cpamm_fixture(edge_bps=50):
+    usdc, weth = Token("USDC", USDC, 6), Token("WETH", WETH, 18)
+    buy = Pool("pancake", "0x" + "11" * 20, WETH, USDC, 100, 0, 10 ** 18)
+    sell = Pool("uniswap", "0x" + "22" * 20, WETH, USDC, 100, 0, 10 ** 18)
+    buy_price, sell_price = 2000, 2000 + edge_bps // 5  # edge in $/WETH
+    curves = {
+        (USDC.lower(), WETH.lower(), 100): (2_000_000 * 10 ** 6, 1000 * 10 ** 18),
+        (WETH.lower(), USDC.lower(), 100): (1000 * 10 ** 18, sell_price * 1000 * 10 ** 6),
+    }
+    valuations = {USDC.lower(): Decimal(1), WETH.lower(): Decimal(buy_price)}
+    return usdc, weth, buy, sell, curves, valuations
+
+
+def _cpamm_gross(curves, size_usdc):
+    amount = int(size_usdc * 10 ** 6)
+    eff = amount * 999900 // 1_000_000
+    bought = eff * (1000 * 10 ** 18) // (2_000_000 * 10 ** 6 + eff)
+    eff2 = bought * 999900 // 1_000_000
+    sell_price = curves[(WETH.lower(), USDC.lower(), 100)][1] // (1000 * 10 ** 6)
+    returned = eff2 * (sell_price * 1000 * 10 ** 6) // (1000 * 10 ** 18 + eff2)
+    return Decimal(returned - amount) / Decimal(10 ** 6)
+
+
+def _true_optimum(curves, lo=Decimal(10), hi=Decimal(500000)):
+    best = (lo, _cpamm_gross(curves, lo))
+    for i in range(4001):
+        size = lo * (hi / lo) ** (Decimal(i) / Decimal(4000))
+        gross = _cpamm_gross(curves, size)
+        if gross > best[1]:
+            best = (size, gross)
+    return best
+
+
+def test_optimizer_finds_known_cpamm_optimum():
+    usdc, weth, buy, sell, curves, valuations = _cpamm_fixture()
+    rpc = FakeCLQuoter(curves)
+    result = optimize_route_size(rpc, usdc, weth, buy, sell, 2_000_000 * 10 ** 6,
+                                 valuations, 123)
+    true_size, true_gross = _true_optimum(curves)
+    assert result["optimal_size_usdc"] is not None
+    found_size = Decimal(result["optimal_size_usdc"])
+    found_gross = Decimal(result["optimal_gross_usdc"])
+    assert abs(found_size - true_size) / true_size <= Decimal("0.10")
+    assert abs(found_gross - true_gross) / true_gross <= Decimal("0.05")
+    assert found_gross > 0
+    assert result["evaluated"] <= 30  # 12 + 9 + 9 batched sizes, not ~80 round trips
+    assert rpc.batches <= 6  # 2 batches per level (buys, then sells)
+
+
+def test_optimizer_respects_balance_cap():
+    usdc, weth, buy, sell, curves, valuations = _cpamm_fixture()
+    rpc = FakeCLQuoter(curves)
+    true_size, _ = _true_optimum(curves)
+    # Unconstrained optimum (~$2.5k) is above the available/2 bound of $2,000,
+    # so the optimum must sit on the bound.
+    assert true_size > 2000
+    result = optimize_route_size(rpc, usdc, weth, buy, sell, 4_000 * 10 ** 6,
+                                 valuations, 123)
+    found = Decimal(result["optimal_size_usdc"])
+    assert found <= Decimal(2000) and found >= Decimal(2000) * Decimal("0.99")
+
+
+def test_optimizer_respects_size_cap():
+    usdc, weth, buy, sell, curves, valuations = _cpamm_fixture()
+    rpc = FakeCLQuoter(curves)
+    true_size, _ = _true_optimum(curves)
+    cap = (true_size / 2).quantize(Decimal("1"))
+    result = optimize_route_size(rpc, usdc, weth, buy, sell, 200_000_000 * 10 ** 6,
+                                 valuations, 123, size_cap_usdc=cap)
+    found = Decimal(result["optimal_size_usdc"])
+    assert found <= cap and found >= cap * Decimal("0.99")
+
+
+def test_optimizer_returns_none_when_range_empty():
+    usdc, weth, buy, sell, curves, valuations = _cpamm_fixture()
+    rpc = FakeCLQuoter(curves)
+    assert optimize_route_size(rpc, usdc, weth, buy, sell, 10 * 10 ** 6,
+                               valuations, 123) is None  # available/2 = 5 < min 10
+
+
+def test_optimizer_picks_smallest_size_when_no_edge():
+    usdc, weth, buy, sell, curves, valuations = _cpamm_fixture(edge_bps=0)
+    rpc = FakeCLQuoter(curves)
+    result = optimize_route_size(rpc, usdc, weth, buy, sell, 2_000_000 * 10 ** 6,
+                                 valuations, 123)
+    assert Decimal(result["optimal_gross_usdc"]) < 0  # fees + impact, no edge
+    assert Decimal(result["optimal_size_usdc"]) == Decimal(10)  # least-bad size

@@ -1,6 +1,11 @@
 {
   "name": "codema-arbitrage-tools",
   "private": true,
-  "scripts": {"build": "node scripts/compile_contracts.cjs"},
-  "devDependencies": {"solc": "0.8.20", "@foundry-rs/anvil": "1.7.1"}
+  "scripts": {
+    "build": "node scripts/compile_contracts.cjs"
+  },
+  "devDependencies": {
+    "@foundry-rs/anvil": "1.7.1",
+    "solc": "0.8.28"
+  }
 }

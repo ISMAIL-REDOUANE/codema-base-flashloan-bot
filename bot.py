@@ -14,7 +14,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["scan", "watch", "deployment", "prepare", "trade"])
     parser.add_argument("--rpc-url", default=os.environ.get("BASE_RPC_URL", "https://base-rpc.publicnode.com"))
-    parser.add_argument("--sizes", default="10,30,100,300,1000,3000", help="position values in USDC, not raw token amounts")
+    parser.add_argument("--sizes", default=None, help="position values in USDC, not raw token amounts; omit for the per-route size optimizer")
+    parser.add_argument("--size-cap", default="500000", help="optimizer upper bound per trade, USDC (only without --sizes)")
     parser.add_argument("--min-net", default="0.01", help="minimum profit after padded network costs, USDC")
     parser.add_argument("--block", type=int, help="historical snapshot; scan only")
     parser.add_argument("--interval", type=float, default=2)
@@ -27,10 +28,13 @@ def main():
     parser.add_argument("--broadcast", action="store_true", help="explicitly send ONE freshly verified trade")
     parser.add_argument("--key-env", default="CODEMA_PRIVATE_KEY", help="environment variable name; never a key on the command line")
     args = parser.parse_args()
-    sizes = [Decimal(x) for x in args.sizes.split(",")]
+    sizes = [Decimal(x) for x in args.sizes.split(",")] if args.sizes is not None else None
     minimum = Decimal(args.min_net)
-    if not sizes or any(not x.is_finite() or x <= 0 or x > 100000 for x in sizes):
+    size_cap = Decimal(args.size_cap)
+    if sizes is not None and (not sizes or any(not x.is_finite() or x <= 0 or x > 100000 for x in sizes)):
         parser.error("sizes must be finite and between 0 and 100000 USDC")
+    if not size_cap.is_finite() or size_cap <= 0:
+        parser.error("size-cap must be positive")
     if not minimum.is_finite() or minimum <= 0:
         parser.error("min-net must be positive")
     if args.command == "watch" and args.block is not None:
@@ -70,7 +74,8 @@ def main():
         while True:
             head = args.block if args.block is not None else int(RPC(args.rpc_url).block()["number"], 16)
             if head != seen:
-                result = scan(args.rpc_url, sizes, minimum, head, fork_verify=not args.quotes_only)
+                result = scan(args.rpc_url, sizes, minimum, head, fork_verify=not args.quotes_only,
+                              size_cap_usdc=size_cap)
                 result["skipped_blocks_since_previous"] = max(0, result["block"] - seen - 1) if seen is not None else 0
                 print(json.dumps(result), flush=True)
                 seen = result["block"]

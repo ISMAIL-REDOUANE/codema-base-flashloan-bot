@@ -395,7 +395,103 @@ def verify_atomic(rpc, fork, token, other, buy, sell, amount, bought, returned,
             "deployment_required": True}
 
 
-def scan(rpc_url, sizes, min_net=Decimal("0.01"), block=None, max_routes=None, fork_verify=True):
+def chained_gross_batch(rpc, buy, sell, token, other, sizes_usdc, valuations, block):
+    """Batched chained quotes for a list of sizes (USDC, Decimal).
+
+    One batch stage for all buys, then one for all sells from the EXACT buy
+    outputs. Returns a list of (size_usdc, gross_usdc or None, bought_raw or
+    None, returned_raw or None) aligned with sizes_usdc; None means that size
+    could not be quoted (pool/quoter error).
+    """
+    unit = valuations[token.address.lower()] / Decimal(10 ** token.decimals)
+    amounts = [int(size / valuations[token.address.lower()] * Decimal(10 ** token.decimals))
+               for size in sizes_usdc]
+    buy_specs = [quote_spec(buy, token.address, other.address, a) for a in amounts]
+    buy_results = dict(zip(buy_specs, rpc.calls(buy_specs, block)))
+    sell_specs = []
+    for spec, amount in zip(buy_specs, amounts):
+        result = buy_results[spec]
+        if not isinstance(result, Exception) and result[0] > 0:
+            sell_specs.append(quote_spec(sell, other.address, token.address, result[0]))
+    sell_specs = list(dict.fromkeys(sell_specs))
+    sell_results = dict(zip(sell_specs, rpc.calls(sell_specs, block))) if sell_specs else {}
+    out = []
+    for size, amount, spec in zip(sizes_usdc, amounts, buy_specs):
+        bought = buy_results[spec]
+        if isinstance(bought, Exception) or bought[0] <= 0:
+            out.append((size, None, None, None))
+            continue
+        returned = sell_results.get(quote_spec(sell, other.address, token.address, bought[0]))
+        if returned is None or isinstance(returned, Exception) or returned[0] <= 0:
+            out.append((size, None, bought[0], None))
+            continue
+        out.append((size, (Decimal(returned[0] - amount) * unit), bought[0], returned[0]))
+    return out
+
+
+def optimize_route_size(rpc, token, other, buy, sell, available_raw, valuations, block,
+                        size_cap_usdc=Decimal(500000), min_size_usdc=Decimal(10)):
+    """Find the size (USDC) maximizing chained gross for one route.
+
+    Gross vs size is concave (price impact grows with size), so the search
+    brackets the maximum by refinement: a log grid, then two linear grids
+    zooming on the best point. All quotes are batched on the pinned block
+    (6 RPC batches total), which is what makes this usable live: a literal
+    sequential golden-section search would need ~80 dependent round trips per
+    route. Gas is size-independent to first order, so maximizing gross
+    maximizes net; only the best size gets the full fork verification, which
+    computes the true net. Range: [min_size, min(available/2, cap)] in USDC;
+    the available/2 bound is the same "amount * 2 > balance" rule as the grid
+    mode. Returns {"optimal_size_usdc", "optimal_gross_usdc", "bought_raw",
+    "returned_raw", "evaluated", "levels"} or None when no size fits the range.
+    """
+    max_amount = available_raw // 2
+    hi = Decimal(max_amount) / Decimal(10 ** token.decimals) * valuations[token.address.lower()]
+    hi = min(hi, size_cap_usdc)
+    lo = min_size_usdc
+    if hi < lo:
+        return None
+    evaluated = 0
+    levels = []
+    best = None  # (size, gross, bought_raw, returned_raw)
+
+    def search(sizes):
+        nonlocal evaluated, best
+        rows = chained_gross_batch(rpc, buy, sell, token, other, sizes, valuations, block)
+        evaluated += len(sizes)
+        scored = [row for row in rows if row[1] is not None]
+        if not scored:
+            return None
+        candidate = max(scored, key=lambda row: row[1])
+        if best is None or candidate[1] > best[1]:
+            best = candidate
+        return candidate
+
+    # Level 1: log grid over the whole range.
+    n1 = 12
+    grid = [lo * (hi / lo) ** (Decimal(i) / Decimal(n1 - 1)) for i in range(n1)]
+    if search(grid) is None:
+        return {"optimal_size_usdc": None, "optimal_gross_usdc": None,
+                "bought_raw": None, "returned_raw": None,
+                "evaluated": evaluated, "levels": levels}
+    levels.append({"grid": [str(s) for s in grid], "best": str(best[0])})
+    # Levels 2-3: linear grids zooming on the best point (ternary-style).
+    span = (grid[1] / grid[0]) if len(grid) > 1 else Decimal(2)
+    for n, width in ((9, span), (9, Decimal("1.25"))):
+        a = max(lo, best[0] / width)
+        b = min(hi, best[0] * width)
+        if b <= a:
+            break
+        grid = [a + (b - a) * Decimal(i) / Decimal(n - 1) for i in range(n)]
+        search(grid)
+        levels.append({"grid": [str(s) for s in grid], "best": str(best[0])})
+    return {"optimal_size_usdc": str(best[0]), "optimal_gross_usdc": str(best[1]),
+            "bought_raw": str(best[2]), "returned_raw": str(best[3]),
+            "evaluated": evaluated, "levels": levels}
+
+
+def scan(rpc_url, sizes=None, min_net=Decimal("0.01"), block=None, max_routes=None, fork_verify=True,
+         size_cap_usdc=Decimal(500000)):
     started = time.monotonic()
     rpc = RPC(rpc_url)
     header = rpc.block(block if block is not None else "latest")
@@ -415,7 +511,9 @@ def scan(rpc_url, sizes, min_net=Decimal("0.01"), block=None, max_routes=None, f
     if any(isinstance(x, Exception) for x in balances):
         raise Unavailable("Morpho inventory unavailable")
     balances = {t.address.lower(): x[0] for t,x in zip(tokens,balances)}
+    optimizer_unquotable = 0
     try:
+        routes = []
         for token in tokens:
             for other in tokens:
                 if token == other:
@@ -433,40 +531,71 @@ def scan(rpc_url, sizes, min_net=Decimal("0.01"), block=None, max_routes=None, f
                         if upper <= 1:
                             below_spot += 1
                             continue
-                        if max_routes is not None and len(jobs) >= max_routes:
-                            continue
-                        available = balances[token.address.lower()]
-                        for size in sizes:
-                            amount = int(size / valuations[token.address.lower()] * Decimal(10 ** token.decimals))
-                            if amount <= 0 or amount * 2 > available:
-                                continue
-                            jobs.append((token, other, buy, sell, amount, size))
-        # All buys in one batch stage, then all sells from their EXACT outputs.
-        # Deduplicate identical buys shared by several sell venues.
+                        routes.append((token, other, buy, sell))
+        if sizes is None:
+            # Optimizer mode: one best size per route, found by batched chained
+            # quotes. Only the best size is ever fork-verified.
+            for token, other, buy, sell in routes:
+                if max_routes is not None and len(jobs) >= max_routes:
+                    break
+                available = balances[token.address.lower()]
+                opt = optimize_route_size(rpc, token, other, buy, sell, available,
+                                          valuations, block, size_cap_usdc)
+                if opt is None or opt["optimal_size_usdc"] is None:
+                    optimizer_unquotable += 1
+                    continue
+                size = Decimal(opt["optimal_size_usdc"])
+                amount = int(size / valuations[token.address.lower()] * Decimal(10 ** token.decimals))
+                if amount <= 0 or amount * 2 > available:
+                    continue
+                jobs.append((token, other, buy, sell, amount, size, opt))
+        else:
+            for token, other, buy, sell in routes:
+                available = balances[token.address.lower()]
+                for size in sizes:
+                    if max_routes is not None and len(jobs) >= max_routes:
+                        break
+                    amount = int(size / valuations[token.address.lower()] * Decimal(10 ** token.decimals))
+                    if amount <= 0 or amount * 2 > available:
+                        continue
+                    jobs.append((token, other, buy, sell, amount, size, None))
+        # Grid mode: all buys in one batch stage, then all sells from their
+        # EXACT outputs. Deduplicate identical buys shared by several sell venues.
+        # Optimizer mode already holds its chained quotes; nothing to batch here.
+        grid_jobs = [j for j in jobs if j[6] is None]
         buy_specs = list(dict.fromkeys(quote_spec(buy, token.address, other.address, amount)
-            for token,other,buy,sell,amount,size in jobs))
-        buy_results = dict(zip(buy_specs, rpc.calls(buy_specs, block)))
+            for token,other,buy,sell,amount,size,_opt in grid_jobs))
+        buy_results = dict(zip(buy_specs, rpc.calls(buy_specs, block))) if buy_specs else {}
         sell_specs = []
-        for token,other,buy,sell,amount,size in jobs:
+        for token,other,buy,sell,amount,size,_opt in grid_jobs:
             result = buy_results[quote_spec(buy, token.address, other.address, amount)]
             if not isinstance(result, Exception) and result[0] > 0:
                 sell_specs.append(quote_spec(sell, other.address, token.address, result[0]))
         sell_specs = list(dict.fromkeys(sell_specs))
-        sell_results = dict(zip(sell_specs, rpc.calls(sell_specs, block)))
-        for token,other,buy,sell,amount,size in jobs:
+        sell_results = dict(zip(sell_specs, rpc.calls(sell_specs, block))) if sell_specs else {}
+        for token,other,buy,sell,amount,size,opt in jobs:
             row = {"loan": token.symbol, "other": other.symbol,
                                    "buy": asdict(buy), "sell": asdict(sell), "size_usdc": str(size),
                                    "amount_raw": str(amount), "block": block}
+            if opt is not None:
+                row.update(optimal_size_usdc=opt["optimal_size_usdc"],
+                           optimal_gross_usdc=opt["optimal_gross_usdc"],
+                           optimizer_evaluated=opt["evaluated"])
             try:
-                result = buy_results[quote_spec(buy, token.address, other.address, amount)]
-                if isinstance(result, Exception) or result[0] <= 0:
-                    raise Unavailable("buy quote unavailable")
-                bought = result[0]
-                result = sell_results[quote_spec(sell, other.address, token.address, bought)]
-                if isinstance(result, Exception) or result[0] <= 0:
-                    raise Unavailable("sell quote unavailable")
-                returned = result[0]
-                gross = Decimal(returned - amount) / Decimal(10 ** token.decimals) * valuations[token.address.lower()]
+                if opt is not None:
+                    bought = int(opt["bought_raw"])
+                    returned = int(opt["returned_raw"])
+                    gross = Decimal(opt["optimal_gross_usdc"])
+                else:
+                    result = buy_results[quote_spec(buy, token.address, other.address, amount)]
+                    if isinstance(result, Exception) or result[0] <= 0:
+                        raise Unavailable("buy quote unavailable")
+                    bought = result[0]
+                    result = sell_results[quote_spec(sell, other.address, token.address, bought)]
+                    if isinstance(result, Exception) or result[0] <= 0:
+                        raise Unavailable("sell quote unavailable")
+                    returned = result[0]
+                    gross = Decimal(returned - amount) / Decimal(10 ** token.decimals) * valuations[token.address.lower()]
                 row.update(gross_usdc=str(gross), bought_raw=str(bought), returned_raw=str(returned), status="CHAINED_QUOTE_LOSS")
                 if gross > 0:
                     row["status"] = "UNVERIFIED_CANDIDATE"
@@ -491,7 +620,10 @@ def scan(rpc_url, sizes, min_net=Decimal("0.01"), block=None, max_routes=None, f
             "elapsed_seconds": round(time.monotonic() - started, 3), "latest_block": latest,
             "snapshot_age_blocks": latest - block,
             "pools": len(pools), "routes": route_count, "routes_below_spot_breakeven": below_spot,
-            "discovery_errors": errors, "sizes_usdc": [str(x) for x in sizes],
+            "discovery_errors": errors, "sizes_usdc": [str(x) for x in sizes] if sizes is not None else None,
+            "size_mode": "optimized" if sizes is None else "grid",
+            "size_cap_usdc": str(size_cap_usdc) if sizes is None else None,
+            "optimizer_unquotable_routes": optimizer_unquotable,
             "min_net_usdc": str(min_net), "mode": "read_only",
             "quotes": quotes, "profitable": sum(q["status"] in ("HISTORICAL_VERIFIED", "SIMULATED_OPPORTUNITY") for q in quotes),
             "coverage": "Pinned block snapshots, Uni V3 and Pancake V3 majors only. No intra-block coverage."}

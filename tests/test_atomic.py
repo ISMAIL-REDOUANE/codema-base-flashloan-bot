@@ -102,6 +102,51 @@ def test_independent_abi_encoding(market):
     assert decode(("uint256",), bytes.fromhex(raw[2:]))[0] == 20000
 
 
+def test_mock_cpamm_curve_and_trade():
+    """MockCLPool kind=2 is a constant-product curve (concave in size).
+
+    Validates the curve the size-optimizer tests model: a $300 loan through a
+    buy pool priced $2,000 and a sell pool priced $2,010 returns exactly the
+    CPAMM prediction, and the lender is repaid. Synthetic prices, not a market.
+    """
+    with Fork() as fork:
+        w3 = fork.rpc.w3
+        def deploy(name, *args):
+            a = artifact(name, "AtomicMocks.sol" if name != "AtomicArbitrage" else "AtomicArbitrage.sol")
+            factory = w3.eth.contract(abi=a["abi"], bytecode=a["bytecode"]["object"])
+            receipt = w3.eth.wait_for_transaction_receipt(factory.constructor(*args).transact({"from": LOCAL_OWNER}))
+            return w3.eth.contract(address=receipt.contractAddress, abi=a["abi"])
+        loan = deploy("MockToken", "LOAN")
+        mid = deploy("MockToken", "MID")
+        lender = deploy("MockMorpho")
+        buy = deploy("MockCLPool", loan.address, mid.address, 1, 1, 2)
+        sell = deploy("MockCLPool", mid.address, loan.address, 1, 1, 2)
+        buy.functions.setReserves(2_000_000 * 10 ** 18, 1000 * 10 ** 18).transact({"from": LOCAL_OWNER})
+        sell.functions.setReserves(1000 * 10 ** 18, 2_010_000 * 10 ** 18).transact({"from": LOCAL_OWNER})
+        atomic = deploy("AtomicArbitrage", lender.address, LOCAL_OWNER)
+        for token in (loan, mid):
+            for target in (lender, buy, sell):
+                token.functions.mint(target.address, 10 ** 24).transact({"from": LOCAL_OWNER})
+        amount = 300 * 10 ** 18
+        expected_buy = amount * (1000 * 10 ** 18) // (2_000_000 * 10 ** 18 + amount)
+        expected_sell = expected_buy * (2_010_000 * 10 ** 18) // (1000 * 10 ** 18 + expected_buy)
+        expected_profit = expected_sell - amount
+        assert expected_profit > 0
+        h = w3.eth.get_block("latest")
+        values = {"loan": loan.address, "amount": amount,
+                  "buy": (buy.address, loan.address, mid.address, 1, expected_buy * 9999 // 10000),
+                  "sell": (sell.address, mid.address, loan.address, 1, amount + expected_profit // 2),
+                  "profit": expected_profit // 2, "deadline": h.timestamp + 100, "last": h.number + 100}
+        p = tuple(values.values())
+        assert atomic.functions.execute(p).call({"from": LOCAL_OWNER}) == expected_profit
+        lender_before = loan.functions.balanceOf(lender.address).call()
+        receipt = w3.eth.wait_for_transaction_receipt(
+            atomic.functions.execute(p).transact({"from": LOCAL_OWNER}))
+        assert receipt.status == 1
+        assert loan.functions.balanceOf(lender.address).call() == lender_before
+        assert loan.functions.balanceOf(atomic.address).call() == expected_profit
+
+
 def test_fork_runtime_install(market):
     from arb.runtime import EXECUTOR
     fork, loan, mid, lender, buy, sell, loss, atomic = market

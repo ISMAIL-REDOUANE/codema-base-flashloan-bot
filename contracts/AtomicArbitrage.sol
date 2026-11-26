@@ -2,7 +2,6 @@
 pragma solidity ^0.8.20;
 
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 interface IMorphoAtomic {
     function flashLoan(address token, uint256 assets, bytes calldata data) external;
@@ -18,8 +17,21 @@ interface IConcentratedPool {
 /// @notice Two exact-input CL swaps, including cross-venue routes, in one Morpho loan.
 /// @dev Supports the Uniswap and Pancake callback ABIs. No assumption about token decimals.
 /// The owner selects the pools; the runner independently verifies their factory identities.
+/// @dev All execution state lives in TRANSIENT storage (EIP-1153, solc >= 0.8.24):
+/// the state is only ever needed inside one atomic transaction, so persistent
+/// slots (20,000 gas per first write, plus reset costs) are pure waste. Transient
+/// slots cost 100 gas per write and are cleared automatically at the end of the tx.
+/// @dev No SafeERC20: the only tokens ever moved here are the known loan/intermediate
+/// tokens (USDC, WETH, cbBTC on Base), all of which return a bool from transfer /
+/// approve. The return value is still checked explicitly on every call.
+/// @dev Approval is per-trade and exact: the callback approves precisely the
+/// borrowed amount, Morpho pulls it, the allowance returns to 0 (verified in
+/// execute). A standing max approval was measured and REJECTED: it saves the
+/// 20,000-gas approve SSTORE but loses the 4,800-gas clear refund and adds an
+/// allowance read, for a net receipt-gas wash (+981 gas on the historical fork),
+/// while leaving a standing allowance to the lender. Exact per-trade approval
+/// is cheaper in fact and smaller in trust.
 contract AtomicArbitrage {
-    using SafeERC20 for IERC20;
     struct Leg { address pool; address tokenIn; address tokenOut; uint8 kind; uint256 minOut; }
     struct Plan {
         address loanToken;
@@ -33,19 +45,31 @@ contract AtomicArbitrage {
 
     address public immutable owner;
     address public immutable morpho;
-    bytes32 private pending;
-    address private activePool;
-    address private activeToken;
-    uint256 private remainingInput;
-    uint8 private activeKind;
-    bool private running;
-    bool private inCallback;
+    bytes32 private transient pending;
+    address private transient activePool;
+    address private transient activeToken;
+    uint256 private transient remainingInput;
+    uint8 private transient activeKind;
+    bool private transient activeInputIsToken0;
+    bool private transient running;
+    bool private transient inCallback;
     event Arbitrage(address indexed loanToken, uint256 amount, uint256 profit);
 
     constructor(address lender, address controller) {
         require(lender != address(0) && controller != address(0), "zero address");
         morpho = lender;
         owner = controller;
+    }
+
+    /// @dev Checked transfer for known bool-returning tokens (USDC, WETH, cbBTC).
+    function _transfer(address token, address to, uint256 amount) private {
+        require(IERC20(token).transfer(to, amount), "transfer");
+    }
+
+    /// @dev Checked approve for known bool-returning tokens. Per-trade exact
+    /// approval: allowance starts at 0 and returns to 0 after Morpho's pull.
+    function _approve(address token, address spender, uint256 amount) private {
+        require(IERC20(token).approve(spender, amount), "approve");
     }
 
     function execute(Plan calldata plan) external returns (uint256 profit) {
@@ -84,7 +108,7 @@ contract AtomicArbitrage {
         _swap(plan.sell, bought);
         require(IERC20(plan.loanToken).balanceOf(address(this)) >=
                 beforeBalance + assets + plan.minProfit, "profit");
-        IERC20(plan.loanToken).forceApprove(morpho, assets);
+        _approve(plan.loanToken, morpho, assets);
         inCallback = false;
     }
 
@@ -100,6 +124,7 @@ contract AtomicArbitrage {
         activeToken = leg.tokenIn;
         remainingInput = amount;
         activeKind = leg.kind;
+        activeInputIsToken0 = zeroForOne;
         IConcentratedPool(leg.pool).swap(address(this), zeroForOne, int256(amount),
             zeroForOne ? uint160(4295128740) : uint160(1461446703485210103287273052203988822378723970341), "");
         // Reject partial fills at a price limit; they cannot silently consume inventory.
@@ -115,16 +140,16 @@ contract AtomicArbitrage {
 
     function _pay(int256 d0, int256 d1, uint8 kind) private {
         require(inCallback && msg.sender == activePool && kind == activeKind, "swap callback");
-        bool input0 = activeToken == IConcentratedPool(activePool).token0();
+        bool input0 = activeInputIsToken0;
         require(input0 ? (d0 > 0 && d1 < 0) : (d1 > 0 && d0 < 0), "deltas");
         uint256 owed = uint256(input0 ? d0 : d1);
         require(owed <= remainingInput, "input budget");
         remainingInput -= owed;
-        IERC20(activeToken).safeTransfer(msg.sender, owed);
+        _transfer(activeToken, msg.sender, owed);
     }
 
     function withdraw(address token) external {
         require(msg.sender == owner && !running, "owner/busy");
-        IERC20(token).safeTransfer(owner, IERC20(token).balanceOf(address(this)));
+        _transfer(token, owner, IERC20(token).balanceOf(address(this)));
     }
 }
